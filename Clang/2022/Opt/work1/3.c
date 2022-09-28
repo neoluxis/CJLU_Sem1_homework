@@ -10,8 +10,8 @@
 
 #include <stdio.h>
 
-double CtF();
-double FtC();
+double CtF(double temperature);
+double FtC(double temperature);
 
 int main()
 {
@@ -23,13 +23,13 @@ int main()
     {
         printf("Temperature: ");
         scanf("%lf", &temperature);
-        printf("The %f Celsius is: \n %f Fahrenheit\n", temperature, CtF(temperature));
+        printf("The %f degree Celsius is: \n %f degree Fahrenheit\n", temperature, CtF(temperature));
     }
     else if (option == 2)
     {
         printf("Temperature: ");
         scanf("%lf", &temperature);
-        printf("The %f Fahrenheit is: \n %f Celsius\n", temperature, FtC(temperature));
+        printf("The %f degree Fahrenheit is: \n %f degree Celsius\n", temperature, FtC(temperature));
     }
     else
     {

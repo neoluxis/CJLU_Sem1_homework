@@ -10,7 +10,7 @@
 
 #include <stdio.h>
 
-int calculate(int a, int b, int c)
+double calculate(double a, double b, double c)
 {
     if (b == c)
     {
@@ -27,18 +27,18 @@ int calculate(int a, int b, int c)
 int main()
 {
 
-    int one[] = {250, 85, 25};
-    int two[] = {300, 70, 70};
-    int three[3];
+    double one[] = {250, 85, 25};
+    double two[] = {300, 70, 70};
+    double three[3];
 
     printf("First: ");
-    printf(" %d\n", calculate(one[0], one[1], one[2]));
+    printf(" %lf\n", calculate(one[0], one[1], one[2]));
     printf("Second: ");
-    printf(" %d\n", calculate(two[0], two[1], two[2]));
+    printf(" %lf\n", calculate(two[0], two[1], two[2]));
 
     printf("Third: \n");
     printf("pls input three nums divided with \'|\': ");
-    scanf("%d|%d|%d", &three[0], &three[1], &three[2]);
-    printf("%d\n", calculate(three[0], three[1], three[2]));
+    scanf("%lf|%lf|%lf", &three[0], &three[1], &three[2]);
+    printf("%lf\n", calculate(three[0], three[1], three[2]));
     return 0;
 }

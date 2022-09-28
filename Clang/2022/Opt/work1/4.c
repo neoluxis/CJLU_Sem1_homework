@@ -1,6 +1,6 @@
 /**
  * @file 4.c
- * @author Neolux Lee <neolux.lee@gmail.com>
+ * @author Neolux Lee (hello.neolux.ml)
  * @version 0.1
  * @date 2022-09-28
  *
@@ -27,8 +27,10 @@ int main(int argc, char const *argv[])
     {
         printf("Not valid values for a triangle.\n");
     }
+    // calculate the area of the triangle
     double s = (a + b + c) / 2;
-    double area = sqrt(s * (s - a) * (s - b) * (s - c));
+    double area=0;
+    area = sqrt(s * (s - a) * (s - b) * (s - c));
     printf("Area of the triangle: %lf\n", area);
     return 0;
 }
