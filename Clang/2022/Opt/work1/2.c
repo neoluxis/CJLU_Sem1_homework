@@ -37,7 +37,7 @@ int main()
     printf(" %d\n", calculate(two[0], two[1], two[2]));
 
     printf("Third: \n");
-    printf("pls input three nums devided with \'|\': ");
+    printf("pls input three nums divided with \'|\': ");
     scanf("%d|%d|%d", &three[0], &three[1], &three[2]);
     printf("%d\n", calculate(three[0], three[1], three[2]));
     return 0;
