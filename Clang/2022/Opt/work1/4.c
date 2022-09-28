@@ -31,7 +31,7 @@ int main(int argc, char const *argv[])
     double s = (a + b + c) / 2;
     double area=0;
     area = sqrt(s * (s - a) * (s - b) * (s - c));
-    printf("Area of the triangle: %lf\n", area);
+    printf("Area of the triangle: %f\n", area);
     return 0;
 }
 
