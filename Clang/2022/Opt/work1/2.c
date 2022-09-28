@@ -14,7 +14,7 @@ int calculate(int a, int b, int c)
 {
     if (b == c)
     {
-        printf("You cannot devide with zero values.\n");
+        printf("You cannot divide with zero values.\n");
         return 0;
     }
     else

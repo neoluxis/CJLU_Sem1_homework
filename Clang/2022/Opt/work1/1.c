@@ -13,7 +13,7 @@
 int main(int argc, char const *argv[])
 {
     printf("Patience is bitter, but its fruit is sweet.");
-    orintf("I like programming in C\n");
+    printf("I like programming in C\n");
     char nn[] = "No pains, no gains";
     printf("%s\n",nn);
     return 0;

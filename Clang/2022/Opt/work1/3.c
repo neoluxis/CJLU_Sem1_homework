@@ -22,13 +22,13 @@ int main()
     if (option == 1)
     {
         printf("Temperature: ");
-        scanf("%f", &temperature);
+        scanf("%lf", &temperature);
         printf("The %f Celsius is: \n %f Fahrenheit\n", temperature, CtF(temperature));
     }
     else if (option == 2)
     {
         printf("Temperature: ");
-        scanf("%f", &temperature);
+        scanf("%lf", &temperature);
         printf("The %f Fahrenheit is: \n %f Celsius\n", temperature, FtC(temperature));
     }
     else
