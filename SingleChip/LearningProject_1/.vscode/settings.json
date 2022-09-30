@@ -1,0 +1,16 @@
+{
+    "workbench.colorCustomizations": {
+        "editor.lineHighlightBackground": "#1073cf2d",
+        "editor.lineHighlightBorder": "#9fced11f",
+        "activityBar.background": "#501D23",
+        "titleBar.activeBackground": "#702830",
+        "titleBar.activeForeground": "#FEFBFB"
+    },
+    "files.associations": {
+        "reg52.h": "c",
+        "REG52.H": "cpp"
+    },
+    "cSpell.ignoreWords": [
+        "sbit"
+    ]
+}
