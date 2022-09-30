@@ -53,6 +53,6 @@ withoutElse:
     printf("THE NUMBER IS EVEN\n");
     goto end;
 end:
-    system("pause");
+
     return 0;
 }
