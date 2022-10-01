@@ -381,11 +381,6 @@
               <FileType>1</FileType>
               <FilePath>.\HelloSingleChip.c</FilePath>
             </File>
-            <File>
-              <FileName>meine.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\meine.c</FilePath>
-            </File>
           </Files>
         </Group>
       </Groups>

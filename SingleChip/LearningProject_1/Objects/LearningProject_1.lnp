@@ -1,4 +1,3 @@
-".\Objects\HelloSingleChip.obj",
-".\Objects\meine.obj" 
+".\Objects\HelloSingleChip.obj" 
 TO ".\Objects\LearningProject_1" 
 PRINT(".\Listings\LearningProject_1.m51") RAMSIZE(256) 

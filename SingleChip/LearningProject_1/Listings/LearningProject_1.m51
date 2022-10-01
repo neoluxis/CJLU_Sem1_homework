@@ -1,9 +1,9 @@
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    09/28/2022  15:07:58  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    10/01/2022  16:27:35  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
-D:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\HelloSingleChip.obj, .\Objects\meine.obj TO .\Objects\LearningProject_1 PRINT (.\L
->> istings\LearningProject_1.m51) RAMSIZE (256)
+D:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\HelloSingleChip.obj TO .\Objects\LearningProject_1 PRINT (.\Listings\LearningProje
+>> ct_1.m51) RAMSIZE (256)
 
 
 MEMORY MODEL: SMALL
@@ -11,7 +11,6 @@ MEMORY MODEL: SMALL
 
 INPUT MODULES INCLUDED:
   .\Objects\HelloSingleChip.obj (HELLOSINGLECHIP)
-  .\Objects\meine.obj (MEINE)
   D:\KEIL_V5\C51\LIB\C51S.LIB (?C_STARTUP)
 
 
@@ -27,10 +26,8 @@ LINK MAP OF MODULE:  .\Objects\LearningProject_1 (HELLOSINGLECHIP)
 
             * * * * * * *   C O D E   M E M O R Y   * * * * * * *
             CODE    0000H     0003H     ABSOLUTE     
-            CODE    0003H     0026H     UNIT         ?PR?_SLEEP?MEINE
-            CODE    0029H     000CH     UNIT         ?C_C51STARTUP
-            CODE    0035H     0008H     UNIT         ?PR?MAIN?HELLOSINGLECHIP
-            CODE    003DH     0001H     UNIT         ?PR?FLOW?MEINE
+            CODE    0003H     000CH     UNIT         ?C_C51STARTUP
+            CODE    000FH     0008H     UNIT         ?PR?MAIN?HELLOSINGLECHIP
 
 
 
@@ -56,52 +53,24 @@ SYMBOL TABLE OF MODULE:  .\Objects\LearningProject_1 (HELLOSINGLECHIP)
   D:00B0H         PUBLIC        P3
   D:00A8H         PUBLIC        IE
   D:00B8H         PUBLIC        IP
-  C:0035H         PUBLIC        main
+  C:000FH         PUBLIC        main
   D:0098H         PUBLIC        SCON
   D:0088H         PUBLIC        TCON
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  09/28/2022  15:07:58  PAGE 2
-
-
   B:0090H.1       PUBLIC        LED
   D:00C8H         PUBLIC        T2CON
   B:00B0H.1       PUBLIC        std_key
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  10/01/2022  16:27:35  PAGE 2
+
+
   D:00D0H         PUBLIC        PSW
   -------         PROC          MAIN
-  C:0035H         LINE#         6
-  C:0035H         LINE#         7
-  C:0037H         LINE#         8
-  C:0037H         LINE#         9
-  C:003BH         LINE#         10
+  C:000FH         LINE#         6
+  C:000FH         LINE#         7
+  C:0011H         LINE#         8
+  C:0011H         LINE#         9
+  C:0015H         LINE#         10
   -------         ENDPROC       MAIN
   -------         ENDMOD        HELLOSINGLECHIP
 
-  -------         MODULE        MEINE
-  C:0000H         SYMBOL        _ICE_DUMMY_
-  C:0003H         PUBLIC        _sleep
-  C:003DH         PUBLIC        flow
-  -------         PROC          _SLEEP
-  D:0006H         SYMBOL        millis
-  -------         DO            
-  D:0004H         SYMBOL        i
-  D:0002H         SYMBOL        j
-  -------         ENDDO         
-  C:0003H         LINE#         2
-  C:0003H         LINE#         4
-  C:0013H         LINE#         5
-  C:0021H         LINE#         6
-  C:0028H         LINE#         7
-  -------         ENDPROC       _SLEEP
-  -------         PROC          FLOW
-  C:003DH         LINE#         9
-  C:003DH         LINE#         11
-  -------         ENDPROC       FLOW
-  -------         ENDMOD        MEINE
-
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_SLEEP?MEINE
-
-*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?FLOW?MEINE
-
-Program Size: data=9.0 xdata=0 code=62
-LINK/LOCATE RUN COMPLETE.  2 WARNING(S),  0 ERROR(S)
+Program Size: data=9.0 xdata=0 code=23
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
