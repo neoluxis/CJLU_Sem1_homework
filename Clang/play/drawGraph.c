@@ -17,7 +17,7 @@
 
 int f(int x){
     int y;
-    y = x*x;
+    y = sqrt(x);
     return y;
 }
 
