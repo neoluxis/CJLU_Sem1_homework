@@ -15,7 +15,17 @@
 		"files.associations": {
 			"reg52.h": "c",
 			"REG52.H": "cpp",
-			"stdio.h": "c"
+			"stdio.h": "c",
+			"iostream": "cpp",
+			"xstring": "cpp",
+			"ostream": "cpp"
 		},
+		"cSpell.words": [
+			"jinjil"
+		],
+		"java.project.referencedLibraries": [
+			"lib/**/*.jar",
+			"e:\\Administrator\\UserClasses\\UserClasses.jar"
+		],
 	}
 }
