@@ -1,3 +1,4 @@
+package play;
 import java.util.ArrayList;
 import java.util.Scanner;
 import static ml.neolux.tools.Print.*;
