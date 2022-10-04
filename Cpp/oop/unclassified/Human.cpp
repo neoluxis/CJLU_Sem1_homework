@@ -34,7 +34,8 @@ public:
     {
         this->gender = gender;
     }
-    string getGender(){
+    string getGender()
+    {
         return gender;
     }
 
@@ -58,11 +59,11 @@ int main(int argc, char const *argv[])
     human1.sleep();
     human2.sleep();
 
-human1.setGender("Male");
+    human1.setGender("Male");
 
-cout << human1.getGender() << endl;
+    cout << human1.getGender() << endl;
 
-cout << human2.getGender() << endl;
+    cout << human2.getGender() << endl;
 
     return 0;
 }

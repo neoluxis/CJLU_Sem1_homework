@@ -1,6 +1,8 @@
 
 #include <stdio.h>
 #include <math.h>
+#include <stdlib.h>
+#include <iostream>
 
 const int max_iterations = 128;
 const float stop_threshold = 0.01f;
@@ -199,6 +201,8 @@ float f(vec2 fragCoord)
 
 int main()
 {
+    system("chcp 65001");
+    system("color C");
     puts("\033[91m");
     for (int y = 0; y < 80; y++)
     {
@@ -206,4 +210,8 @@ int main()
             putchar("  .,-:;+=*#@"[(int)(f(make2((x / 160.0f - 0.5f) * 2.0f, (y / 80.0f - 0.5f) * -2.0f)) * 12.0f)]);
         putchar('\n');
     }
+    std::cout << "好きだよ！" << std::endl;
+    std::cout << "사랑합니다." << std::endl;
+    std::cout << "I love you." << std::endl;
+    system("pause");
 }
