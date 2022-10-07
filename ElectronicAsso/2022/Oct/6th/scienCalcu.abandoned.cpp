@@ -21,12 +21,12 @@ using namespace std;
 
 // double ANS; //temp answer
 
-//processing function
+// processing function
 char selector();
 void unknownOption(char option);
-void programmer();
-void scientific();
-void normal();
+void *programmer();
+void *scientific();
+void *normal();
 void normalSel();
 void scientificSel();
 void programmerSel();
@@ -72,6 +72,7 @@ void start()
     // cls();
     char option;
     option = selector();
+    // cls();
     switch (option)
     {
     case '1':
@@ -106,8 +107,9 @@ void normalSel()
     cout << "pls select the mode: \n1. add; 2. subtract; \n"
          << "3. multiplication; 4. division; \nb. back; q. exit" << endl;
 }
-void normal()
+void *normal()
 {
+    cls();
     char option;
     normalSel();
     cin >> option;
@@ -128,11 +130,15 @@ void normal()
     case 'b':
         start();
         break;
+    case 'q':
+        return NULL;
+        break;
     default:
         unknownOption(option);
     }
     cout << endl;
     start();
+    return NULL;
 }
 void scientificSel()
 {
@@ -141,8 +147,9 @@ void scientificSel()
          << "7. ^-1; 8. ^2; 9. ^3; \nx. variance of 5 nums; \n"
          << "b. back; q. exit" << endl;
 }
-void scientific()
+void *scientific()
 {
+    cls();
     char option;
     scientificSel();
     cin >> option;
@@ -182,12 +189,16 @@ void scientific()
     case 'b':
         start();
         break;
+    case 'q':
+        return NULL;
+        break;
     default:
         unknownOption(option);
         break;
     }
     cout << endl;
     start();
+    return NULL;
 }
 void programmerSel()
 {
@@ -195,8 +206,9 @@ void programmerSel()
          << "1. decimal; 2. binary; 3. octal \n"
          << "b. back; q. exit" << endl;
 }
-void programmer()
+void *programmer()
 {
+    cls();
     char option;
     programmerSel();
     cin >> option;
@@ -215,11 +227,15 @@ void programmer()
     case 'b':
         start();
         break;
+    case 'q':
+        return NULL;
+        break;
     default:
         unknownOption(option);
     }
     cout << endl;
     start();
+    return NULL;
 }
 void cls()
 {
@@ -279,21 +295,23 @@ void s_sin()
     double a;
     cout << "sin(x) (x is a decimal) ";
     cin >> a;
-    cout << sin((a / 180.0) * PI) << endl;
+    printf("%.3f\n", sin((a / 180.0) * PI));
 }
 void s_cos()
 {
     double a;
     cout << "cos(x) (x is a decimal) ";
     cin >> a;
-    cout << cos((a / 180.0) * PI) << endl;
+    printf("%.3f\n", cos((a / 180.0) * PI));
+    // cout << cos((a / 180.0) * PI) << endl;
 }
 void s_tan()
 {
     double a;
     cout << "tan(x) (x is a decimal) ";
     cin >> a;
-    cout << tan((a / 180.0) * PI) << endl;
+    printf("%.3f\n", tan((a / 180.0) * PI));
+    // cout << tan((a / 180.0) * PI) << endl;
 }
 void s_pow()
 {
@@ -309,7 +327,8 @@ void s_lg()
     double a;
     cout << "lg(x) " << endl;
     cin >> a;
-    cout << log10(a) << endl;
+    printf("%.3f\n", log10(a));
+    // cout << log10(a) << endl;
 }
 void s_factorial()
 {

@@ -39639,6 +39639,7 @@ void start()
 
     char option;
     option = selector();
+
     switch (option)
     {
     case '1':
@@ -39675,6 +39676,7 @@ void normalSel()
 }
 void normal()
 {
+    cls();
     char option;
     normalSel();
     cin >> option;
@@ -39695,6 +39697,8 @@ void normal()
     case 'b':
         start();
         break;
+    case 'q':
+        break;
     default:
         unknownOption(option);
     }
@@ -39710,6 +39714,7 @@ void scientificSel()
 }
 void scientific()
 {
+    cls();
     char option;
     scientificSel();
     cin >> option;
@@ -39764,6 +39769,7 @@ void programmerSel()
 }
 void programmer()
 {
+    cls();
     char option;
     programmerSel();
     cin >> option;
@@ -39846,21 +39852,23 @@ void s_sin()
     double a;
     cout << "sin(x) (x is a decimal) ";
     cin >> a;
-    cout << sin((a / 180.0) * 3.141592653589793) << endl;
+    printf("%.3f\n", sin((a / 180.0) * 3.141592653589793));
 }
 void s_cos()
 {
     double a;
     cout << "cos(x) (x is a decimal) ";
     cin >> a;
-    cout << cos((a / 180.0) * 3.141592653589793) << endl;
+    printf("%.3f\n", cos((a / 180.0) * 3.141592653589793));
+
 }
 void s_tan()
 {
     double a;
     cout << "tan(x) (x is a decimal) ";
     cin >> a;
-    cout << tan((a / 180.0) * 3.141592653589793) << endl;
+    printf("%.3f\n", tan((a / 180.0) * 3.141592653589793));
+
 }
 void s_pow()
 {
@@ -39876,7 +39884,8 @@ void s_lg()
     double a;
     cout << "lg(x) " << endl;
     cin >> a;
-    cout << log10(a) << endl;
+    printf("%.3f\n", log10(a));
+
 }
 void s_factorial()
 {
