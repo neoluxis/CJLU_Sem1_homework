@@ -60,9 +60,12 @@
 			"xutility": "cpp"
 		},
 		"cSpell.words": [
+			"Calcu",
+			"chcp",
 			"exper",
 			"jinjil",
-			"millis"
+			"millis",
+			"scien"
 		],
 		"java.project.referencedLibraries": [
 			"lib/**/*.jar",

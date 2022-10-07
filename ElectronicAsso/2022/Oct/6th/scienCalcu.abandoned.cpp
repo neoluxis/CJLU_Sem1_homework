@@ -332,7 +332,8 @@ void s_lg()
 }
 void s_factorial()
 {
-    int res = 1, a;
+    long long int res = 1, 
+    unsigned int a;
     cout << "(x)! ";
     cin >> a;
     if (a == 1 || a == 0)
@@ -397,7 +398,7 @@ void p_dec()
 void p_bin()
 {
     int d, res[64], counter = 0;
-    cout << "pls imput a binary number: (X)(2) ";
+    cout << "pls input a binary number: (X)(2) ";
     cin >> d;
     for (int i = 0; i < 64; i++)
     {
