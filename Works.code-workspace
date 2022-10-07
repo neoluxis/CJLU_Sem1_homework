@@ -61,7 +61,8 @@
 		},
 		"cSpell.words": [
 			"exper",
-			"jinjil"
+			"jinjil",
+			"millis"
 		],
 		"java.project.referencedLibraries": [
 			"lib/**/*.jar",
