@@ -377,6 +377,11 @@
           <GroupName>Source Group 1</GroupName>
           <Files>
             <File>
+              <FileName>utils.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\utils.h</FilePath>
+            </File>
+            <File>
               <FileName>HelloSingleChip.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\HelloSingleChip.c</FilePath>

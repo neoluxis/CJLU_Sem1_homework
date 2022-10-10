@@ -1,0 +1,58 @@
+C51 COMPILER V9.60.0.0   LIGHTEN                                                           10/10/2022 16:25:36 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE LIGHTEN
+OBJECT MODULE PLACED IN .\Objects\lighten.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE lighten.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\l
+                    -ighten.lst) TABS(2) OBJECT(.\Objects\lighten.obj)
+
+line level    source
+
+   1          #include <reg52.h>
+   2          #include "utils.h"
+   3          
+   4          sbit led4=P1^7;
+   5          
+   6          void lighter(int T);
+   7          void gloomier(int T);
+   8          
+   9          void main(void){
+  10   1        while(1){
+  11   2          lighter(1000);
+  12   2          gloomier(1000);
+  13   2        }
+  14   1      }
+  15          
+  16          void lighter(int T){
+  17   1        int i;
+  18   1        for(i=0;i<T;i++){
+  19   2          led4=0;
+  20   2          sleep(i);
+  21   2          led4=1;
+  22   2          sleep(T-i);
+  23   2        }
+  24   1      }
+  25          
+  26          void gloomier(int T){
+  27   1        int i;
+  28   1        for(i=0;i<T;i++){
+  29   2          led4=0;
+  30   2          sleep(T-i);
+  31   2          led4=1;
+  32   2          sleep(i);
+  33   2        }
+  34   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    252    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      3       8
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

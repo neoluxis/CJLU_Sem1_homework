@@ -1,4 +1,4 @@
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    10/01/2022  16:27:35  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    10/10/2022  16:34:47  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
@@ -22,23 +22,28 @@ LINK MAP OF MODULE:  .\Objects\LearningProject_1 (HELLOSINGLECHIP)
 
             * * * * * * *   D A T A   M E M O R Y   * * * * * * *
             REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
-            IDATA   0008H     0001H     UNIT         ?STACK
+            DATA    0008H     0004H     UNIT         _DATA_GROUP_
+            IDATA   000CH     0001H     UNIT         ?STACK
 
             * * * * * * *   C O D E   M E M O R Y   * * * * * * *
             CODE    0000H     0003H     ABSOLUTE     
-            CODE    0003H     000CH     UNIT         ?C_C51STARTUP
-            CODE    000FH     0008H     UNIT         ?PR?MAIN?HELLOSINGLECHIP
+            CODE    0003H     0046H     UNIT         ?PR?MAIN?HELLOSINGLECHIP
+            CODE    0049H     0026H     UNIT         ?PR?_SLEEP?HELLOSINGLECHIP
+            CODE    006FH     000CH     UNIT         ?C_C51STARTUP
 
 
 
 OVERLAY MAP OF MODULE:   .\Objects\LearningProject_1 (HELLOSINGLECHIP)
 
 
-SEGMENT
-  +--> CALLED SEGMENT
----------------------
-?C_C51STARTUP
+SEGMENT                              DATA_GROUP 
+  +--> CALLED SEGMENT              START    LENGTH
+--------------------------------------------------
+?C_C51STARTUP                      -----    -----
   +--> ?PR?MAIN?HELLOSINGLECHIP
+
+?PR?MAIN?HELLOSINGLECHIP           0008H    0004H
+  +--> ?PR?_SLEEP?HELLOSINGLECHIP
 
 
 
@@ -49,28 +54,54 @@ SYMBOL TABLE OF MODULE:  .\Objects\LearningProject_1 (HELLOSINGLECHIP)
 
   -------         MODULE        HELLOSINGLECHIP
   C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
   D:0090H         PUBLIC        P1
   D:00B0H         PUBLIC        P3
   D:00A8H         PUBLIC        IE
   D:00B8H         PUBLIC        IP
-  C:000FH         PUBLIC        main
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  10/10/2022  16:34:47  PAGE 2
+
+
+  C:0049H         PUBLIC        _sleep
+  C:0003H         PUBLIC        main
   D:0098H         PUBLIC        SCON
   D:0088H         PUBLIC        TCON
-  B:0090H.1       PUBLIC        LED
   D:00C8H         PUBLIC        T2CON
-  B:00B0H.1       PUBLIC        std_key
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  10/01/2022  16:27:35  PAGE 2
-
-
   D:00D0H         PUBLIC        PSW
   -------         PROC          MAIN
-  C:000FH         LINE#         6
-  C:000FH         LINE#         7
-  C:0011H         LINE#         8
-  C:0011H         LINE#         9
-  C:0015H         LINE#         10
+  -------         DO            
+  D:0008H         SYMBOL        i
+  D:000AH         SYMBOL        j
+  -------         ENDDO         
+  C:0003H         LINE#         14
+  C:0003H         LINE#         38
+  C:0008H         LINE#         39
+  C:0008H         LINE#         40
+  C:000BH         LINE#         41
+  C:000BH         LINE#         42
+  C:000EH         LINE#         43
+  C:0015H         LINE#         44
+  C:001AH         LINE#         45
+  C:001CH         LINE#         46
+  C:0022H         LINE#         47
+  C:0025H         LINE#         48
+  C:002CH         LINE#         49
+  C:003FH         LINE#         50
   -------         ENDPROC       MAIN
+  -------         PROC          _SLEEP
+  D:0006H         SYMBOL        millis
+  -------         DO            
+  D:0004H         SYMBOL        i
+  D:0002H         SYMBOL        j
+  -------         ENDDO         
+  C:0049H         LINE#         56
+  C:0049H         LINE#         57
+  C:0049H         LINE#         59
+  C:0059H         LINE#         60
+  C:0067H         LINE#         61
+  C:006EH         LINE#         62
+  -------         ENDPROC       _SLEEP
   -------         ENDMOD        HELLOSINGLECHIP
 
-Program Size: data=9.0 xdata=0 code=23
+Program Size: data=13.0 xdata=0 code=123
 LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

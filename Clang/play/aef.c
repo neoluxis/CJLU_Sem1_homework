@@ -10,12 +10,10 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 
 int main(int argc, char const *argv[])
 {
-    int a, b;
-    scanf("%d", &a);
-    b = a != 0;
-    printf("%d\n", b);
+    
     return 0;
 }

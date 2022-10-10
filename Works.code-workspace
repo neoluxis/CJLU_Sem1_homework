@@ -57,7 +57,8 @@
 			"xmemory": "cpp",
 			"xstddef": "cpp",
 			"xtr1common": "cpp",
-			"xutility": "cpp"
+			"xutility": "cpp",
+			"stdlib.h": "c"
 		},
 		"cSpell.words": [
 			"Calcu",
