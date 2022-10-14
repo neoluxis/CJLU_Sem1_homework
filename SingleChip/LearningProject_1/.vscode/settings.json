@@ -12,5 +12,6 @@
     },
     "cSpell.ignoreWords": [
         "sbit"
-    ]
+    ],
+    "C_Cpp.errorSquiggles": "Disabled"
 }

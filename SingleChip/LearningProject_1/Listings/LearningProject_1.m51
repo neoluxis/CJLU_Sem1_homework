@@ -1,20 +1,22 @@
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    10/10/2022  16:34:47  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    10/15/2022  00:59:53  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
-D:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\HelloSingleChip.obj TO .\Objects\LearningProject_1 PRINT (.\Listings\LearningProje
->> ct_1.m51) RAMSIZE (256)
+D:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\Hello.obj TO .\Objects\LearningProject_1 PRINT (.\Listings\LearningProject_1.m51) 
+>> RAMSIZE (256)
 
 
 MEMORY MODEL: SMALL
 
 
 INPUT MODULES INCLUDED:
-  .\Objects\HelloSingleChip.obj (HELLOSINGLECHIP)
+  .\Objects\Hello.obj (HELLO)
   D:\KEIL_V5\C51\LIB\C51S.LIB (?C_STARTUP)
+  D:\KEIL_V5\C51\LIB\C51S.LIB (?C?ICALL)
+  D:\KEIL_V5\C51\LIB\C51S.LIB (?C_INIT)
 
 
-LINK MAP OF MODULE:  .\Objects\LearningProject_1 (HELLOSINGLECHIP)
+LINK MAP OF MODULE:  .\Objects\LearningProject_1 (HELLO)
 
 
             TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
@@ -23,85 +25,115 @@ LINK MAP OF MODULE:  .\Objects\LearningProject_1 (HELLOSINGLECHIP)
             * * * * * * *   D A T A   M E M O R Y   * * * * * * *
             REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
             DATA    0008H     0004H     UNIT         _DATA_GROUP_
-            IDATA   000CH     0001H     UNIT         ?STACK
+            DATA    000CH     0003H     UNIT         ?DT?HELLO
+            IDATA   000FH     0001H     UNIT         ?STACK
 
             * * * * * * *   C O D E   M E M O R Y   * * * * * * *
             CODE    0000H     0003H     ABSOLUTE     
-            CODE    0003H     0046H     UNIT         ?PR?MAIN?HELLOSINGLECHIP
-            CODE    0049H     0026H     UNIT         ?PR?_SLEEP?HELLOSINGLECHIP
-            CODE    006FH     000CH     UNIT         ?C_C51STARTUP
+            CODE    0003H     008CH     UNIT         ?C_C51STARTUP
+            CODE    008FH     004AH     UNIT         ?PR?MAIN?HELLO
+            CODE    00D9H     0032H     UNIT         ?PR?_DELAYSEC?HELLO
+            CODE    010BH     0026H     UNIT         ?PR?_DELAYMILLIS?HELLO
+            CODE    0131H     0006H     UNIT         ?C_INITSEG
+            CODE    0137H     0006H     UNIT         ?C?LIB_CODE
 
 
 
-OVERLAY MAP OF MODULE:   .\Objects\LearningProject_1 (HELLOSINGLECHIP)
+OVERLAY MAP OF MODULE:   .\Objects\LearningProject_1 (HELLO)
 
 
-SEGMENT                              DATA_GROUP 
-  +--> CALLED SEGMENT              START    LENGTH
---------------------------------------------------
-?C_C51STARTUP                      -----    -----
-  +--> ?PR?MAIN?HELLOSINGLECHIP
+SEGMENT                          DATA_GROUP 
+  +--> CALLED SEGMENT          START    LENGTH
+----------------------------------------------
+?C_C51STARTUP                  -----    -----
+  +--> ?PR?MAIN?HELLO
+  +--> ?C_INITSEG
 
-?PR?MAIN?HELLOSINGLECHIP           0008H    0004H
-  +--> ?PR?_SLEEP?HELLOSINGLECHIP
+?PR?MAIN?HELLO                 0008H    0004H
+
+?C_INITSEG                     -----    -----
+  +--> ?PR?_DELAYMILLIS?HELLO
 
 
 
-SYMBOL TABLE OF MODULE:  .\Objects\LearningProject_1 (HELLOSINGLECHIP)
+SYMBOL TABLE OF MODULE:  .\Objects\LearningProject_1 (HELLO)
 
   VALUE           TYPE          NAME
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  10/15/2022  00:59:53  PAGE 2
+
+
   ----------------------------------
 
-  -------         MODULE        HELLOSINGLECHIP
+  -------         MODULE        HELLO
   C:0000H         SYMBOL        _ICE_DUMMY_
-  D:0080H         PUBLIC        P0
+  C:010BH         PUBLIC        _delayMillis
   D:0090H         PUBLIC        P1
   D:00B0H         PUBLIC        P3
   D:00A8H         PUBLIC        IE
   D:00B8H         PUBLIC        IP
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  10/10/2022  16:34:47  PAGE 2
-
-
-  C:0049H         PUBLIC        _sleep
-  C:0003H         PUBLIC        main
+  D:000CH         PUBLIC        _sleep
+  C:008FH         PUBLIC        main
+  C:00D9H         PUBLIC        _delaySec
   D:0098H         PUBLIC        SCON
   D:0088H         PUBLIC        TCON
+  B:0090H.1       PUBLIC        led
   D:00C8H         PUBLIC        T2CON
   D:00D0H         PUBLIC        PSW
-  -------         PROC          MAIN
-  -------         DO            
-  D:0008H         SYMBOL        i
-  D:000AH         SYMBOL        j
-  -------         ENDDO         
-  C:0003H         LINE#         14
-  C:0003H         LINE#         38
-  C:0008H         LINE#         39
-  C:0008H         LINE#         40
-  C:000BH         LINE#         41
-  C:000BH         LINE#         42
-  C:000EH         LINE#         43
-  C:0015H         LINE#         44
-  C:001AH         LINE#         45
-  C:001CH         LINE#         46
-  C:0022H         LINE#         47
-  C:0025H         LINE#         48
-  C:002CH         LINE#         49
-  C:003FH         LINE#         50
-  -------         ENDPROC       MAIN
-  -------         PROC          _SLEEP
+  -------         PROC          _DELAYMILLIS
   D:0006H         SYMBOL        millis
   -------         DO            
   D:0004H         SYMBOL        i
   D:0002H         SYMBOL        j
   -------         ENDDO         
-  C:0049H         LINE#         56
-  C:0049H         LINE#         57
-  C:0049H         LINE#         59
-  C:0059H         LINE#         60
-  C:0067H         LINE#         61
-  C:006EH         LINE#         62
-  -------         ENDPROC       _SLEEP
-  -------         ENDMOD        HELLOSINGLECHIP
+  C:010BH         LINE#         1
+  C:010BH         LINE#         3
+  C:011BH         LINE#         4
+  C:0129H         LINE#         5
+  C:0130H         LINE#         6
+  -------         ENDPROC       _DELAYMILLIS
+  -------         PROC          _DELAYSEC
+  D:0006H         SYMBOL        sec
+  -------         DO            
+  D:0004H         SYMBOL        i
+  D:0002H         SYMBOL        j
+  D:0082H         SYMBOL        n
+  -------         ENDDO         
+  C:00D9H         LINE#         8
+  C:00D9H         LINE#         10
+  C:00E9H         LINE#         11
+  C:00ECH         LINE#         12
+  C:00F8H         LINE#         13
+  C:0103H         LINE#         14
+  C:010AH         LINE#         15
+  -------         ENDPROC       _DELAYSEC
+  -------         PROC          MAIN
+  -------         DO            
+  D:0008H         SYMBOL        T
+  D:000AH         SYMBOL        i
+  -------         ENDDO         
+  C:008FH         LINE#         6
+  C:008FH         LINE#         7
+  C:0095H         LINE#         8
+  C:009AH         LINE#         9
+  C:009AH         LINE#         10
+  C:00ABH         LINE#         11
+  C:00ADH         LINE#         12
+  C:00BAH         LINE#         13
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  10/15/2022  00:59:53  PAGE 3
 
-Program Size: data=13.0 xdata=0 code=123
-LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
+
+  C:00BCH         LINE#         14
+  C:00CFH         LINE#         15
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        HELLO
+
+  -------         MODULE        ?C?ICALL
+  C:0137H         PUBLIC        ?C?ICALL
+  C:013BH         PUBLIC        ?C?ICALL2
+  -------         ENDMOD        ?C?ICALL
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAYSEC?HELLO
+
+Program Size: data=16.0 xdata=0 code=317
+LINK/LOCATE RUN COMPLETE.  1 WARNING(S),  0 ERROR(S)

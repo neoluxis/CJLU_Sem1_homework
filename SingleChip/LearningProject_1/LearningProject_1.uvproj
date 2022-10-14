@@ -149,7 +149,7 @@
             <RestoreSysVw>1</RestoreSysVw>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>-1</TargetSelection>
+          <TargetSelection>0</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>
@@ -163,7 +163,7 @@
             <PeripheralDll></PeripheralDll>
             <PeripheralDllArguments></PeripheralDllArguments>
             <InitializationFile></InitializationFile>
-            <Driver></Driver>
+            <Driver>BIN\MON51.DLL</Driver>
           </TargetDlls>
         </DebugOption>
         <Utilities>
@@ -377,14 +377,14 @@
           <GroupName>Source Group 1</GroupName>
           <Files>
             <File>
+              <FileName>Hello.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hello.c</FilePath>
+            </File>
+            <File>
               <FileName>utils.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\utils.h</FilePath>
-            </File>
-            <File>
-              <FileName>HelloSingleChip.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\HelloSingleChip.c</FilePath>
             </File>
           </Files>
         </Group>
