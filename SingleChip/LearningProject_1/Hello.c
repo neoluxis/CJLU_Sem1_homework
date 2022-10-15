@@ -1,17 +1,14 @@
 #include <reg52.h>
 #include "utils.h"
 
-sbit led=P1^1;
+sbit led_group = P1;
+sbit key = P3 ^ 1;
 
-void main(){
-	int T=10;
-	int i = 0;
-	while(1){
-		for(i;i<=T;i++){
-			led =0;
-			sleep(i);
-			led =1;
-			sleep(T-1);
-		}
+void main()
+{
+	key = 1;
+	while (1)
+	{
+		led_group = key;
 	}
 }

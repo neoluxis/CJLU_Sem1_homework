@@ -26,7 +26,7 @@
     <ToolsetNumber>0x0</ToolsetNumber>
     <ToolsetName>MCS-51</ToolsetName>
     <TargetOption>
-      <CLK51>12000000</CLK51>
+      <CLK51>24000000</CLK51>
       <OPTTT>
         <gFlags>1</gFlags>
         <BeepAtEnd>1</BeepAtEnd>
@@ -149,6 +149,54 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
+          <LineNumber>13</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>E:\Works\SingleChip\LearningProject_1\Hello.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+        <Bp>
+          <Number>1</Number>
+          <Type>0</Type>
+          <LineNumber>11</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>E:\Works\SingleChip\LearningProject_1\Hello.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+        <Bp>
+          <Number>2</Number>
+          <Type>0</Type>
+          <LineNumber>8</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>E:\Works\SingleChip\LearningProject_1\Hello.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+        <Bp>
+          <Number>3</Number>
+          <Type>0</Type>
           <LineNumber>10</LineNumber>
           <EnabledFlag>1</EnabledFlag>
           <Address>0</Address>
@@ -158,12 +206,12 @@
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>0</BreakIfRCount>
-          <Filename>utils.h</Filename>
+          <Filename>E:\Works\SingleChip\LearningProject_1\utils.h</Filename>
           <ExecCommand></ExecCommand>
           <Expression></Expression>
         </Bp>
         <Bp>
-          <Number>1</Number>
+          <Number>4</Number>
           <Type>0</Type>
           <LineNumber>7</LineNumber>
           <EnabledFlag>1</EnabledFlag>
@@ -174,12 +222,12 @@
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>0</BreakIfRCount>
-          <Filename>Hello.c</Filename>
+          <Filename>E:\Works\SingleChip\LearningProject_1\Hello.c</Filename>
           <ExecCommand></ExecCommand>
           <Expression></Expression>
         </Bp>
         <Bp>
-          <Number>2</Number>
+          <Number>5</Number>
           <Type>0</Type>
           <LineNumber>7</LineNumber>
           <EnabledFlag>1</EnabledFlag>
@@ -190,12 +238,12 @@
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>0</BreakIfRCount>
-          <Filename>Hello.c</Filename>
+          <Filename>E:\Works\SingleChip\LearningProject_1\Hello.c</Filename>
           <ExecCommand></ExecCommand>
           <Expression></Expression>
         </Bp>
         <Bp>
-          <Number>3</Number>
+          <Number>6</Number>
           <Type>0</Type>
           <LineNumber>9</LineNumber>
           <EnabledFlag>1</EnabledFlag>
@@ -206,7 +254,7 @@
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>Hello.c</Filename>
+          <Filename>E:\Works\SingleChip\LearningProject_1\Hello.c</Filename>
           <ExecCommand></ExecCommand>
           <Expression></Expression>
         </Bp>

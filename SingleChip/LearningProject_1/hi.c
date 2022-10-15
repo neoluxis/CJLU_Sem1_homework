@@ -2,17 +2,14 @@
 #include "utils.h"
 
 sbit led = P1;
+sbit key = P3 ^ 1;
 
-int main(int argc, char const *argv[])
+void main(int argc, char const *argv[])
 {
-    led = 0;
-    while(1){
-        led = 0x0;
-        sleep(500);
-        led = 0x1;
-        sleep(300);
-        led = 0x0;
-
+    key = 1;
+    while (1)
+    {
+        led = 0xfe;
     }
-    return 0;
+    // return 0;
 }

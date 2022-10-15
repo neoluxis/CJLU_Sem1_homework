@@ -1,3 +1,11 @@
+typedef unsigned int uint;
+typedef unsigned char uchar;
+typedef unsigned long ulong;
+//typedef unsigned float ufloat;
+typedef unsigned short ushort;
+//typedef unsigned long long ullong;
+//typedef unsigned double udouble;
+
 void delayMillis(int millis){
 	int i,j;
 	for(i=0;i<millis;i++){
