@@ -4,7 +4,10 @@ linking...
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
     SEGMENT: ?PR?_DELAYSEC?HELLO
 
-Program Size: data=12.0 xdata=0 code=245
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAY?HELLO
+
+Program Size: data=14.0 xdata=0 code=323
 creating hex file from ".\Objects\LearningProject_1"...
-".\Objects\LearningProject_1" - 0 Error(s), 1 Warning(s).
-Build Time Elapsed:  00:00:00
+".\Objects\LearningProject_1" - 0 Error(s), 2 Warning(s).
+Build Time Elapsed:  00:00:01
