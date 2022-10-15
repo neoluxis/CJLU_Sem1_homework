@@ -60,7 +60,8 @@
 			"xutility": "cpp",
 			"stdlib.h": "c",
 			"2.C": "cpp",
-			"STDIO.H": "cpp"
+			"STDIO.H": "cpp",
+			"util.h": "c"
 		},
 		"cSpell.words": [
 			"Calcu",

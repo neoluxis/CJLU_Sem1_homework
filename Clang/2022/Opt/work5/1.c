@@ -20,15 +20,15 @@ int main(int argc, char const *argv[])
     int result = strcmp(str1, str2);
     if (result > 0)
     {
-        printf(">");
+        printf("%s is greater than %s", str1, str2);
     }
     else if (result == 0)
     {
-        printf("=");
+        printf("%s is equal to %s", str1, str2);
     }
     else
     {
-        printf("<");
+        printf("%s is less than %s\n", str1, str2);
     }
     
     return 0;
