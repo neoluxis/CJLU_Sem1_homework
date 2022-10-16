@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   HELLO                                                             10/15/2022 10:32:00 PAGE 1   
+C51 COMPILER V9.60.0.0   HELLO                                                             10/16/2022 17:19:46 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE HELLO
@@ -11,46 +11,22 @@ line level    source
    1          #include <reg52.h>
    2          #include "utils.h"
    3          
-   4          sbit led_group = P1;
-   5          sbit led_7 = P1 ^ 7;
-   6          sbit key = P3 ^ 1;
-   7          
-   8          sbit DU = P2 ^ 6;
-   9          sbit WE = P2 ^ 7;
-  10          
-  11          void main()
-  12          {
-  13   1        // while (1)
-  14   1        // {
-  15   1        uint s = 10;
-  16   1      start:
-  17   1        WE = 1;
-  18   1        P0 = 0X7f;
-  19   1        WE = 0;
-  20   1      
-  21   1        DU = 1;
-  22   1        P0 = 0X7d;
-  23   1        DU = 0;
-  24   1        sleep(s);
-  25   1        WE = 1;
-  26   1        P0 = 0Xbf;
-  27   1        WE = 0;
-  28   1      
-  29   1        DU = 1;
-  30   1        P0 = 0X87;
-  31   1        DU = 0;
-  32   1        sleep(s);
-  33   1        goto start;
-  34   1        // }
-  35   1      }
+   4          
+   5          void main()
+   6          {
+   7   1          while (1)
+   8   1          {
+   9   2              P1 = 0;
+  10   2          }
+  11   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    168    ----
+   CODE SIZE        =    169    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =      3       2
+   DATA SIZE        =      5    ----
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.

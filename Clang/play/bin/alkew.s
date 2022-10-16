@@ -1,7 +1,7 @@
-	.file	"3.c"
+	.file	"alkew.c"
 	.text
 .Ltext0:
-	.file 0 "E://Works//Clang//2022//Opt//work4" "E:/Works/Clang/2022/Opt/work4/3.c"
+	.file 0 "E://Works//Clang//play" "E:/Works/Clang/play/alkew.c"
 	.section	.text$_Z6printfPKcz,"x"
 	.linkonce discard
 	.globl	_Z6printfPKcz
@@ -57,178 +57,38 @@ _Z6printfPKcz:
 	.def	__main;	.scl	2;	.type	32;	.endef
 	.section .rdata,"dr"
 .LC0:
-	.ascii "%4d\0"
-.LC1:
-	.ascii "\12\0"
+	.ascii "Hello, world!\12\0"
 	.text
 	.globl	main
 	.def	main;	.scl	2;	.type	32;	.endef
 	.seh_proc	main
 main:
 .LFB44:
-	.file 2 "E:/Works/Clang/2022/Opt/work4/3.c"
-	.loc 2 14 1
+	.file 2 "E:/Works/Clang/play/alkew.c"
+	.loc 2 7 1
 	pushq	%rbp
 	.seh_pushreg	%rbp
 .LCFI6:
-	subq	$624, %rsp
-	.seh_stackalloc	624
+	movq	%rsp, %rbp
+	.seh_setframe	%rbp, 0
 .LCFI7:
-	leaq	128(%rsp), %rbp
-	.seh_setframe	%rbp, 128
-.LCFI8:
+	subq	$32, %rsp
+	.seh_stackalloc	32
 	.seh_endprologue
-	movl	%ecx, 512(%rbp)
-	movq	%rdx, 520(%rbp)
-	.loc 2 14 1
+	movl	%ecx, 16(%rbp)
+	movq	%rdx, 24(%rbp)
+	.loc 2 7 1
 	call	__main
-	.loc 2 17 12
-	movl	$0, 492(%rbp)
-	.loc 2 17 5
-	jmp	.L4
-.L5:
-	.loc 2 19 17 discriminator 3
-	movl	492(%rbp), %eax
-	movslq	%eax, %rdx
-	movq	%rdx, %rax
-	addq	%rax, %rax
-	addq	%rdx, %rax
-	salq	$4, %rax
-	leaq	496(%rax), %rax
-	addq	%rbp, %rax
-	subq	$592, %rax
-	movl	$1, (%rax)
-	.loc 2 20 17 discriminator 3
-	movl	492(%rbp), %eax
-	movslq	%eax, %rdx
-	movq	%rdx, %rax
-	addq	%rax, %rax
-	addq	%rdx, %rax
-	salq	$2, %rax
-	addq	%rdx, %rax
-	salq	$2, %rax
-	leaq	496(%rax), %rax
-	addq	%rbp, %rax
-	subq	$592, %rax
-	movl	$1, (%rax)
-	.loc 2 17 5 discriminator 3
-	addl	$1, 492(%rbp)
-.L4:
-	.loc 2 17 19 discriminator 1
-	cmpl	$11, 492(%rbp)
-	jle	.L5
-	.loc 2 22 12
-	movl	$2, 492(%rbp)
-	.loc 2 22 5
-	jmp	.L6
-.L9:
-	.loc 2 24 16
-	movl	$1, 488(%rbp)
-	.loc 2 24 9
-	jmp	.L7
-.L8:
-	.loc 2 26 27 discriminator 3
-	movl	492(%rbp), %eax
-	leal	-1(%rax), %edx
-	.loc 2 26 34 discriminator 3
-	movl	488(%rbp), %eax
-	subl	$1, %eax
-	.loc 2 26 37 discriminator 3
-	movslq	%eax, %rcx
-	movslq	%edx, %rdx
-	movq	%rdx, %rax
-	addq	%rax, %rax
-	addq	%rdx, %rax
-	salq	$2, %rax
-	addq	%rcx, %rax
-	movl	-96(%rbp,%rax,4), %ecx
-	.loc 2 26 45 discriminator 3
-	movl	492(%rbp), %eax
-	leal	-1(%rax), %edx
-	.loc 2 26 51 discriminator 3
-	movl	488(%rbp), %eax
-	movslq	%eax, %r8
-	movslq	%edx, %rdx
-	movq	%rdx, %rax
-	addq	%rax, %rax
-	addq	%rdx, %rax
-	salq	$2, %rax
-	addq	%r8, %rax
-	movl	-96(%rbp,%rax,4), %eax
-	.loc 2 26 39 discriminator 3
-	addl	%eax, %ecx
-	.loc 2 26 21 discriminator 3
-	movl	488(%rbp), %eax
-	movslq	%eax, %r8
-	movl	492(%rbp), %eax
-	movslq	%eax, %rdx
-	movq	%rdx, %rax
-	addq	%rax, %rax
-	addq	%rdx, %rax
-	salq	$2, %rax
-	addq	%r8, %rax
-	movl	%ecx, -96(%rbp,%rax,4)
-	.loc 2 24 9 discriminator 3
-	addl	$1, 488(%rbp)
-.L7:
-	.loc 2 24 23 discriminator 1
-	movl	488(%rbp), %eax
-	cmpl	492(%rbp), %eax
-	jl	.L8
-	.loc 2 22 5 discriminator 2
-	addl	$1, 492(%rbp)
-.L6:
-	.loc 2 22 19 discriminator 1
-	cmpl	$11, 492(%rbp)
-	jle	.L9
-	.loc 2 29 12
-	movl	$0, 492(%rbp)
-	.loc 2 29 5
-	jmp	.L10
-.L13:
-	.loc 2 31 16
-	movl	$0, 488(%rbp)
-	.loc 2 31 9
-	jmp	.L11
-.L12:
-	.loc 2 33 19
-	movl	488(%rbp), %eax
-	movslq	%eax, %rcx
-	movl	492(%rbp), %eax
-	movslq	%eax, %rdx
-	movq	%rdx, %rax
-	addq	%rax, %rax
-	addq	%rdx, %rax
-	salq	$2, %rax
-	addq	%rcx, %rax
-	movl	-96(%rbp,%rax,4), %eax
-	movl	%eax, %edx
+	.loc 2 8 11
 	leaq	.LC0(%rip), %rax
 	movq	%rax, %rcx
 	call	_Z6printfPKcz
-	.loc 2 31 9
-	addl	$1, 488(%rbp)
-.L11:
-	.loc 2 31 23 discriminator 1
-	movl	488(%rbp), %eax
-	cmpl	492(%rbp), %eax
-	jle	.L12
-	.loc 2 35 15
-	leaq	.LC1(%rip), %rax
-	movq	%rax, %rcx
-	call	_Z6printfPKcz
-	.loc 2 29 5
-	addl	$1, 492(%rbp)
-.L10:
-	.loc 2 29 19 discriminator 1
-	cmpl	$11, 492(%rbp)
-	jle	.L13
-	.loc 2 37 12
+	.loc 2 9 12
 	movl	$0, %eax
-	.loc 2 38 1
-	addq	$624, %rsp
+	.loc 2 10 1
+	addq	$32, %rsp
 	popq	%rbp
-.LCFI9:
+.LCFI8:
 	ret
 .LFE44:
 	.seh_endproc
@@ -301,19 +161,14 @@ main:
 	.uleb128 0x2
 	.byte	0x4
 	.long	.LCFI7-.LCFI6
-	.byte	0xe
-	.uleb128 0x280
+	.byte	0xd
+	.uleb128 0x6
 	.byte	0x4
 	.long	.LCFI8-.LCFI7
-	.byte	0xc
-	.uleb128 0x6
-	.uleb128 0x200
-	.byte	0x4
-	.long	.LCFI9-.LCFI8
 	.byte	0xc6
-	.byte	0x12
+	.byte	0xc
 	.uleb128 0x7
-	.sleb128 77
+	.uleb128 0x8
 	.align 8
 .LEFDE2:
 	.text
@@ -321,12 +176,12 @@ main:
 	.file 3 "D:/Env/msys64/mingw64/include/vadefs.h"
 	.section	.debug_info,"dr"
 .Ldebug_info0:
-	.long	0x321
+	.long	0x2eb
 	.word	0x5
 	.byte	0x1
 	.byte	0x8
 	.secrel32	.Ldebug_abbrev0
-	.uleb128 0xb
+	.uleb128 0x9
 	.ascii "GNU C++17 12.1.0 -mtune=generic -march=x86-64 -g\0"
 	.byte	0x21
 	.secrel32	.LASF0
@@ -340,7 +195,7 @@ main:
 	.byte	0x18
 	.byte	0x1d
 	.long	0x6e
-	.uleb128 0xc
+	.uleb128 0xa
 	.byte	0x8
 	.ascii "__builtin_va_list\0"
 	.long	0x86
@@ -348,7 +203,7 @@ main:
 	.byte	0x1
 	.byte	0x6
 	.ascii "char\0"
-	.uleb128 0xd
+	.uleb128 0xb
 	.long	0x86
 	.uleb128 0x5
 	.ascii "va_list\0"
@@ -394,7 +249,7 @@ main:
 	.byte	0x1
 	.byte	0x8
 	.ascii "unsigned char\0"
-	.uleb128 0xe
+	.uleb128 0xc
 	.ascii "_iobuf\0"
 	.byte	0x30
 	.byte	0x1
@@ -456,7 +311,7 @@ main:
 	.byte	0x2f
 	.byte	0x19
 	.long	0x13d
-	.uleb128 0x7
+	.uleb128 0x6
 	.ascii "__mingw_vfprintf\0"
 	.byte	0xc1
 	.byte	0x22
@@ -473,7 +328,7 @@ main:
 	.long	0x1c5
 	.uleb128 0x3
 	.long	0x8e
-	.uleb128 0x7
+	.uleb128 0x6
 	.ascii "__acrt_iob_func\0"
 	.byte	0x5d
 	.byte	0x42
@@ -482,64 +337,35 @@ main:
 	.uleb128 0x4
 	.long	0x107
 	.byte	0
-	.uleb128 0xf
+	.uleb128 0xd
 	.ascii "main\0"
 	.byte	0x2
-	.byte	0xd
+	.byte	0x6
 	.byte	0x5
 	.long	0xe4
 	.quad	.LFB44
 	.quad	.LFE44-.LFB44
 	.uleb128 0x1
 	.byte	0x9c
-	.long	0x28b
-	.uleb128 0x8
+	.long	0x269
+	.uleb128 0x7
 	.ascii "argc\0"
 	.byte	0xe
 	.long	0xe4
 	.uleb128 0x2
 	.byte	0x91
 	.sleb128 0
-	.uleb128 0x8
+	.uleb128 0x7
 	.ascii "argv\0"
 	.byte	0x20
-	.long	0x28b
+	.long	0x269
 	.uleb128 0x2
 	.byte	0x91
 	.sleb128 8
-	.uleb128 0x6
-	.ascii "i\0"
-	.byte	0x9
-	.long	0xe4
-	.uleb128 0x2
-	.byte	0x91
-	.sleb128 -20
-	.uleb128 0x6
-	.ascii "j\0"
-	.byte	0xc
-	.long	0xe4
-	.uleb128 0x2
-	.byte	0x91
-	.sleb128 -24
-	.uleb128 0x6
-	.ascii "a\0"
-	.byte	0xf
-	.long	0x290
-	.uleb128 0x3
-	.byte	0x91
-	.sleb128 -608
 	.byte	0
 	.uleb128 0x3
 	.long	0x203
-	.uleb128 0x10
-	.long	0xe4
-	.long	0x2a4
-	.uleb128 0x9
-	.long	0xa3
-	.uleb128 0x9
-	.long	0xa3
-	.byte	0
-	.uleb128 0x11
+	.uleb128 0xe
 	.ascii "printf\0"
 	.byte	0x1
 	.word	0x170
@@ -550,7 +376,7 @@ main:
 	.quad	.LFE8-.LFB8
 	.uleb128 0x1
 	.byte	0x9c
-	.uleb128 0x12
+	.uleb128 0xf
 	.ascii "__format\0"
 	.byte	0x1
 	.word	0x170
@@ -559,8 +385,8 @@ main:
 	.uleb128 0x2
 	.byte	0x91
 	.sleb128 0
-	.uleb128 0x13
-	.uleb128 0xa
+	.uleb128 0x10
+	.uleb128 0x8
 	.ascii "__retval\0"
 	.word	0x172
 	.byte	0x7
@@ -568,7 +394,7 @@ main:
 	.uleb128 0x2
 	.byte	0x91
 	.sleb128 -36
-	.uleb128 0xa
+	.uleb128 0x8
 	.ascii "__local_argv\0"
 	.word	0x173
 	.byte	0x15
@@ -576,7 +402,7 @@ main:
 	.uleb128 0x2
 	.byte	0x91
 	.sleb128 -48
-	.uleb128 0x14
+	.uleb128 0x11
 	.quad	.LVL0
 	.long	0x208
 	.byte	0
@@ -645,25 +471,6 @@ main:
 	.byte	0
 	.byte	0
 	.uleb128 0x6
-	.uleb128 0x34
-	.byte	0
-	.uleb128 0x3
-	.uleb128 0x8
-	.uleb128 0x3a
-	.uleb128 0x21
-	.sleb128 2
-	.uleb128 0x3b
-	.uleb128 0x21
-	.sleb128 16
-	.uleb128 0x39
-	.uleb128 0xb
-	.uleb128 0x49
-	.uleb128 0x13
-	.uleb128 0x2
-	.uleb128 0x18
-	.byte	0
-	.byte	0
-	.uleb128 0x7
 	.uleb128 0x2e
 	.byte	0x1
 	.uleb128 0x3f
@@ -685,7 +492,7 @@ main:
 	.uleb128 0x13
 	.byte	0
 	.byte	0
-	.uleb128 0x8
+	.uleb128 0x7
 	.uleb128 0x5
 	.byte	0
 	.uleb128 0x3
@@ -695,7 +502,7 @@ main:
 	.sleb128 2
 	.uleb128 0x3b
 	.uleb128 0x21
-	.sleb128 13
+	.sleb128 6
 	.uleb128 0x39
 	.uleb128 0xb
 	.uleb128 0x49
@@ -704,17 +511,7 @@ main:
 	.uleb128 0x18
 	.byte	0
 	.byte	0
-	.uleb128 0x9
-	.uleb128 0x21
-	.byte	0
-	.uleb128 0x49
-	.uleb128 0x13
-	.uleb128 0x2f
-	.uleb128 0x21
-	.sleb128 11
-	.byte	0
-	.byte	0
-	.uleb128 0xa
+	.uleb128 0x8
 	.uleb128 0x34
 	.byte	0
 	.uleb128 0x3
@@ -732,7 +529,7 @@ main:
 	.uleb128 0x18
 	.byte	0
 	.byte	0
-	.uleb128 0xb
+	.uleb128 0x9
 	.uleb128 0x11
 	.byte	0x1
 	.uleb128 0x25
@@ -751,7 +548,7 @@ main:
 	.uleb128 0x17
 	.byte	0
 	.byte	0
-	.uleb128 0xc
+	.uleb128 0xa
 	.uleb128 0xf
 	.byte	0
 	.uleb128 0xb
@@ -762,14 +559,14 @@ main:
 	.uleb128 0x13
 	.byte	0
 	.byte	0
-	.uleb128 0xd
+	.uleb128 0xb
 	.uleb128 0x26
 	.byte	0
 	.uleb128 0x49
 	.uleb128 0x13
 	.byte	0
 	.byte	0
-	.uleb128 0xe
+	.uleb128 0xc
 	.uleb128 0x13
 	.byte	0x1
 	.uleb128 0x3
@@ -786,7 +583,7 @@ main:
 	.uleb128 0x13
 	.byte	0
 	.byte	0
-	.uleb128 0xf
+	.uleb128 0xd
 	.uleb128 0x2e
 	.byte	0x1
 	.uleb128 0x3f
@@ -813,16 +610,7 @@ main:
 	.uleb128 0x13
 	.byte	0
 	.byte	0
-	.uleb128 0x10
-	.uleb128 0x1
-	.byte	0x1
-	.uleb128 0x49
-	.uleb128 0x13
-	.uleb128 0x1
-	.uleb128 0x13
-	.byte	0
-	.byte	0
-	.uleb128 0x11
+	.uleb128 0xe
 	.uleb128 0x2e
 	.byte	0x1
 	.uleb128 0x3f
@@ -849,7 +637,7 @@ main:
 	.uleb128 0x19
 	.byte	0
 	.byte	0
-	.uleb128 0x12
+	.uleb128 0xf
 	.uleb128 0x5
 	.byte	0
 	.uleb128 0x3
@@ -866,12 +654,12 @@ main:
 	.uleb128 0x18
 	.byte	0
 	.byte	0
-	.uleb128 0x13
+	.uleb128 0x10
 	.uleb128 0x18
 	.byte	0
 	.byte	0
 	.byte	0
-	.uleb128 0x14
+	.uleb128 0x11
 	.uleb128 0x48
 	.byte	0
 	.uleb128 0x7d
@@ -917,8 +705,8 @@ main:
 	.section	.debug_str,"dr"
 	.section	.debug_line_str,"dr"
 .LASF1:
-	.ascii "E:\\\\Works\\\\Clang\\\\2022\\\\Opt\\\\work4\0"
+	.ascii "E:\\\\Works\\\\Clang\\\\play\0"
 .LASF0:
-	.ascii "E:\\Works\\Clang\\2022\\Opt\\work4\\3.c\0"
+	.ascii "E:\\Works\\Clang\\play\\alkew.c\0"
 	.ident	"GCC: (Rev2, Built by MSYS2 project) 12.1.0"
 	.def	__mingw_vfprintf;	.scl	2;	.type	32;	.endef

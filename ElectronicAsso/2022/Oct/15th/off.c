@@ -90,6 +90,8 @@ int main(int argc, char const *argv[])
                     init_max_word = init_word;
                     end_max_word = end_word;
                 }
+                free(str1);
+                free(str2);
             }
             init_word = i + 1;
             end_word = i + 1;

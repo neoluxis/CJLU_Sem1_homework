@@ -1,9 +1,8 @@
-# 0 "E:\\Works\\Clang\\2022\\Opt\\work4\\3.c"
-# 1 "E:\\Works\\Clang\\2022\\Opt\\work4//"
+# 0 "E:\\Works\\Clang\\MultiFile\\Main.c"
+# 1 "E:\\Works\\Clang\\MultiFile//"
 # 0 "<built-in>"
 # 0 "<command-line>"
-# 1 "E:\\Works\\Clang\\2022\\Opt\\work4\\3.c"
-# 11 "E:\\Works\\Clang\\2022\\Opt\\work4\\3.c"
+# 1 "E:\\Works\\Clang\\MultiFile\\Main.c"
 # 1 "D:/Env/msys64/mingw64/include/stdio.h" 1 3
 # 9 "D:/Env/msys64/mingw64/include/stdio.h" 3
 # 1 "D:/Env/msys64/mingw64/include/corecrt_stdio_config.h" 1 3
@@ -1103,33 +1102,14 @@ extern "C" {
 # 872 "D:/Env/msys64/mingw64/include/sec_api/stdio_s.h" 3
 }
 # 1573 "D:/Env/msys64/mingw64/include/stdio.h" 2 3
-# 12 "E:\\Works\\Clang\\2022\\Opt\\work4\\3.c" 2
+# 2 "E:\\Works\\Clang\\MultiFile\\Main.c" 2
 
 
-# 13 "E:\\Works\\Clang\\2022\\Opt\\work4\\3.c"
+
+
+# 5 "E:\\Works\\Clang\\MultiFile\\Main.c"
 int main(int argc, char const *argv[])
 {
-
-    int i, j, a[12][12];
-    for (i = 0; i < 12; i++)
-    {
-        a[i][0] = 1;
-        a[i][i] = 1;
-    }
-    for (i = 2; i < 12; i++)
-    {
-        for (j = 1; j < i; j++)
-        {
-            a[i][j] = a[i - 1][j - 1] + a[i - 1][j];
-        }
-    }
-    for (i = 0; i < 12; i++)
-    {
-        for (j = 0; j <= i; j++)
-        {
-            printf("%4d", a[i][j]);
-        }
-        printf("\n");
-    }
+    printf("The number: NUM\n");
     return 0;
 }
