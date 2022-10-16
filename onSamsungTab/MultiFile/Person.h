@@ -16,7 +16,7 @@ typedef struct
 
 } Person;
 
-Person newPerson(char const *, gender, double, double);
+Person newPerson(char const *name, gender g, double height, double weight);
 
 void printPerson(Person const *);
 

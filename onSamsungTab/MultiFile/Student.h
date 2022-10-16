@@ -12,9 +12,9 @@ typedef struct
     int grade;
 } Student;
 
-Student newStudent(Person *);
+Student newStudent(Person *p);
 
-void setStudent(char *, int , int , Student *);
+void setStudent(char *id, int age , int grade , Student *s);
 
 void printStudent(Student *);
 
