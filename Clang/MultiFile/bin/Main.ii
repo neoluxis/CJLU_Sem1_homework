@@ -1104,12 +1104,83 @@ extern "C" {
 # 1573 "D:/Env/msys64/mingw64/include/stdio.h" 2 3
 # 2 "E:\\Works\\Clang\\MultiFile\\Main.c" 2
 
+# 1 "E:\\Works\\Clang\\MultiFile\\Student.h" 1
 
 
 
-# 5 "E:\\Works\\Clang\\MultiFile\\Main.c"
+
+# 1 "E:\\Works\\Clang\\MultiFile\\Person.h" 1
+
+
+
+
+
+# 1 "E:\\Works\\Clang\\MultiFile\\gender.h" 1
+
+
+
+
+# 4 "E:\\Works\\Clang\\MultiFile\\gender.h"
+typedef int gender;
+# 7 "E:\\Works\\Clang\\MultiFile\\Person.h" 2
+
+
+
+typedef struct
+{
+    char *name;
+    gender g;
+    double height;
+    double weight;
+
+} Person;
+
+Person newPerson(char const *name, gender g, double height, double weight);
+
+void printPerson(Person const *p);
+# 6 "E:\\Works\\Clang\\MultiFile\\Student.h" 2
+
+typedef struct
+{
+    Person p;
+    char *id;
+    int age;
+    int grade;
+} Student;
+
+Student newStudent(Person *p);
+
+void setStudent(char *id, int age , int grade , Student *s);
+
+void printStudent(Student *s);
+# 4 "E:\\Works\\Clang\\MultiFile\\Main.c" 2
+
 int main(int argc, char const *argv[])
 {
-    printf("The number: NUM\n");
+    Person tom = newPerson("Tom",1,170,150);
+    Person jerry = newPerson("Jerry",1,179,152);
+    Person jenny = newPerson("Jenny",0, 165, 134);
+    Person donald = newPerson("Donald",1, 190,200);
+
+    printPerson(&tom);
+    printPerson(&jerry);
+    printPerson(&jenny);
+    printPerson(&donald);
+
+    Student tom_s = newStudent(&tom);
+    Student jerry_s = newStudent(&jerry);
+    Student jenny_s = newStudent(&jenny);
+    Student donald_s = newStudent(&donald);
+
+    setStudent("101", 6,1,&tom_s);
+    setStudent("201",7,2,&jerry_s);
+    setStudent("202", 7,2,&jenny_s);
+    setStudent("301", 9,4,&donald_s);
+
+    printStudent(&tom_s);
+    printStudent(&jerry_s);
+    printStudent(&jenny_s);
+    printStudent(&donald_s);
+
     return 0;
 }

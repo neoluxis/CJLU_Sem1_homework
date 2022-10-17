@@ -1,5 +1,8 @@
-#include "Person.h"
+#ifndef STUDENT_H
+#define STUDENT_H
+
 #include "stdio.h"
+#include "Person.h"
 
 typedef struct
 {
@@ -9,18 +12,10 @@ typedef struct
     int grade;
 } Student;
 
-Student newStudent()
-{
-    Student s;
-    return s;
-}
+Student newStudent(Person *p);
 
-void setStudent(Person *p,
-                char *id, int age,
-                int grade, Student *s)
-{
-    s->p = p;
-    s->id = id;
-    s->age = age;
-    s->grade = grade;
-}
+void setStudent(char *id, int age , int grade , Student *s);
+
+void printStudent(Student *s);
+
+#endif

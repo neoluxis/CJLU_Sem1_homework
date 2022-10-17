@@ -1,33 +1,23 @@
+#ifndef PERSON_H
+
+#define PERSON_H
+
 #include "stdio.h"
+#include "gender.h"
 
 #define NAME_LENGTH 20
 
 typedef struct
 {
     char *name;
-    int gender;
+    gender g;
     double height;
     double weight;
 
 } Person;
 
-Person newPerson(char const *name, int gender,
-                 double height, double weight)
-{
-    Person p = {
-        name,
-        gender,
-        height,
-        weight};
-    return p;
-}
+Person newPerson(char const *name, gender g, double height, double weight);
 
-void printPerson(Person const *person)
-{
-    printf("Name\tGender\tHeight\tWeight\n");
-    printf("%s\t%d\t%f\t%f\n",
-           person->name,
-           person->gender,
-           person->height,
-           person->weight);
-}
+void printPerson(Person const *p);
+
+#endif

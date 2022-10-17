@@ -8,7 +8,8 @@
     },
     "files.associations": {
         "reg52.h": "c",
-        "REG52.H": "cpp"
+        "REG52.H": "cpp",
+        "utils.h": "c"
     },
     "cSpell.ignoreWords": [
         "sbit"
