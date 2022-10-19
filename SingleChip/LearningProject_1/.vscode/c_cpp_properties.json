@@ -3,7 +3,8 @@
         {
             "name": "Target 1",
             "includePath": [
-                "e:\\Works\\SingleChip\\LearningProject_1"
+                "e:\\Works\\SingleChip\\LearningProject_1",
+                "e:\\Works\\SingleChip\\LearningProject_1\\src"
             ],
             "defines": [
                 "__C51__",

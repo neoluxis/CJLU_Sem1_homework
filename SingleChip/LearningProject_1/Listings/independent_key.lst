@@ -1,0 +1,24 @@
+C51 COMPILER V9.60.0.0   INDEPENDENT_KEY                                                   10/17/2022 22:47:14 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE INDEPENDENT_KEY
+OBJECT MODULE PLACED IN .\Objects\independent_key.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE independent_key.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Li
+                    -stings\independent_key.lst) TABS(2) OBJECT(.\Objects\independent_key.obj)
+
+line level    source
+
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   ----    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

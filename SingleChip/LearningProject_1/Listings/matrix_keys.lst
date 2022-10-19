@@ -1,0 +1,24 @@
+C51 COMPILER V9.60.0.0   MATRIX_KEYS                                                       10/17/2022 22:47:14 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MATRIX_KEYS
+OBJECT MODULE PLACED IN .\Objects\matrix_keys.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE matrix_keys.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listin
+                    -gs\matrix_keys.lst) TABS(2) OBJECT(.\Objects\matrix_keys.obj)
+
+line level    source
+
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   ----    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

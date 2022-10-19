@@ -9,10 +9,17 @@
     "files.associations": {
         "reg52.h": "c",
         "REG52.H": "cpp",
-        "utils.h": "c"
+        "utils.h": "c",
+        "shumaguan.h": "c",
+        "stdio.h": "c"
     },
     "cSpell.ignoreWords": [
         "sbit"
     ],
-    "C_Cpp.errorSquiggles": "Disabled"
+    "C_Cpp.errorSquiggles": "Disabled",
+    "C_Cpp.default.systemIncludePath": [
+        "e:\\Works\\SingleChip\\LearningProject_1",
+        "D:\\Keil_v5\\C51\\INC",
+        "."
+    ]
 }
