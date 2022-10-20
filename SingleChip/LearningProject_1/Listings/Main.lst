@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   MAIN                                                              10/19/2022 20:20:03 PAGE 1   
+C51 COMPILER V9.60.0.0   MAIN                                                              10/20/2022 17:14:17 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
@@ -10,131 +10,70 @@ line level    source
 
    1          #include <reg52.h>
    2          #include <intrins.h>
-   3          
-   4          sbit xw = P2 ^ 7;
-   5          sbit xd = P2 ^ 6;
-   6          sbit btns = P3;
-   7          unsigned char num, keyVal;
-   8          
-   9          unsigned char code tabel[] = {
-  10              // 0    1  2     3     4     5     6     7     8
-  11              0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F,
-  12              // 9     A     B     C   D     E   F    H  L
-  13              0x6F, 0x77, 0x7C, 0x39, 0x5E, 0x79, 0x71, 0x76, 0x38,
-  14              // n     u    -   熄灭
-  15              0x37, 0x3E, 0x40, 0x00};
-  16          unsigned char code characters[] = {
-  17              0x3F, // "0"
-  18              0x06, // "1"
-  19              0x5B, // "2"
-  20              0x4F, // "3"
-  21              0x66, // "4"
-  22              0x6D, // "5"
-  23              0x7D, // "6"
-  24              0x07, // "7"
-  25              0x7F, // "8"
-  26              0x6F, // "9"
-  27              0x77, // "A"
-  28              0x7C, // "b"
-  29              0x39, // "C"
-  30              0x5E, // "d"
-  31              0x79, // "E"
-  32              0x71, // "F"
-  33              0x3d, // "G"
-  34              0x76, // "H"
-  35              0x1E, // "J"
-  36              0x38, // "L"
-  37              0x37, // "n"
-  38              0x3E, // "u"
-  39              0x5C, // "o"
-  40              0x73, // "P"
-  41              0x67, // "q"
-  42              0x6e, // "y"
-  43              0x40, // "-"
-  44              0x80, // "."
-  45              0x00, // all off
-  46              0xFF, // all on
-  47          };
-  48          
-  49          void delay(unsigned int i)
-  50          {
-  51   1          while (--i)
-  52   1              ;
-  53   1      }
-  54          void keyScan()
-C51 COMPILER V9.60.0.0   MAIN                                                              10/19/2022 20:20:03 PAGE 2   
+   3          #define uint unsigned int
+   4          #define uchar unsigned char
+   5          
+   6          uint i_d = 0, i_c = 0, num = 0;
+   7          
+   8          sbit wela = P2 ^ 7;
+   9          sbit dula = P2 ^ 6;
+  10          
+  11          uchar code characters[] = {
+  12              0x3F, // "0"
+  13              0x06, // "1"
+  14              0x5B, // "2"
+  15              0x4F, // "3"
+  16              0x66, // "4"
+  17              0x6D, // "5"
+  18          };
+  19          uchar code digits[] = {
+  20              0xfe, // 1111 1110
+  21              0xfd, // 1111 1101
+  22              0xfb, // 1111 1011
+  23              0xf7, // 1111 0111
+  24              0xef, // 1110 1111
+  25          };
+  26          
+  27          void sleep(uint millis)
+  28          {
+  29   1          uint i, j;
+  30   1          for (i = 0; i < millis; i++)
+  31   1          {
+  32   2              for (j = 0; j < 50; j++)
+  33   2              {
+  34   3              }
+  35   2          }
+  36   1      }
+  37          
+  38          void main()
+  39          {
+  40   1          while (1)
+  41   1          {
+  42   2              i_d = 0;
+  43   2              i_c = 0;
+  44   2              for (num = 0; num < 5; num++)
+  45   2              {
+  46   3                  wela = 1;
+  47   3                  P0 = digits[i_d++];
+  48   3                  wela = 0;
+  49   3                  // P0 = 0xff;
+  50   3                  dula = 1;
+  51   3                  P0 = characters[i_c++];
+  52   3                  dula = 0;
+  53   3                  sleep(1);
+  54   3              }
+C51 COMPILER V9.60.0.0   MAIN                                                              10/20/2022 17:14:17 PAGE 2   
 
-  55          {
-  56   1          btns = 0xF0;
-  57   1          if (btns != 0xF0)
-  58   1          {
-  59   2              delay(10);
-  60   2              if (btns != 0xF0)
-  61   2              {
-  62   3                  switch (P3)
-  63   3                  {
-  64   4                  case 0xe0:
-  65   4                      keyVal = 0;
-  66   4                      break;
-  67   4                  case 0xd0:
-  68   4                      keyVal = 1;
-  69   4                      break;
-  70   4                  case 0xb0:
-  71   4                      keyVal = 2;
-  72   4                      break;
-  73   4                  case 0x70:
-  74   4                      keyVal = 3;
-  75   4                      break;
-  76   4                  default:
-  77   4                      break;
-  78   4                  }
-  79   3                  btns = 0x0f;
-  80   3                  switch (P3)
-  81   3                  {
-  82   4                  case 0x0e:
-  83   4                      keyVal = keyVal;
-  84   4                      break;
-  85   4                  case 0x0d:
-  86   4                      keyVal += 4;
-  87   4                      break;
-  88   4                  case 0x0b:
-  89   4                      keyVal += 8;
-  90   4                      break;
-  91   4                  case 0x07:
-  92   4                      keyVal += 12;
-  93   4                      break;
-  94   4                  default:
-  95   4                      break;
-  96   4                  }
-  97   3                  while (btns != 0x0f)
-  98   3                      ;
-  99   3              }
- 100   2          }
- 101   1      }
- 102          
- 103          void main()
- 104          {
- 105   1          xw=1;
- 106   1          P0 = 0xfe;
- 107   1          xw=0;
- 108   1          while (1)
- 109   1          {
- 110   2              keyScan();
- 111   2              xd=1;
- 112   2              P0 = characters[keyVal];
- 113   2              xd=0;
- 114   2          }
- 115   1      }
-
-C51 COMPILER V9.60.0.0   MAIN                                                              10/19/2022 20:20:03 PAGE 3   
+  55   2          }
+  56   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    124    ----
-   CONSTANT SIZE    =     52    ----
+   CODE SIZE        =    127    ----
+   CONSTANT SIZE    =     11    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =      2    ----
+   DATA SIZE        =      6    ----
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.
