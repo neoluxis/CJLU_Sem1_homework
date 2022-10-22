@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   MAIN                                                              10/20/2022 23:12:54 PAGE 1   
+C51 COMPILER V9.60.0.0   MAIN                                                              10/22/2022 17:14:57 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
@@ -8,62 +8,136 @@ COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE src\Main.c OPTIMIZE(8,SPEED) BRO
 
 line level    source
 
-   1          #include <reg52.h>
-   2          #include <intrins.h>
-   3          #define uint unsigned int
-   4          #define uchar unsigned char
-   5          
-   6          void sleep(uint millis)
-   7          {
-   8   1          uint i, j;
-   9   1          for (i = 0; i < millis; i++)
-  10   1          {
-  11   2              for (j = 0; j < 50; j++)
-  12   2              {
-  13   3              }
-  14   2          }
-  15   1      }
-  16          
-  17          sbit led1 = P1^0;
-  18          uchar num;
-  19          
-  20          void main()
-  21          {
-  22   1          while (1)
-  23   1          {
-  24   2              TMOD = 0x01;
-  25   2              TH0=(65536-45872)/256;
-  26   2              TL0=(65536-45872)%256;
-  27   2              EA = 1;
-  28   2              ET0 = 1;
-  29   2              TR0 = 1;
-  30   2              while (1)
-  31   2              {
-  32   3      
-  33   3              }
-  34   2          }
-  35   1      }
-  36          void T0_time() interrupt 1{
-  37   1          TH0=(65536-45872)/256;
-  38   1          TL0=(65536-45872)%256;
-  39   1          num++;
-  40   1          if(num==100){
-  41   2              led1 = ~led1;
-  42   2              num=0;
-  43   2          }
-  44   1      }
+   1          /*********************************************************************************
+   2          * 【作    者】： 清翔电子:向量
+   3          * 【版    本】： V1.0
+   4          * 【网    站】： http://www.qxmcu.com/ 
+   5          * 【淘宝店铺】： http://qxmcu.taobao.com/
+   6          * 【实验平台】： 清翔 QX-MCS51 单片机开发板
+   7          * 【外部晶振】：   11.0592mhz  
+   8          * 【主控芯片】：   STC89C52
+   9          * 【编译环境】：   Keil μVisio4 
+  10          * 【程序功能】：   定时器0工作模式1 16位定时模式，数码管动态显示0-10，秒表。
+             -                                  
+  11          * 【使用说明】： 
+  12          **********************************************************************************/
+  13          #include <reg52.h>
+  14          #include <intrins.h>
+  15          
+  16          #define uint unsigned int
+  17          #define uchar unsigned char
+  18          
+  19          sbit DU = P2^6;//数码管段选
+  20          sbit WE = P2^7;//数码管段选
+  21          
+  22          //共阴数码管段选表0-9
+  23          uchar  code tabel[]= {0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F, 0x6F,};
+  24          
+  25          /*====================================
+  26          函数  ： delay(uint z)
+  27          参数  ：z 延时毫秒设定，取值范围0-65535
+  28          返回值 ：无
+  29          描述  ：12T/Fosc11.0592M毫秒级延时
+  30          ====================================*/
+  31          void delay(uint z)
+  32          {
+  33   1        uint x,y;
+  34   1        for(x = z; x > 0; x--)
+  35   1          for(y = 114; y > 0 ; y--);    
+  36   1      } 
+  37          
+  38          /*====================================
+  39          函数  ：display(uchar i)
+  40          参数  ：i 显示数值，取值范围0-255
+  41          返回值 ：无
+  42          描述  ：三位共阴数码管动态显示
+  43          ====================================*/
+  44          void display(uchar i)
+  45          {
+  46   1        uchar bai, shi, ge;
+  47   1        bai = i / 100; //236 / 100  = 2
+  48   1        shi = i % 100 / 10; //236 % 100 / 10 = 3
+  49   1        ge  = i % 10;//236 % 10 =6
+  50   1        
+  51   1        //第一位数码管      
+  52   1        P0 = 0XFF;//清除断码
+  53   1        WE = 1;//打开位选锁存器
+C51 COMPILER V9.60.0.0   MAIN                                                              10/22/2022 17:14:57 PAGE 2   
+
+  54   1        P0 = 0XFE; //1111 1110
+  55   1        WE = 0;//锁存位选数据
+  56   1        
+  57   1        DU = 1;//打开段选锁存器
+  58   1        P0 = tabel[bai];//
+  59   1        DU = 0;//锁存段选数据
+  60   1        delay(5);
+  61   1      
+  62   1        //第二位数码管
+  63   1        P0 = 0XFF;//清除断码
+  64   1        WE = 1;//打开位选锁存器
+  65   1        P0 = 0XFD; //1111 1101
+  66   1        WE = 0;//锁存位选数据
+  67   1        
+  68   1        DU = 1;//打开段选锁存器
+  69   1        P0 = tabel[shi];//
+  70   1        DU = 0;//锁存段选数据
+  71   1        delay(5);
+  72   1      
+  73   1        //第三位数码管
+  74   1        P0 = 0XFF;//清除断码
+  75   1        WE = 1;//打开位选锁存器
+  76   1        P0 = 0XFB; //1111 1011
+  77   1        WE = 0;//锁存位选数据
+  78   1        
+  79   1        DU = 1;//打开段选锁存器
+  80   1        P0 = tabel[ge];//
+  81   1        DU = 0;//锁存段选数据
+  82   1        delay(5);
+  83   1      }
+  84          //定时器0初始化
+  85          void timer0Init()
+  86          {
+  87   1        TR0 = 1;   //启动定时器0
+  88   1        TMOD = 0X01; //定时器工作模式1，16位定时器计数模式
+  89   1        TH0 = 0x4b;
+  90   1        TL0 = 0xfd; //定时50ms
+  91   1      }
+  92          
+  93          void main()//main函数自身会循环
+  94          { 
+  95   1        uchar mSec, Sec;//毫秒和秒储存变量
+  96   1        timer0Init();//定时器0初始化
+  97   1        while(1)
+  98   1        {
+  99   2          if(TF0 == 1)//判断是否溢出
+ 100   2          {
+ 101   3            TF0 = 0;//软件清零溢出标志位
+ 102   3            TH0 = 0x4b;
+ 103   3            TL0 = 0xfd; //定时50ms
+ 104   3            mSec++;//50ms到
+ 105   3            if(mSec == 20)
+ 106   3            {
+ 107   4              mSec = 0;
+ 108   4              Sec++;//1秒时间到
+ 109   4            }         
+ 110   3          }
+ 111   2          display(Sec); //数码管显示函数
+ 112   2          if(Sec > 10)
+ 113   2            Sec = 0;//秒清零 
+ 114   2        } 
+ 115   1      }  
+C51 COMPILER V9.60.0.0   MAIN                                                              10/22/2022 17:14:57 PAGE 3   
+
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     72    ----
-   CONSTANT SIZE    =   ----    ----
+   CODE SIZE        =    189    ----
+   CONSTANT SIZE    =     10    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =      1    ----
+   DATA SIZE        =   ----       2
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
-C51 COMPILER V9.60.0.0   MAIN                                                              10/20/2022 23:12:54 PAGE 2   
-
 END OF MODULE INFORMATION.
 
 
