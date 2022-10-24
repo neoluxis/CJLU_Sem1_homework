@@ -1,0 +1,10 @@
+{
+    "workbench.colorCustomizations": {
+        "editor.lineHighlightBackground": "#1073cf2d",
+        "editor.lineHighlightBorder": "#9fced11f",
+        "activityBar.background": "#372744",
+        "titleBar.activeBackground": "#4D3660",
+        "titleBar.activeForeground": "#FAF9FB"
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
+}

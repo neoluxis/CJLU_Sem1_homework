@@ -1,0 +1,441 @@
+C51 COMPILER V9.60.0.0   MAIN                                                              10/23/2022 18:27:19 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\Main.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE Main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\Main
+                    -.lst) TABS(2) OBJECT(.\Objects\Main.obj)
+
+line level    source
+
+   1          #include "REG52.H"
+   2          
+   3          //通用
+   4          #define uchar unsigned char
+   5          #define uint unsigned int
+   6          #define boolean int
+   7          #define true 1
+   8          #define false 0
+   9          
+  10          sbit led_1 = P1 ^ 0;
+  11          sbit led_2 = P1 ^ 1;
+  12          sbit led_3 = P1 ^ 2;
+  13          sbit led_4 = P1 ^ 3;
+  14          sbit beep = P1 ^ 6;
+  15          sbit alarm = P1 ^ 7;
+  16          sbit xw = P2 ^ 7;
+  17          sbit xd = P2 ^ 6;
+  18          sbit start_key = P3 ^ 0;
+  19          
+  20          // All functions
+  21          void delayMillis(unsigned int);
+  22          void out_Monetary(int shown);
+  23          void set_Time(int, int, int);
+  24          void set_PSW();
+  25          void display();
+  26          void keyScan();
+  27          int genInput();
+  28          void onStart();
+  29          void checkPSW();
+  30          
+  31          boolean isCorrectPsw = false;
+  32          int correctPsw[] = {1, 0, 2, 4};
+  33          int tens_digit = 3, single_digit = 0, decile = 0;
+  34          
+  35          void delayMillis(int millis)
+  36          {
+*** WARNING C235 IN LINE 36 OF Main.c: parameter 1: different types
+  37   1          int i, j;
+  38   1          for (i = 0; i < millis; i++)
+  39   1          {
+  40   2              for (j = 0; j < 120; j++)
+  41   2              {
+  42   3              }
+  43   2          }
+  44   1      }
+  45          
+  46          // 数码管显示
+  47          
+  48          uchar code numbers[] = {
+  49              0x3F, // "0"
+  50              0x06, // "1"
+  51              0x5B, // "2"
+  52              0x4F, // "3"
+  53              0x66, // "4"
+C51 COMPILER V9.60.0.0   MAIN                                                              10/23/2022 18:27:19 PAGE 2   
+
+  54              0x6D, // "5"
+  55              0x7D, // "6"
+  56              0x07, // "7"
+  57              0x7F, // "8"
+  58              0x6F, // "9"
+  59              0x00, // "all down"
+  60          };
+  61          
+  62          uchar wei_index = 0;    //这三个变量没用
+  63          uchar wei_monetary = 0; //这三个变量没用
+  64          uchar num_index = 0;    //这三个变量没用
+  65          
+  66          typedef struct
+  67          {
+  68              uchar wei;
+  69              uchar duan;
+  70          } wein;
+  71          
+  72          wein shumaguan[] = {
+  73              {0x7f, 0x00},
+  74              {0xbf, 0x00},
+  75              {0xdf, 0x00},
+  76              {0xef, 0x00},
+  77              {0xf7, 0x00},
+  78              {0xfb, 0x00},
+  79              {0xfd, 0x00},
+  80              {0xfe, 0x00},
+  81          };
+  82          
+  83          void out_Monetary(int shown)
+  84          {
+  85   1          int c = 0;
+  86   1          for (c = 0; c < 4; c++)
+  87   1          {
+  88   2              shumaguan[c].duan = numbers[c];
+  89   2              shown /= 10;
+  90   2          }
+  91   1      }
+  92          int psw[4];
+  93          void set_PSW()
+  94          {
+  95   1          int ii;
+  96   1          int psw_d[] = {0, 1, 2, 3};
+  97   1          for (ii = 0; ii < 4; ii++)
+  98   1          {
+  99   2              psw[ii] = genInput();
+ 100   2              shumaguan[psw_d[3 - ii]].duan = numbers[psw[ii]];
+ 101   2              if (ii == 3)
+ 102   2              {
+ 103   3                  checkPSW();
+ 104   3                  if (isCorrectPsw)
+ 105   3                  {
+ 106   4                      ET0 = 0;
+ 107   4                      ET1 = 1;
+ 108   4                  }
+ 109   3                  // else
+ 110   3                  // {
+ 111   3                  //     ET0 = 0;
+ 112   3                  //     single_digit -= 2;
+ 113   3                  //     ET0 = 1;
+ 114   3                  // }
+ 115   3              }
+C51 COMPILER V9.60.0.0   MAIN                                                              10/23/2022 18:27:19 PAGE 3   
+
+ 116   2          }
+ 117   1      }
+ 118          
+ 119          void checkPSW()
+ 120          {
+ 121   1          int i;
+ 122   1          for (i = 0; i < 4; i++)
+ 123   1          {
+ 124   2              if (psw[i] != correctPsw[i])
+ 125   2              {
+ 126   3                  isCorrectPsw = false;
+ 127   3                  return;
+ 128   3              }
+ 129   2          }
+ 130   1          isCorrectPsw = true;
+ 131   1      }
+ 132          
+ 133          void set_Time(int ten, int single, int decile)
+ 134          {
+ 135   1          shumaguan[7].duan = numbers[ten];
+ 136   1          shumaguan[6].duan = numbers[single] | 0x80;
+ 137   1          shumaguan[5].duan = numbers[decile];
+ 138   1      }
+ 139          
+ 140          void display()
+ 141          {
+ 142   1          int c = 0;
+ 143   1          for (c = 0; c < 8; c++)
+ 144   1          {
+ 145   2              xw = 1;
+ 146   2              P0 = shumaguan[c].wei;
+ 147   2              xw = 0;
+ 148   2              xd = 1;
+ 149   2              P0 = shumaguan[c].duan;
+ 150   2              xd = 0;
+ 151   2              delayMillis(2);
+ 152   2          }
+ 153   1      }
+ 154          
+ 155          // 键盘
+ 156          unsigned char keyVal = 100;
+ 157          /*  Key Buttons
+ 158              -------------------------
+ 159              |  1  |  2  |  3  |crack|
+ 160              -------------------------
+ 161              |  4  |  5  |  6  | del |
+ 162              -------------------------
+ 163              |  7  |  8  |  9  |     |
+ 164              -------------------------
+ 165              |     |  0  |     | cls |
+ 166              -------------------------
+ 167              |  On |     |     |     |
+ 168              -------------------------*/
+ 169          void keyScan()
+ 170          {
+ 171   1          P3 = 0xF0;
+ 172   1          if (P3 != 0xF0)
+ 173   1          {
+ 174   2              delayMillis(2);
+ 175   2              if (P3 != 0xF0) // 检测列
+ 176   2              {
+ 177   3                  switch (P3)
+C51 COMPILER V9.60.0.0   MAIN                                                              10/23/2022 18:27:19 PAGE 4   
+
+ 178   3                  {
+ 179   4                  case 0xe0:
+ 180   4                      keyVal = 0;
+ 181   4                      break;
+ 182   4                  case 0xd0:
+ 183   4                      keyVal = 1;
+ 184   4                      break;
+ 185   4                  case 0xb0:
+ 186   4                      keyVal = 2;
+ 187   4                      break;
+ 188   4                  case 0x70:
+ 189   4                      keyVal = 3;
+ 190   4                      break;
+ 191   4                  }
+ 192   3                  P3 = 0x0f; //检测行
+ 193   3                  switch (P3)
+ 194   3                  {
+ 195   4                  case 0x0e:
+ 196   4                      keyVal = keyVal;
+ 197   4                      break;
+ 198   4                  case 0x0d:
+ 199   4                      keyVal = keyVal + 4;
+ 200   4                      break;
+ 201   4                  case 0x0b:
+ 202   4                      keyVal = keyVal + 8;
+ 203   4                      break;
+ 204   4                  case 0x07:
+ 205   4                      keyVal = keyVal + 12;
+ 206   4                      break;
+ 207   4                  }
+ 208   3                  while (P3 != 0x0f)
+ 209   3                      ;
+ 210   3              }
+ 211   2          }
+ 212   1          P3 = 0xff; // 检测独立键盘
+ 213   1          if (P3 != 0xff)
+ 214   1          {
+ 215   2              delayMillis(2);
+ 216   2              if (P3 != 0xff)
+ 217   2              {
+ 218   3                  switch (P3)
+ 219   3                  {
+ 220   4                  case 0xfe:
+ 221   4                      keyVal = 16;
+ 222   4                      break;
+ 223   4                  case 0xfd:
+ 224   4                      keyVal = 17;
+ 225   4                      break;
+ 226   4                  case 0xfb:
+ 227   4                      keyVal = 18;
+ 228   4                      break;
+ 229   4                  case 0xf7:
+ 230   4                      keyVal = 19;
+ 231   4                      break;
+ 232   4                  }
+ 233   3                  while (P3 != 0xff)
+ 234   3                      ;
+ 235   3              }
+ 236   2          }
+ 237   1      }
+ 238          int genInput()
+ 239          {
+C51 COMPILER V9.60.0.0   MAIN                                                              10/23/2022 18:27:19 PAGE 5   
+
+ 240   1          int ret = 0;
+ 241   1          keyScan();
+ 242   1      
+ 243   1          if (keyVal == 0)
+ 244   1          {
+ 245   2              ret = 1;
+ 246   2          }
+ 247   1          else if (keyVal == 1)
+ 248   1          {
+ 249   2              ret = 2;
+ 250   2          }
+ 251   1          else if (keyVal == 2)
+ 252   1          {
+ 253   2              ret = 3;
+ 254   2          }
+ 255   1          else if (keyVal == 4)
+ 256   1          {
+ 257   2              ret = 4;
+ 258   2          }
+ 259   1          else if (keyVal == 5)
+ 260   1          {
+ 261   2              ret = 5;
+ 262   2          }
+ 263   1          else if (keyVal == 6)
+ 264   1          {
+ 265   2              ret = 6;
+ 266   2          }
+ 267   1          else if (keyVal == 8)
+ 268   1          {
+ 269   2              ret = 7;
+ 270   2          }
+ 271   1          else if (keyVal == 9)
+ 272   1          {
+ 273   2              ret = 8;
+ 274   2          }
+ 275   1          else if (keyVal == 10)
+ 276   1          {
+ 277   2              ret = 9;
+ 278   2          }
+ 279   1          else if (keyVal == 13)
+ 280   1          {
+ 281   2              ret = 0; // cls
+ 282   2          }
+ 283   1          else if (keyVal == 15)
+ 284   1          {
+ 285   2              ret = 11; // cls
+ 286   2          }
+ 287   1          else if (keyVal == 100)
+ 288   1          {
+ 289   2              ret = 10; // no input
+ 290   2          }
+ 291   1          return ret;
+ 292   1      }
+ 293          
+ 294          // timer
+ 295          
+ 296          void timer0Init()
+ 297          {
+ 298   1          TMOD = 0x01;
+ 299   1          TH0 = 0x00;
+ 300   1          TL0 = 0x5c;
+ 301   1          TF0 = 0;
+C51 COMPILER V9.60.0.0   MAIN                                                              10/23/2022 18:27:19 PAGE 6   
+
+ 302   1          TR0 = 1;
+ 303   1          ET0 = 1;
+ 304   1          EA = 1;
+ 305   1      }
+ 306          void timer1Init()
+ 307          {
+ 308   1          TMOD = 1;
+ 309   1          TH1 = 0x00;
+ 310   1          TL1 = 0x5c;
+ 311   1          TF1 = 0;
+ 312   1          TR1 = 1;
+ 313   1          ET1 = 0;
+ 314   1          EA = 1;
+ 315   1      }
+ 316          
+ 317          void time0() interrupt 1
+ 318          {
+ 319   1          TH0 = 0x00;
+ 320   1          TL0 = 0x5c;
+ 321   1          if (decile == 0)
+ 322   1          {
+ 323   2              decile = 9;
+ 324   2              if (single_digit == 0)
+ 325   2              {
+ 326   3                  single_digit = 9;
+ 327   3                  if (tens_digit == 0)
+ 328   3                  {
+ 329   4                      tens_digit = 2;
+ 330   4                  }
+ 331   3                  else
+ 332   3                  {
+ 333   4                      tens_digit--;
+ 334   4                  }
+ 335   3              }
+ 336   2              else
+ 337   2              {
+ 338   3                  single_digit--;
+ 339   3              }
+ 340   2          }
+ 341   1          else
+ 342   1          {
+ 343   2              decile--;
+ 344   2          }
+ 345   1      
+ 346   1          if (tens_digit == 0 && single_digit == 0 && decile == 0)
+ 347   1          {
+ 348   2              int lis = 0;
+ 349   2              for (lis = 0; lis < 3; lis++)
+ 350   2              {
+ 351   3                  alarm = 0;
+ 352   3                  delayMillis(300);
+ 353   3              }
+ 354   2          }
+ 355   1          else
+ 356   1          {
+ 357   2              alarm = 1;
+ 358   2          }
+ 359   1      
+ 360   1          set_Time(tens_digit, single_digit, decile);
+ 361   1      }
+ 362          
+ 363          void time1() interrupt 3
+C51 COMPILER V9.60.0.0   MAIN                                                              10/23/2022 18:27:19 PAGE 7   
+
+ 364          {
+ 365   1      }
+ 366          
+ 367          void onStart()
+ 368          {
+ 369   1          int fu = 0;
+ 370   1          start_key = 1;
+ 371   1          while (1)
+ 372   1          {
+ 373   2              for (fu = 0; fu < 8; fu++)
+ 374   2              {
+ 375   3                  xw = 1;
+ 376   3                  P0 = shumaguan[fu].wei;
+ 377   3                  xw = 0;
+ 378   3                  xd = 1;
+ 379   3                  P0 = 0x40;
+ 380   3                  xd = 0;
+ 381   3                  delayMillis(2);
+ 382   3              }
+ 383   2              if (!start_key)
+ 384   2              {
+ 385   3                  delayMillis(10);
+ 386   3                  if (!start_key)
+ 387   3                  {
+ 388   4                      break;
+ 389   4                  }
+ 390   3              }
+ 391   2          }
+ 392   1      }
+ 393          
+ 394          void main()
+ 395          {
+ 396   1          onStart();
+ 397   1          timer0Init();
+ 398   1          timer1Init();
+ 399   1          while (1)
+ 400   1          {
+ 401   2              set_PSW();
+ 402   2              display();
+ 403   2          }
+ 404   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    990    ----
+   CONSTANT SIZE    =     19    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     44      14
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,183 @@
+C51 COMPILER V9.60.0.0   MAIN                                                              10/23/2022 18:25:52 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\Main.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE Main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\Main
+                    -.lst) TABS(2) OBJECT(.\Objects\Main.obj)
+
+line level    source
+
+   1          #include "reg52.h"
+   2          
+   3          #define uchar unsigned char
+   4          #define uint unsigned int
+   5          
+   6          sbit add = P3 ^ 0;
+   7          sbit sub = P3 ^ 1;
+   8          sbit change = P3 ^ 2;
+   9          sbit dot = P3 ^ 3;
+  10          
+  11          sbit xw = P2 ^ 7;
+  12          sbit xd = P2 ^ 6;
+  13          
+  14          // uchar code digits[] = {
+  15          //     0xfe, // 1111 1110
+  16          //     0xfd, // 1111 1101
+  17          //     0xfb, // 1111 1011
+  18          //     0xf7, // 1111 0111
+  19          //     0xef, // 1110 1111
+  20          //     0xdf, // 1101 1111
+  21          //     0xbf, // 1011 1111
+  22          //     0x7f  // 0111 1111
+  23          // };
+  24          uchar code numbers[] = {
+  25              0x3F, // "0"
+  26              0x06, // "1"
+  27              0x5B, // "2"
+  28              0x4F, // "3"
+  29              0x66, // "4"
+  30              0x6D, // "5"
+  31              0x7D, // "6"
+  32              0x07, // "7"
+  33              0x7F, // "8"
+  34              0x6F, // "9"
+  35          };
+  36          
+  37          uchar wei_index = 0;
+  38          uchar num_index = 0;
+  39          
+  40          typedef struct
+  41          {
+  42              uchar wei;
+  43              uchar duan;
+  44          } wein;
+  45          
+  46          wein weis[] = {
+  47              {0x7f, 0x3f},
+  48              {0xbf, 0x3f},
+  49              {0xdf, 0x3f},
+  50              {0xef, 0x3f},
+  51              {0xf7, 0x3f},
+  52              {0xfb, 0x3f},
+  53              {0xfd, 0x3f},
+  54              {0xfe, 0x3f},
+C51 COMPILER V9.60.0.0   MAIN                                                              10/23/2022 18:25:52 PAGE 2   
+
+  55          };
+  56          
+  57          void switch_key()
+  58          {
+  59   1          wei_index++;
+  60   1          num_index = 0;
+  61   1          if (wei_index == 8)
+  62   1          {
+  63   2              wei_index = 0;
+  64   2          }
+  65   1      }
+  66          void add_num()
+  67          {
+  68   1          if (num_index < 9)
+  69   1          {
+  70   2              num_index++;
+  71   2          }
+  72   1          weis[wei_index].duan = numbers[num_index];
+  73   1      }
+  74          void subtract_num()
+  75          {
+  76   1          if (num_index > 0)
+  77   1          {
+  78   2              num_index--;
+  79   2          }
+  80   1          weis[wei_index].duan = numbers[num_index];
+  81   1      }
+  82          void add_dot()
+  83          {
+  84   1          weis[wei_index].duan |= 0x80;
+  85   1      }
+  86          
+  87          void delay(int millis)
+  88          {
+  89   1          int i, j;
+  90   1          for (i = 0; i < millis; i++)
+  91   1          {
+  92   2              for (j = 0; j < 120; j++)
+  93   2              {
+  94   3              }
+  95   2          }
+  96   1      }
+  97          
+  98          void main()
+  99          {
+ 100   1          int m;
+ 101   1          while (1)
+ 102   1          {
+ 103   2              if (!add)
+ 104   2              {
+ 105   3                  delay(20);
+ 106   3                  if (!add)
+ 107   3                  {
+ 108   4                      add_num();
+ 109   4                      while (!add)
+ 110   4                          ;
+ 111   4                  }
+ 112   3              }
+ 113   2              else if (!sub)
+ 114   2              {
+ 115   3                  delay(20);
+ 116   3                  if (!sub)
+C51 COMPILER V9.60.0.0   MAIN                                                              10/23/2022 18:25:52 PAGE 3   
+
+ 117   3                  {
+ 118   4                      subtract_num();
+ 119   4                      while (!sub)
+ 120   4                          ;
+ 121   4                  }
+ 122   3              }
+ 123   2              else if (!dot)
+ 124   2              {
+ 125   3                  delay(20);
+ 126   3                  if (!dot)
+ 127   3                  {
+ 128   4                      add_dot();
+ 129   4                      while (!dot)
+ 130   4                          ;
+ 131   4                  }
+ 132   3              }
+ 133   2              else if (!change)
+ 134   2              {
+ 135   3                  delay(20);
+ 136   3                  if (!change)
+ 137   3                  {
+ 138   4                      switch_key();
+ 139   4                      while (!change)
+ 140   4                          ;
+ 141   4                  }
+ 142   3              }
+ 143   2              for (m = 0; m < 8; m++)
+ 144   2              {
+ 145   3                  xw = 1;
+ 146   3                  P0 = weis[m].wei;
+ 147   3                  xw = 0;
+ 148   3                  xd = 1;
+ 149   3                  P0 = weis[m].duan;
+ 150   3                  xd = 0;
+ 151   3                  P0 = 0x00;
+ 152   3                  delay(2);
+ 153   3              }
+ 154   2          }
+ 155   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    259    ----
+   CONSTANT SIZE    =     10    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     18       2
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

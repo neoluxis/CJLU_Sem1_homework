@@ -1,19 +1,27 @@
 from copy import copy
 import pandas as pd
 import numpy as np
+import os  # neolux
 
-lxy2019 = pd.read_excel("E:/Works/PLAY/青年大学习/青年大学习/2019级.xls", usecols=[0, 1, 3])
-lxy2020 = pd.read_excel("E:/Works/PLAY/青年大学习/青年大学习/2020级.xls", usecols=[0, 2, 3])
-lxy2021 = pd.read_excel("E:/Works/PLAY/青年大学习/青年大学习/2021级.xls", usecols=[0, 1, 3])
-lxy2022 = pd.read_excel("E:/Works/PLAY/青年大学习/青年大学习/2022级.xls", usecols=[0, 2, 3])
+cwd = os.getcwd()
+print("检测到工作环境" + cwd)
+print("请把本文件放在正确的位置")
+os.system("pause")
+
+lxy2019 = pd.read_excel(f"{cwd}\\青年大学习\\青年大学习\\2019级.xls", usecols=[0, 1, 3])
+lxy2020 = pd.read_excel(f"{cwd}\\青年大学习\\青年大学习\\2020级.xls", usecols=[0, 2, 3])
+lxy2021 = pd.read_excel(f"{cwd}\\青年大学习\\青年大学习\\2021级.xls", usecols=[0, 1, 3])
+lxy2022 = pd.read_excel(f"{cwd}\\青年大学习\\青年大学习\\2022级.xls", usecols=[0, 2, 3])
+
 lxy = pd.read_csv(
-    "E:/Works/PLAY/青年大学习/理学院.csv", usecols=[4, 5], encoding="gbk", header=None
+    f"{cwd}\\青年大学习\\理学院.csv", usecols=[4, 5], encoding="gbk", header=None
 ).drop(0)
 lxy = lxy.set_axis(lxy.iloc[0, :].values, axis=1, copy=False).drop(1)
 lxy = pd.DataFrame(
     {"单位/班级/社区（村）": lxy["单位/班级/社区（村）"].values, "学号/卡号/工号": lxy["学号/卡号/工号"].values}
 )
-print(lxy2019.columns)
+# print(lxy2019.columns)
+
 LXY = lxy2019.append(lxy2020)
 LXY = LXY.append(lxy2021)
 LXY = LXY.append(lxy2022)
@@ -30,7 +38,9 @@ for i in range(len(A)):
             d = j
             J.append(b)
             I.append(d)
-        elif A.iloc[i][1] in lxy.iloc[j][1]:
+        elif (
+            str(A.iloc[i][1]) in lxy.iloc[j][1]
+        ):  # excel里面需要在数字前面加上英文引号表示是字符串，这些xls文件的数字没有标记字符串，所以需要转成字符串
             c = i
             e = j
             J.append(c)
@@ -48,9 +58,14 @@ name = []
 number = []
 classes = []
 B = np.array(A)
+
 for i in range(len(I1)):
     name.append(B[I1[i]][1])
     number.append(B[I1[i]][0])
     classes.append(B[I1[i]][2])
+
 nofinish = pd.DataFrame({"学号": number, "姓名": name, "班级": classes})
-nofinish.to_excel("C:/Users/Public/Documents/总表.xlsx")
+nofinish.to_excel(f"{cwd}\\总表.xlsx")
+
+print("Finished. ")
+os.system("pause")

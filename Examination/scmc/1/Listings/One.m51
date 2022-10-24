@@ -1,0 +1,226 @@
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    10/23/2022  18:25:52  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
+D:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\Main.obj TO .\Objects\One PRINT (.\Listings\One.m51) RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\Main.obj (MAIN)
+  D:\KEIL_V5\C51\LIB\C51S.LIB (?C_STARTUP)
+  D:\KEIL_V5\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  .\Objects\One (MAIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0012H     UNIT         ?DT?MAIN
+            DATA    001AH     0002H     UNIT         _DATA_GROUP_
+            IDATA   001CH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     008CH     UNIT         ?C_C51STARTUP
+            CODE    008FH     0083H     UNIT         ?PR?MAIN?MAIN
+            CODE    0112H     002AH     UNIT         ?PR?_DELAY?MAIN
+            CODE    013CH     001EH     UNIT         ?PR?ADD_NUM?MAIN
+            CODE    015AH     001EH     UNIT         ?PR?SUBTRACT_NUM?MAIN
+            CODE    0178H     0019H     UNIT         ?C_INITSEG
+            CODE    0191H     000EH     UNIT         ?PR?SWITCH_KEY?MAIN
+            CODE    019FH     000CH     UNIT         ?PR?ADD_DOT?MAIN
+            CODE    01ABH     000AH     UNIT         ?CO?MAIN
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\One (MAIN)
+
+
+SEGMENT                          DATA_GROUP 
+  +--> CALLED SEGMENT          START    LENGTH
+----------------------------------------------
+?C_C51STARTUP                  -----    -----
+  +--> ?PR?MAIN?MAIN
+  +--> ?C_INITSEG
+
+?PR?MAIN?MAIN                  001AH    0002H
+  +--> ?PR?_DELAY?MAIN
+  +--> ?PR?ADD_NUM?MAIN
+  +--> ?PR?SUBTRACT_NUM?MAIN
+  +--> ?PR?ADD_DOT?MAIN
+  +--> ?PR?SWITCH_KEY?MAIN
+
+?PR?ADD_NUM?MAIN               -----    -----
+  +--> ?CO?MAIN
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  10/23/2022  18:25:52  PAGE 2
+
+
+
+?PR?SUBTRACT_NUM?MAIN          -----    -----
+  +--> ?CO?MAIN
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\One (MAIN)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        MAIN
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  C:01ABH         PUBLIC        numbers
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  D:00A8H         PUBLIC        IE
+  C:0116H         PUBLIC        _delay
+  D:00B8H         PUBLIC        IP
+  C:015AH         PUBLIC        subtract_num
+  C:008FH         PUBLIC        main
+  B:00B0H.0       PUBLIC        add
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  D:0008H         PUBLIC        weis
+  C:0191H         PUBLIC        switch_key
+  D:0018H         PUBLIC        wei_index
+  B:00B0H.3       PUBLIC        dot
+  B:00B0H.1       PUBLIC        sub
+  D:0019H         PUBLIC        num_index
+  C:019FH         PUBLIC        add_dot
+  C:013CH         PUBLIC        add_num
+  B:00A0H.6       PUBLIC        xd
+  D:00C8H         PUBLIC        T2CON
+  B:00B0H.2       PUBLIC        change
+  B:00A0H.7       PUBLIC        xw
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          SWITCH_KEY
+  C:0191H         LINE#         57
+  C:0191H         LINE#         58
+  C:0191H         LINE#         59
+  C:0193H         LINE#         60
+  C:0196H         LINE#         61
+  C:019CH         LINE#         62
+  C:019CH         LINE#         63
+  C:019EH         LINE#         64
+  C:019EH         LINE#         65
+  -------         ENDPROC       SWITCH_KEY
+  -------         PROC          ADD_NUM
+  C:013CH         LINE#         66
+  C:013CH         LINE#         67
+  C:013CH         LINE#         68
+  C:0147H         LINE#         69
+  C:0147H         LINE#         70
+  C:0149H         LINE#         71
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  10/23/2022  18:25:52  PAGE 3
+
+
+  C:0149H         LINE#         72
+  C:0159H         LINE#         73
+  -------         ENDPROC       ADD_NUM
+  -------         PROC          SUBTRACT_NUM
+  C:015AH         LINE#         74
+  C:015AH         LINE#         75
+  C:015AH         LINE#         76
+  C:0165H         LINE#         77
+  C:0165H         LINE#         78
+  C:0167H         LINE#         79
+  C:0167H         LINE#         80
+  C:0177H         LINE#         81
+  -------         ENDPROC       SUBTRACT_NUM
+  -------         PROC          ADD_DOT
+  C:019FH         LINE#         82
+  C:019FH         LINE#         83
+  C:019FH         LINE#         84
+  C:01AAH         LINE#         85
+  -------         ENDPROC       ADD_DOT
+  C:0112H         SYMBOL        L?0044
+  -------         PROC          L?0043
+  -------         ENDPROC       L?0043
+  C:0112H         SYMBOL        L?0044
+  -------         PROC          _DELAY
+  D:0006H         SYMBOL        millis
+  -------         DO            
+  D:0004H         SYMBOL        i
+  D:0002H         SYMBOL        j
+  -------         ENDDO         
+  C:0116H         LINE#         87
+  C:0116H         LINE#         88
+  C:0116H         LINE#         90
+  C:0126H         LINE#         91
+  C:0126H         LINE#         92
+  C:0129H         LINE#         93
+  C:0129H         LINE#         94
+  C:0134H         LINE#         95
+  C:013BH         LINE#         96
+  -------         ENDPROC       _DELAY
+  -------         PROC          MAIN
+  -------         DO            
+  D:001AH         SYMBOL        m
+  -------         ENDDO         
+  C:008FH         LINE#         98
+  C:008FH         LINE#         99
+  C:008FH         LINE#         101
+  C:008FH         LINE#         102
+  C:008FH         LINE#         103
+  C:0092H         LINE#         104
+  C:0092H         LINE#         105
+  C:0095H         LINE#         106
+  C:0098H         LINE#         107
+  C:0098H         LINE#         108
+  C:009BH         LINE#         109
+  C:00A0H         LINE#         111
+  C:00A0H         LINE#         112
+  C:00A0H         LINE#         113
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  10/23/2022  18:25:52  PAGE 4
+
+
+  C:00A3H         LINE#         114
+  C:00A3H         LINE#         115
+  C:00A6H         LINE#         116
+  C:00A9H         LINE#         117
+  C:00A9H         LINE#         118
+  C:00ACH         LINE#         119
+  C:00B1H         LINE#         121
+  C:00B1H         LINE#         122
+  C:00B1H         LINE#         123
+  C:00B4H         LINE#         124
+  C:00B4H         LINE#         125
+  C:00B7H         LINE#         126
+  C:00BAH         LINE#         127
+  C:00BAH         LINE#         128
+  C:00BDH         LINE#         129
+  C:00C2H         LINE#         131
+  C:00C2H         LINE#         132
+  C:00C2H         LINE#         133
+  C:00C5H         LINE#         134
+  C:00C5H         LINE#         135
+  C:00C8H         LINE#         136
+  C:00CBH         LINE#         137
+  C:00CBH         LINE#         138
+  C:00CEH         LINE#         139
+  C:00D1H         LINE#         141
+  C:00D1H         LINE#         142
+  C:00D1H         LINE#         143
+  C:00E3H         LINE#         144
+  C:00E3H         LINE#         145
+  C:00E5H         LINE#         146
+  C:00F0H         LINE#         147
+  C:00F2H         LINE#         148
+  C:00F4H         LINE#         149
+  C:00FDH         LINE#         150
+  C:00FFH         LINE#         151
+  C:0102H         LINE#         152
+  C:0108H         LINE#         153
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        MAIN
+
+Program Size: data=29.0 xdata=0 code=437
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
