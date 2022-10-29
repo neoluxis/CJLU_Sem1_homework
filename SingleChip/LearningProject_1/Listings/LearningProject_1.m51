@@ -1,4 +1,4 @@
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    10/22/2022  17:14:58  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    10/29/2022  19:11:46  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
@@ -59,7 +59,7 @@ SYMBOL TABLE OF MODULE:  .\Objects\LearningProject_1 (MAIN)
 
   VALUE           TYPE          NAME
   ----------------------------------
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  10/22/2022  17:14:58  PAGE 2
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  10/29/2022  19:11:46  PAGE 2
 
 
 
@@ -95,11 +95,11 @@ SYMBOL TABLE OF MODULE:  .\Objects\LearningProject_1 (MAIN)
   D:0006H         SYMBOL        x
   D:0004H         SYMBOL        y
   -------         ENDDO         
-  C:0096H         LINE#         31
-  C:0096H         LINE#         32
-  C:0096H         LINE#         34
-  C:009FH         LINE#         35
-  C:00B3H         LINE#         36
+  C:0096H         LINE#         36
+  C:0096H         LINE#         37
+  C:0096H         LINE#         39
+  C:009FH         LINE#         40
+  C:00B3H         LINE#         41
   -------         ENDPROC       _DELAY
   -------         PROC          _DISPLAY
   D:0007H         SYMBOL        i
@@ -108,78 +108,78 @@ SYMBOL TABLE OF MODULE:  .\Objects\LearningProject_1 (MAIN)
   D:0003H         SYMBOL        shi
   D:0002H         SYMBOL        ge
   -------         ENDDO         
+  C:0003H         LINE#         43
   C:0003H         LINE#         44
-  C:0003H         LINE#         45
-  C:0003H         LINE#         47
-  C:0009H         LINE#         48
-  C:0015H         LINE#         49
-  C:001CH         LINE#         52
-  C:001FH         LINE#         53
-  C:0021H         LINE#         54
-  C:0024H         LINE#         55
-  C:0026H         LINE#         57
-  C:0028H         LINE#         58
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  10/22/2022  17:14:58  PAGE 3
+  C:0003H         LINE#         46
+  C:0009H         LINE#         47
+  C:0015H         LINE#         48
+  C:001CH         LINE#         51
+  C:001FH         LINE#         52
+  C:0021H         LINE#         53
+  C:0024H         LINE#         54
+  C:0026H         LINE#         56
+  C:0028H         LINE#         57
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  10/29/2022  19:11:46  PAGE 3
 
 
+  C:002EH         LINE#         58
   C:002EH         LINE#         59
-  C:002EH         LINE#         60
-  C:0031H         LINE#         63
-  C:0034H         LINE#         64
-  C:0036H         LINE#         65
-  C:0039H         LINE#         66
-  C:003BH         LINE#         68
-  C:003DH         LINE#         69
+  C:0031H         LINE#         62
+  C:0034H         LINE#         63
+  C:0036H         LINE#         64
+  C:0039H         LINE#         65
+  C:003BH         LINE#         67
+  C:003DH         LINE#         68
+  C:0040H         LINE#         69
   C:0040H         LINE#         70
-  C:0040H         LINE#         71
-  C:0043H         LINE#         74
-  C:0046H         LINE#         75
-  C:0048H         LINE#         76
-  C:004BH         LINE#         77
-  C:004DH         LINE#         79
-  C:004FH         LINE#         80
-  C:0055H         LINE#         81
-  C:0057H         LINE#         82
+  C:0043H         LINE#         73
+  C:0046H         LINE#         74
+  C:0048H         LINE#         75
+  C:004BH         LINE#         76
+  C:004DH         LINE#         78
+  C:004FH         LINE#         79
+  C:0055H         LINE#         80
+  C:0057H         LINE#         81
   -------         ENDPROC       _DISPLAY
   -------         PROC          TIMER0INIT
+  C:00B4H         LINE#         84
   C:00B4H         LINE#         85
   C:00B4H         LINE#         86
-  C:00B4H         LINE#         87
-  C:00B6H         LINE#         88
-  C:00B9H         LINE#         89
-  C:00BCH         LINE#         90
-  C:00BFH         LINE#         91
+  C:00B6H         LINE#         87
+  C:00B9H         LINE#         88
+  C:00BCH         LINE#         89
+  C:00BFH         LINE#         90
   -------         ENDPROC       TIMER0INIT
   -------         PROC          MAIN
   -------         DO            
   D:0008H         SYMBOL        mSec
   D:0009H         SYMBOL        Sec
   -------         ENDDO         
+  C:005EH         LINE#         92
   C:005EH         LINE#         93
-  C:005EH         LINE#         94
-  C:005EH         LINE#         96
+  C:005EH         LINE#         95
+  C:0061H         LINE#         96
   C:0061H         LINE#         97
   C:0061H         LINE#         98
-  C:0061H         LINE#         99
+  C:0064H         LINE#         99
   C:0064H         LINE#         100
-  C:0064H         LINE#         101
-  C:0066H         LINE#         102
-  C:0069H         LINE#         103
-  C:006CH         LINE#         104
-  C:006EH         LINE#         105
+  C:0066H         LINE#         101
+  C:0069H         LINE#         102
+  C:006CH         LINE#         103
+  C:006EH         LINE#         104
+  C:0074H         LINE#         105
   C:0074H         LINE#         106
-  C:0074H         LINE#         107
-  C:0076H         LINE#         108
+  C:0076H         LINE#         107
+  C:0078H         LINE#         108
   C:0078H         LINE#         109
   C:0078H         LINE#         110
-  C:0078H         LINE#         111
-  C:007DH         LINE#         112
-  C:0088H         LINE#         113
-  C:008BH         LINE#         114
+  C:007DH         LINE#         111
+  C:0088H         LINE#         112
+  C:008BH         LINE#         113
   -------         ENDPROC       MAIN
   -------         ENDMOD        MAIN
 
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  10/22/2022  17:14:58  PAGE 4
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  10/29/2022  19:11:46  PAGE 4
 
 
 Program Size: data=11.0 xdata=0 code=214

@@ -5,38 +5,31 @@
  */
 
 // @lc code=start
-#include <math.h>
 #include <stdlib.h>
 
 int reverse(int x)
 {
+    int si[11] = {0};
     int isNegative = x < 0;
+    int ret = 0;
     if (isNegative)
     {
         x = -x;
     }
-    int digit;
-    for (int i = 0; i < x; i++)
+    for (int i = 0; i < 11; i++)
     {
-        if (x / pow(10, i) < 1)
+        si[i] = x % 10;
+        x /= 10;
+    }
+    for (int i = 0; i < 11; i++)
+    {
+        if (si[i] != 0)
         {
-            digit = i;
+            for (int j = i; j < 11; j++)
+            {
+                ret = ret * 10 + si[j];
+            }
             break;
-        }
-    }
-    int *res = (int *)malloc(sizeof(int) * digit);
-    for (int i = 0; i < digit; i++)
-    {
-        res[i] = (int)x % 10;
-        x = x / 10;
-    }
-    int ret = 0;
-    for (int i = 0; i < digit; i++)
-    {
-        ret += res[i];
-        if (i < digit - 1)
-        {
-            ret *= 10;
         }
     }
     if (isNegative)
