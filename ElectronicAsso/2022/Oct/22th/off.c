@@ -3,26 +3,26 @@
  * @author Neolux Lee (hello.neolux.ml)
  * @version 0.1
  * @date 2022-10-22
- * 
+ *
  * @copyright Copyright (c) 2022
- * 
+ *
  */
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-// define a function to delete all the stars in the string but keep the stars at start and end
-void Delete_Star(char *p)
+// define a function to delete stars in a string but keep the stars at the beginning and the end
+void deleteStar(char *star)
 {
+    // keep the star at beginning and end, then delete all other stars
     
 }
-
-int main(int argc, char const *argv[])
+int main()
 {
-    char *px = (char *)malloc(sizeof(char) * 100);
-    printf("pls input a string: ");
-    scanf("%s", px);
-    Delete_Star(px);
-    printf("the string is: %s\n", px);
-    return 0;
+    char *pc = (char *)malloc(sizeof(char) * 100);
+    printf("Please input a string: ");
+    scanf("%s", pc);
+    deleteStar(pc);
+    printf("The string after deleting stars is: %s", pc);
 }
