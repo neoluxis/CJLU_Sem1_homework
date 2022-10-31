@@ -62,7 +62,8 @@
 			"2.C": "cpp",
 			"STDIO.H": "cpp",
 			"util.h": "c",
-			"STDLIB.H": "cpp"
+			"STDLIB.H": "cpp",
+			"math.h": "c"
 		},
 		"cSpell.words": [
 			"Calcu",
