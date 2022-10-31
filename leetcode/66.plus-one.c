@@ -13,8 +13,6 @@
 #include "stdlib.h"
 int *plusOne(int *digits, int digitsSize, int *returnSize)
 {
-    for(int i=digitsSize; i>=0;i--){
-        
-    }
+    
 }
 // @lc code=end
