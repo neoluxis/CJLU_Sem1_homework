@@ -11,7 +11,6 @@
 
 int main(int argc, char const *argv[])
 {
-    // read an integer number and print the month
     int month;
     printf("input an integer number: ");
     scanf("%d", &month);

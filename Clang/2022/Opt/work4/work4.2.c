@@ -12,7 +12,6 @@
 
 int main(int argc, char const *argv[])
 {
-    //Given the scores of twenty students, output the average score and the number of students who scored above the average score and the highest score.
     int i, n, sum = 0, count = 0, max = 0;
     float average;
     n=20;

@@ -11,7 +11,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-// define a function to allocate memory for a char matrix
 char **alloc_char_matrix(int row, int col)
 {
     char **matrix = (char **)malloc(row * sizeof(char *));
@@ -32,7 +31,6 @@ int main(int argc, char const *argv[])
     int lines = (len + 1) / 2, columns = len;
     char **matrix = alloc_char_matrix(lines, columns);
 
-    // initialize the matrix
     for (int i = 0; i < lines; i++)
     {
         for (int j = 0; j < columns; j++)
@@ -41,12 +39,10 @@ int main(int argc, char const *argv[])
         }
     }
 
-    // fill the matrix
     for (int line = 0; line < lines; line++)
     {
         int temp_l = line;
 
-        // final line
         if (line == lines - 1)
         {
             for (int i = 0; i < (columns + 1) / 2; i++)
@@ -56,7 +52,6 @@ int main(int argc, char const *argv[])
                 temp_l += 1;
             }
         }
-        // not final line
         else
         {
             for (int i = (columns - 1) / 2 - line; i <= (columns - 1) / 2; i++)
@@ -68,7 +63,6 @@ int main(int argc, char const *argv[])
         }
     }
 
-    // print the matrix
     for (int i = 0; i < lines; i++)
     {
         for (int j = 0; j < columns; j++)

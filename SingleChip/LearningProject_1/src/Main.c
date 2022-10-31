@@ -1,96 +1,104 @@
-/*********************************************************************************
- * 【作    者】：	清翔电子:向量
- * 【版    本】：	V1.0
- * 【网    站】：	http://www.qxmcu.com/
- * 【淘宝店铺】：	http://qxmcu.taobao.com/
- * 【实验平台】：	清翔 QX-MCS51 单片机开发板
- * 【外部晶振】： 	11.0592mhz
- * 【主控芯片】： 	STC89C52
- * 【编译环境】： 	Keil μVisio4
- * 【程序功能】： 	定时器0工作模式1 16位定时模式，数码管动态显示0-10，秒表。
- * 【使用说明】：
- **********************************************************************************/
-#include <reg52.h>
-#include <intrins.h>
+#include <REG51.H>
 
-#define uint unsigned int
 #define uchar unsigned char
+#define uint unsigned int
 
-sbit DU = P2 ^ 6; //数码管段选
-sbit WE = P2 ^ 7; //数码管段选
-
-//共阴数码管段选表0-9
-uchar code tabel[] = {
-	0x3F,
-	0x06,
-	0x5B,
-	0x4F,
-	0x66,
-	0x6D,
-	0x7D,
-	0x07,
-	0x7F,
-	0x6F,
+sbit we = P2 ^ 7;
+sbit du = P2 ^ 6;
+uchar c = 0;
+uchar code duan[] = {
+	0x3F, // "0"
+	0x06, // "1"
+	0x5B, // "2"
+	0x4F, // "3"
+	0x66, // "4"
+	0x6D, // "5"
+	0x7D, // "6"
+	0x07, // "7"
+	0x7F, // "8"
+	0x6F, // "9"
+	0x77, // "A"
+	0x7C, // "b"
+	0x39, // "C"
+	0x5E, // "d"
+	0x79, // "E"
+	0x71, // "F"
+	0x3d, // "G"
+	0x76, // "H"
+	0x1E, // "J"
+	0x38, // "L"
+	0x37, // "n"
+	0x3E, // "u"
+	0x5C, // "o"
+	0x73, // "P"
+	0x67, // "q"
+	0x6e, // "y"
+	0x40, // "-"
+	0x80, // "."
+	0x00, // all off
+	0xFF, // all on
 };
 
-void delay(uint z)
+uchar code wei[] = {
+	0xfe, // 1111 1110
+	0xfd, // 1111 1101
+	0xfb, // 1111 1011
+	0xf7, // 1111 0111
+	0xef, // 1110 1111
+	0xdf, // 1101 1111
+	0xbf, // 1011 1111
+	0x7f  // 0111 1111
+};
+
+void delay(int millis)
 {
-	uint x,y;
-	for(x = z; x > 0; x--)
-		for(y = 114; y > 0 ; y--);
+	int i;
+	int j;
+	for (i = 0; i < millis; i++)
+	{
+
+		for (j = 0; j < 120; j++)
+			;
+	}
 }
 
-void display(uchar i)
-{
-	uchar bai, shi, ge;
-	bai = i / 100; //236 / 100  = 2
-	shi = i % 100 / 10;	//236 % 100 / 10 = 3
-	ge  = i % 10;//236 % 10 =6
-
-	//第一位数码管
-	P0 = 0XFF;//清除断码
-	WE = 1;//打开位选锁存器
-	P0 = 0XFE; //1111 1110
-	WE = 0;//锁存位选数据
-
-	DU = 1;//打开段选锁存器
-	P0 = tabel[bai];//
-	DU = 0;//锁存段选数据
-	delay(5);
-
-	//第二位数码管
-	P0 = 0XFF;//清除断码
-	WE = 1;//打开位选锁存器
-	P0 = 0XFD; //1111 1101
-	WE = 0;//锁存位选数据
-
-	DU = 1;//打开段选锁存器
-	P0 = tabel[shi];//
-	DU = 0;//锁存段选数据
-	delay(5);
-
-	//第三位数码管
-	P0 = 0XFF;//清除断码
-	WE = 1;//打开位选锁存器
-	P0 = 0XFB; //1111 1011
-	WE = 0;//锁存位选数据
-
-	DU = 1;//打开段选锁存器
-	P0 = tabel[ge];//
-	DU = 0;//锁存段选数据
-	delay(5);
-}
-//定时器0初始化
 void timer0Init()
 {
-	TR0 = 1;	 //启动定时器0
-	TMOD = 0X01; //定时器工作模式1，16位定时器计数模式
-	TH0 = 0x4b;
-	TL0 = 0xfd; //定时50ms
+	TMOD = 0x01;
+	TH0 = 0xFC;
+	TL0 = 0x18;
+	EA = 1;
+	ET0 = 1;
+	TR0 = 1;
 }
 
-void main() // main函数自身会循环
+void main()
+{
+	timer0Init();
+	while (1)
+	{
+	}
+}
+
+void timer0() interrupt 1
 {
 
+	TH0 = 0xFC;
+	TL0 = 0x18;
+	if (c < 8)
+	{
+		P0 = 0xff;
+		we = 1;
+		P0 = wei[c];
+		we = 0;
+		P0 = 0xff;
+		du = 1;
+		P0 = duan[c];
+		du = 0;
+		c++;
+	}
+	else
+	{
+		c = 0;
+	}
 }
-

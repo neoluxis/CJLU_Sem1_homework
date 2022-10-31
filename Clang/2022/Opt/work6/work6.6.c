@@ -12,7 +12,6 @@
 #include <stdio.h>
 #include "util.h"
 
-// define the function to check out whether the 3 edges can form a triangle
 boolean checkTriangle(int a, int b, int c){
     boolean result;
     if(a+b>c && a+c>b && b+c>a){
@@ -23,7 +22,6 @@ boolean checkTriangle(int a, int b, int c){
     return result;
 }
 
-// define a function to test the function checkTriangle
 void test(){
     int a,b,c;
     printf("pls input 3 integers: ");
@@ -38,7 +36,6 @@ void test(){
 
 int main(int argc, char const *argv[])
 {
-    //call the test function
     test();
 
     return 0;

@@ -1,11 +1,10 @@
 Rebuild target 'Target 1'
 compiling Main.c...
-Main.c(36): warning C235: parameter 1: different types
 linking...
 *** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
-    SEGMENT: ?PR?_OUT_MONETARY?MAIN
+    SEGMENT: ?PR?SET_PSW?MAIN
 
-Program Size: data=67.0 xdata=0 code=1600
+Program Size: data=57.0 xdata=0 code=1246
 creating hex file from ".\Objects\Two"...
-".\Objects\Two" - 0 Error(s), 2 Warning(s).
+".\Objects\Two" - 0 Error(s), 1 Warning(s).
 Build Time Elapsed:  00:00:00

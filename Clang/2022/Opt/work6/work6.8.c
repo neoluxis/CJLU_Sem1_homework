@@ -9,7 +9,6 @@
  */
 #include <stdio.h>
 
-// define a recursive function to compute 1+3+5+...+(2n-1)
 int f(int n){
     if (n == 1){
         return 1;
@@ -19,7 +18,6 @@ int f(int n){
 
 int main(int argc, char const *argv[])
 {
-    // call the function
     int n;
     printf("Please enter an odd: ");
     scanf("%d", &n);

@@ -17,6 +17,17 @@ sbit xw = P2 ^ 7;
 sbit xd = P2 ^ 6;
 sbit start_key = P3 ^ 0;
 
+// All functions
+void delayMillis(unsigned int);
+void out_Monetary(int shown);
+void set_Time(int, int, int);
+void set_PSW();
+void display();
+void keyScan();
+int genInput();
+void onStart();
+void checkPSW();
+
 boolean isCorrectPsw = false;
 int correctPsw[] = {1, 0, 2, 4};
 int tens_digit = 3, single_digit = 0, decile = 0;
@@ -31,6 +42,8 @@ void delayMillis(int millis)
         }
     }
 }
+
+// 数码管显示
 
 uchar code numbers[] = {
     0x3F, // "0"
@@ -66,6 +79,56 @@ wein shumaguan[] = {
     {0xfd, 0x00},
     {0xfe, 0x00},
 };
+
+void out_Monetary(int shown)
+{
+    int c = 0;
+    for (c = 0; c < 4; c++)
+    {
+        shumaguan[c].duan = numbers[c];
+        shown /= 10;
+    }
+}
+int psw[4];
+void set_PSW()
+{
+    int ii;
+    int psw_d[] = {0, 1, 2, 3};
+    for (ii = 0; ii < 4; ii++)
+    {
+        psw[ii] = genInput();
+        shumaguan[psw_d[3 - ii]].duan = numbers[psw[ii]];
+        if (ii == 3)
+        {
+            checkPSW();
+            if (isCorrectPsw)
+            {
+                ET0 = 0;
+                ET1 = 1;
+            }
+            // else
+            // {
+            //     ET0 = 0;
+            //     single_digit -= 2;
+            //     ET0 = 1;
+            // }
+        }
+    }
+}
+
+void checkPSW()
+{
+    int i;
+    for (i = 0; i < 4; i++)
+    {
+        if (psw[i] != correctPsw[i])
+        {
+            isCorrectPsw = false;
+            return;
+        }
+    }
+    isCorrectPsw = true;
+}
 
 void set_Time(int ten, int single, int decile)
 {
@@ -172,7 +235,6 @@ void keyScan()
         }
     }
 }
-
 int genInput()
 {
     int ret = 0;
@@ -216,7 +278,7 @@ int genInput()
     }
     else if (keyVal == 13)
     {
-        ret = 0;
+        ret = 0; // cls
     }
     else if (keyVal == 15)
     {
@@ -227,44 +289,6 @@ int genInput()
         ret = 10; // no input
     }
     return ret;
-}
-
-int psw[4];
-void checkPSW()
-{
-    int i;
-    for (i = 0; i < 4; i++)
-    {
-        if (psw[i] != correctPsw[i])
-        {
-            isCorrectPsw = false;
-            return;
-        }
-    }
-    isCorrectPsw = true;
-}
-
-void set_PSW()
-{
-    int ii, inin;
-    for (ii = 0; ii < 4; ii++)
-    {
-        P3 = 0xff;
-        inin = genInput();
-        if (inin >= 0 && inin <= 9)
-        {
-            psw[ii] = inin;
-            shumaguan[3 - ii].duan = numbers[inin];
-        }
-        else if (inin == 11)
-        {
-            shumaguan[0].duan = 0xff;
-            shumaguan[1].duan = 0xff;
-            shumaguan[2].duan = 0xff;
-            shumaguan[3].duan = 0xff;
-            ii = -1;
-        }
-    }
 }
 
 // timer
@@ -279,12 +303,21 @@ void timer0Init()
     ET0 = 1;
     EA = 1;
 }
+void timer1Init()
+{
+    TMOD = 1;
+    TH1 = 0x00;
+    TL1 = 0x5c;
+    TF1 = 0;
+    TR1 = 1;
+    ET1 = 0;
+    EA = 1;
+}
 
 void time0() interrupt 1
 {
     TH0 = 0x00;
     TL0 = 0x5c;
-
     if (decile == 0)
     {
         decile = 9;
@@ -312,9 +345,12 @@ void time0() interrupt 1
 
     if (tens_digit == 0 && single_digit == 0 && decile == 0)
     {
-        alarm = 0;
-        delayMillis(300);
-        alarm = 1;
+        int lis = 0;
+        for (lis = 0; lis < 3; lis++)
+        {
+            alarm = 0;
+            delayMillis(300);
+        }
     }
     else
     {
@@ -322,6 +358,10 @@ void time0() interrupt 1
     }
 
     set_Time(tens_digit, single_digit, decile);
+}
+
+void time1() interrupt 3
+{
 }
 
 void onStart()
@@ -353,38 +393,12 @@ void onStart()
 
 void main()
 {
-    int ii = 0, inin;
     onStart();
     timer0Init();
+    timer1Init();
     while (1)
     {
-        P3 = 0xff;
-        inin = genInput();
-        if (inin >= 0 && inin <= 9)
-        {
-            psw[ii] = inin;
-            shumaguan[3 - ii].duan = numbers[inin];
-            ii++;
-            inin = 0;
-        }
-        else if (inin == 11)
-        {
-            shumaguan[0].duan = 0xff;
-            shumaguan[1].duan = 0xff;
-            shumaguan[2].duan = 0xff;
-            shumaguan[3].duan = 0xff;
-            ii = -1;
-        }
-        else
-        {
-            inin = 0;
-        }
-        if (ii == 4)
-        {
-            checkPSW();
-            ii = 0;
-        }
-
+        set_PSW();
         display();
     }
 }

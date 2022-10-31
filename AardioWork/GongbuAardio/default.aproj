@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<project ver="10" name="GongbuAardio" libEmbed="true" icon="..." ui="win" output="GongbuAardio.exe" CompanyName="单位名称" FileDescription="GongbuAardio" LegalCopyright="Copyright (C) 作者 2022" ProductName="GongbuAardio" InternalName="GongbuAardio" FileVersion="0.0.0.1" ProductVersion="0.0.0.1" publishDir="/dist/" dstrip="false">
+	<file name="main" path="main.aardio"/>
+	<folder name="窗体" path="forms" comment="" embed="true" local="false" ignored="false">
+		<folder name="main" path="forms\main" embed="true" comment="目录" local="false" ignored="false">
+			<file name="frmPage1.aardio" path="forms\main\frmPage1.aardio" comment="forms\main\frmPage1.aardio"/>
+			<file name="frmPage2.aardio" path="forms\main\frmPage2.aardio" comment="forms\main\frmPage2.aardio"/>
+			<file name="frmPage3.aardio" path="forms\main\frmPage3.aardio" comment="forms\main\frmPage3.aardio"/>
+		</folder>
+		<folder name="login" path="forms\login" embed="true" comment="目录" local="false" ignored="false"/>
+	</folder>
+</project>

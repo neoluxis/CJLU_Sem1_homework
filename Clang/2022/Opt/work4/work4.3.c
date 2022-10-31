@@ -12,7 +12,6 @@
 
 int main(int argc, char const *argv[])
 {
-    //Show 12-row Pascal triangle
     int i, j, a[12][12];
     for (i = 0; i < 12; i++)
     {

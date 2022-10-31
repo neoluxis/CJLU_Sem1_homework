@@ -12,7 +12,6 @@
 
 int main(int argc, char const *argv[])
 {
-    // Given two 3*3 matrices A and B, output the product matrix C
     int i, j, k, a[3][3], b[3][3], c[3][3];
     printf("Please input the first matrix:\n");
     for (i = 0; i < 3; i++)

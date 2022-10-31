@@ -13,7 +13,6 @@
 
 int main(int argc, char const *argv[])
 {
-    //read a string and check out whether it's a palindrome or not
     char *str;
     gets(str);
     int len = strlen(str);

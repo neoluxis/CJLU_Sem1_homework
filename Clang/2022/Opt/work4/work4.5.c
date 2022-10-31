@@ -13,10 +13,6 @@
 
 int main(int argc, char const *argv[])
 {
-    // fill and output a 9-by-9 matrix
-    // lower right triangle with +1
-    //Right to Left diagonal with 0
-    // Upper left triangle with -1
     int i, j, a[9][9];
     for (i = 0; i < 9; i++)
     {

@@ -12,7 +12,6 @@
 
 #include <stdio.h>
 
-// define the function
 int sum(int m, int n)
 {
     int sum = 0;
@@ -25,7 +24,6 @@ int sum(int m, int n)
 
 int main(int argc, char const *argv[])
 {
-    //call the function
     printf("%d", sum(56, 345));
     return 0;
 }

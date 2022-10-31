@@ -24,7 +24,6 @@ int sum(int n)
 
 int main(int argc, char const *argv[])
 {
-    //call the function
     printf("%d", sum(999));
         
     return 0;

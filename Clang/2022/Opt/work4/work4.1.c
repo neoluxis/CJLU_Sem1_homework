@@ -13,8 +13,6 @@
 
 int main(int argc, char const *argv[])
 {
-    // Given the scores of fifteen students
-    // arrange the scores and output in descending order
     int score[15];
     int i, j, temp;
     for (i = 0; i < 15; i++)

@@ -19,7 +19,6 @@ int* f(int n){
     return a;
 }
 
-// define a function to arrange the elements in an array in descending order
 void bubbleSort(int *Arr, uint size){
     int temp;
     for (int i = 0; i < size; i++){
@@ -35,22 +34,18 @@ void bubbleSort(int *Arr, uint size){
 
 int main(int argc, char const *argv[])
 {
-    // get number of elements
     uint size;
     printf("Please enter the number of elements: ");
     scanf("%d", &size);
 
-    // get an array from user input
     int *Arr = f(size);
     printf("Please enter the elements: ");
     for (int i = 0; i < size; i++){
         scanf("%d", &Arr[i]);
     }
 
-    // sort the array
     bubbleSort(Arr, size);
 
-    // output the array
     for (int i = 0; i < size; i++){
         printf("%d ", Arr[i]);
     }

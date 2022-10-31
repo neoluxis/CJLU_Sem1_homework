@@ -13,7 +13,6 @@
 
 int main(int argc, char const *argv[])
 {
-    // Read two strings and compare them. output whether the first one is greater, equal,or less than the second one
     char str1[100], str2[100];
     scanf("%s", str1);
     scanf("%s", str2);

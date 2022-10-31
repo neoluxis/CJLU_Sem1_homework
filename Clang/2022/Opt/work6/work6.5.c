@@ -15,7 +15,6 @@
 #include "util.h"
 
 
-// define the function
 boolean isPalindrome(char *str){
     int ret = true;
     int len = strlen(str);
@@ -30,7 +29,6 @@ boolean isPalindrome(char *str){
 
 int main(int argc, char const *argv[])
 {
-    // test the function
     char str[100];
     printf("pls input a string: ");
     gets(str);

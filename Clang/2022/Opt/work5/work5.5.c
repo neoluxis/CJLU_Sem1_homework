@@ -12,9 +12,8 @@
 
 int main(int argc, char const *argv[])
 {
-    // Given an array of weekdays in a non-ascending order
     char weekdays[][10] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
-    // Sort the weekdays
+
     for (int i = 0; i < 7; i++)
     {
         for (int j = i + 1; j < 7; j++)
@@ -28,7 +27,7 @@ int main(int argc, char const *argv[])
             }
         }
     }
-    // Output the weekdays in ascending order
+
     for (int i = 0; i < 7; i++)
     {
         printf("%s ", weekdays[i]);

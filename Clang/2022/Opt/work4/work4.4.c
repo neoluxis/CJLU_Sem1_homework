@@ -3,9 +3,9 @@
  * @author Neolux Lee (hello.neolux.ml)
  * @version 0.1
  * @date 2022-10-15
- * 
+ *
  * @copyright Copyright (c) 2022
- * 
+ *
  */
 
 #include "stdio.h"
@@ -34,8 +34,8 @@ int main(int argc, char const *argv[])
     return 0;
 }
 
-void withArray(){
-// output the former 44 numbers in Fibonacci sequence
+void withArray()
+{
     int i, a[44];
     a[0] = 1;
     a[1] = 1;
@@ -49,9 +49,8 @@ void withArray(){
     }
     printf("\n");
 }
-void withoutArray(){
-// output the former 44 numbers in Fibonacci sequence
-// without using array
+void withoutArray()
+{
     int i, a, b, c;
     a = 1;
     b = 1;
