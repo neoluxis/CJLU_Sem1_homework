@@ -11,26 +11,20 @@
  */
 #include <stdio.h>
 
-int sum_of_digits(long n);
+int sum(int m, int n)
+{
+    int sum = 0;
+    for (int i = m; i <= n; i++)
+    {
+        sum += i;
+    }
+    return sum;
+} 
 
 int main(int argc, char const *argv[])
 {
-    int l;
-    printf("pls input a long integer: ");
-    scanf("%d",&l);
-    printf("%d", sum_of_digits(l));
-    
+    printf("%d", sum(56, 345));
     return 0;
 }
 
-int sum_of_digits(long n)
-{
-    int sum = 0;
-    while (n != 0)
-    {
-        sum += n % 10;
-        n /= 10;
-    }
-    return sum;
-}
 
