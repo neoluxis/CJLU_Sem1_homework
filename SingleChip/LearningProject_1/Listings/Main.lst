@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   MAIN                                                              11/05/2022 17:17:22 PAGE 1   
+C51 COMPILER V9.60.0.0   MAIN                                                              11/14/2022 12:46:19 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
@@ -8,50 +8,537 @@ COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE src\Main.c OPTIMIZE(8,SPEED) BRO
 
 line level    source
 
-   1          #include "REG52.H"
+   1                                            #include <reg52.h>       //³¤°´b»á±ä³É3
    2          #define uint unsigned int
    3          #define uchar unsigned char
-   4          
-   5          #define t0high 0xfe
-   6          #define t0low 0x0c
-   7          
-   8          sbit led = P1 ^ 1;
-   9          
-  10          void timer0Init()
-  11          {
-  12   1        EA = 1;
-  13   1        ET0 = 1;
-  14   1        TMOD = 0x01;
-  15   1        TR0 = 1;
-  16   1        TH0 = t0high;
-  17   1        TH0 = t0low;
-  18   1      }
-  19          
-  20          void main()
-  21          {
-  22   1        timer0Init();
-  23   1        while (1)
-  24   1        {
-  25   2        }
-  26   1      }
-  27          
-  28          void timer() interrupt 1 using 0
-  29          {
-  30   1        TH0 = t0high;
-  31   1        TL0 = t0low;
-  32   1        led = ~led;
-  33   1      }
+   4          sbit  LED1=P1^0   ;
+   5          sbit LED2=P1;
+   6          sbit beep=P2^3;
+   7          int y1=0;
+   8          void delay(uint z)//±ê×¼ÑÓÊ±
+   9          {
+  10   1        uint x,y;
+  11   1        for(x = z; x > 0; x--)
+  12   1          for(y = 114; y > 0 ; y--);    
+  13   1      } 
+  14          int s,ms;
+  15          int over;
+  16          sbit du = P2^6;//ÊıÂë¹Ü¶ÎÑ¡
+  17          sbit we = P2^7;//ÊıÂë¹ÜÎ»Ñ¡
+  18          sbit key_s2=P3^0;
+  19          int key=0;
+  20          int old=1111;
+  21          unsigned char m;
+  22          int time =0;//Í³¼Æ°´ÏÂµÄ´ÎÊı
+  23          int lock=0;
+  24          int num1 =0;//ÊäÈëÊı×ÖÒ»
+  25          int num2 =0;//ÊäÈëÊı×Ö¶ş
+  26          
+  27          unsigned char code   distab[8]={0xfe,0xfd,0xfb,0xf7,0xef,0xdF,0xbF,0x7F} ;  //ÊıÂë¹Ü¶ÎËùÓÃ
+  28          uchar  code number[]= {7, 8,9,0, 4, 5, 6, '*', 1, 2, 3,'-',' ',0,'=','+'};//½«keyµÄÖµ×ªÎª¿É¼ÆËãµÄÊıÖµ
+  29          uchar  code tabel[]= {0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F,0x6F,  0x00, 0xff}; //display1Ê
+             -¹ÓÃµÄÊıÖµ×ª»»Êı×é
+  30           void keyscanf();
+  31           void bee(){
+  32   1       
+  33   1      
+  34   1       
+  35   1      beep=~beep;
+  36   1      
+  37   1      delay(100);
+  38   1       beep=~beep;
+  39   1       
+  40   1       
+  41   1       }
+  42           void timer0Init()
+  43          {
+  44   1        EA = 1; //´ò¿ª×ÜÖĞ¶Ï
+  45   1        ET0 = 1;//´ò¿ª¶¨Ê±Æ÷0ÖĞ¶Ï
+  46   1        TR0 = 1;   //Æô¶¯¶¨Ê±Æ÷0
+  47   1        TMOD = 0X01; //¶¨Ê±Æ÷¹¤×÷Ä£Ê½1£¬16Î»¶¨Ê±Ä£Ê½
+  48   1        TH0 = 0xED;
+  49   1        TL0 = 0xFF; //¶¨Ê±5ms
+  50   1        s=300;
+  51   1      }
+  52           void display2(int time) //Ê±¼äÊä³ö
+  53          {  uchar s1,g1,b1;  
+C51 COMPILER V9.60.0.0   MAIN                                                              11/14/2022 12:46:19 PAGE 2   
+
+  54   1          b1=time/100;
+  55   1        s1=time%100/10;
+  56   1        g1=time%10;
+  57   1         du=0;
+  58   1         P0=tabel[b1];
+  59   1         du=1;
+  60   1         du=0;
+  61   1         
+  62   1         we=0;
+  63   1         P0=distab[0];
+  64   1         we=1;
+  65   1         we=0;
+  66   1         delay(1);
+  67   1        
+  68   1        du=0;
+  69   1         P0=tabel[s1]|0x80;
+  70   1         du=1;
+  71   1         du=0;
+  72   1         
+  73   1         we=0;
+  74   1         P0=distab[1];
+  75   1         we=1;
+  76   1         we=0;
+  77   1         delay(1);
+  78   1      
+  79   1        du=0;
+  80   1         P0=tabel[g1];
+  81   1         du=1;
+  82   1         du=0;
+  83   1         
+  84   1         we=0;
+  85   1         P0=distab[2];
+  86   1         we=1;
+  87   1         we=0;
+  88   1         delay(1);}
+  89          void display1(int i)//Êä³ö°ÙÎ»Êı
+  90          {   
+  91   1          uchar b,s,g,q;
+  92   1          q=i/1000;
+  93   1          b=i%1000/100;
+  94   1          s=i%100/10;
+  95   1          g=i%10;
+  96   1            
+  97   1      
+  98   1        
+  99   1      
+ 100   1        
+ 101   1          if(s>0&&b==0){
+ 102   2               b=10;
+ 103   2           q=10;
+ 104   2      
+ 105   2            }else if(g>=0&&s==0&&b==0&&q==0)
+ 106   1              {
+ 107   2              b=10;
+ 108   2              s=10;
+ 109   2          q=10;
+ 110   2              } else if(b>0&&q==0){
+ 111   2          q=10;
+ 112   2              }
+ 113   1      
+ 114   1          P0= 0xff;
+ 115   1          we=1;
+C51 COMPILER V9.60.0.0   MAIN                                                              11/14/2022 12:46:19 PAGE 3   
+
+ 116   1          P0= distab[6];
+ 117   1          we=0;
+ 118   1          
+ 119   1          du=1;
+ 120   1          P0= tabel[q];
+ 121   1          du=0;
+ 122   1          delay(1);
+ 123   1      
+ 124   1          P0= 0xff;
+ 125   1          we=1;
+ 126   1          P0= distab[5];
+ 127   1          we=0;
+ 128   1          
+ 129   1          du=1;
+ 130   1          P0= tabel[b];
+ 131   1          du=0;
+ 132   1          delay(1);
+ 133   1          
+ 134   1          P0= 0xff;
+ 135   1          we=1;
+ 136   1          P0= distab[4];
+ 137   1          we=0;
+ 138   1          
+ 139   1          du=1;
+ 140   1          P0= tabel[s];
+ 141   1          du=0;
+ 142   1          delay(1);
+ 143   1          
+ 144   1          P0=0xff;
+ 145   1          we=1;
+ 146   1          P0= distab[3];
+ 147   1          we=0;
+ 148   1          
+ 149   1          du=1;
+ 150   1          P0= tabel[g];
+ 151   1          du=0;
+ 152   1          delay(1);
+ 153   1      }
+ 154          void displayq(int i)//Êä³ö°ÙÎ»Êı
+ 155          {   
+ 156   1          uchar b,s,g,q;
+ 157   1          q=i/1000;
+ 158   1          b=i%1000/100;
+ 159   1          s=i%100/10;
+ 160   1          g=i%10;
+ 161   1            
+ 162   1      
+ 163   1        
+ 164   1      
+ 165   1        
+ 166   1          if(s>0&&b==0){
+ 167   2               b=10;
+ 168   2           q=10;
+ 169   2        //  P0= 0xff;
+ 170   2        //  we=1;
+ 171   2        //  P0= distab[1];
+ 172   2        //  we=0;
+ 173   2          
+ 174   2        //  du=1;
+ 175   2        //  P0= tabel[b];
+ 176   2        //  du=0;
+ 177   2        //  delay(1);
+C51 COMPILER V9.60.0.0   MAIN                                                              11/14/2022 12:46:19 PAGE 4   
+
+ 178   2            }else if(g>=0&&s==0&&b==0&&q==0)
+ 179   1              {
+ 180   2              b=10;
+ 181   2              s=10;
+ 182   2          q=10;
+ 183   2              } else if(b>0&&q==0){
+ 184   2          q=10;
+ 185   2              }
+ 186   1      
+ 187   1          P0= 0xff;
+ 188   1          we=1;
+ 189   1          P0= distab[0];
+ 190   1          we=0;
+ 191   1          
+ 192   1          du=1;
+ 193   1          P0= tabel[q];
+ 194   1          du=0;
+ 195   1          delay(1);
+ 196   1      
+ 197   1          P0= 0xff;
+ 198   1          we=1;
+ 199   1          P0= distab[1];
+ 200   1          we=0;
+ 201   1          
+ 202   1          du=1;
+ 203   1          P0= tabel[b];
+ 204   1          du=0;
+ 205   1          delay(1);
+ 206   1          
+ 207   1          P0= 0xff;
+ 208   1          we=1;
+ 209   1          P0= distab[2];
+ 210   1          we=0;
+ 211   1          
+ 212   1          du=1;
+ 213   1          P0= tabel[s];
+ 214   1          du=0;
+ 215   1          delay(1);
+ 216   1          
+ 217   1          P0=0xff;
+ 218   1          we=1;
+ 219   1          P0= distab[3];
+ 220   1          we=0;
+ 221   1          
+ 222   1          du=1;
+ 223   1          P0= tabel[g];
+ 224   1          du=0;
+ 225   1          delay(1);
+ 226   1      }
+ 227          void keyscanf()//¾ØÕó¼üÅÌÊäÈë
+ 228          {
+ 229   1         
+ 230   1        P3=0xf0;
+ 231   1        if (P3!=0xf0)
+ 232   1        {
+ 233   2         delay(20);
+ 234   2         if (P3!=0xf0)
+ 235   2           {time =time+1;
+ 236   3           switch(P3)
+ 237   3           {
+ 238   4           case 0xe0: key=0;break;
+ 239   4           case 0xd0: key=1;break;
+C51 COMPILER V9.60.0.0   MAIN                                                              11/14/2022 12:46:19 PAGE 5   
+
+ 240   4           case 0xb0: key=2;break;
+ 241   4           case 0x70: key=3;break;
+ 242   4           }
+ 243   3        
+ 244   3           }
+ 245   2         P3=0x0f;
+ 246   2         if(P3!=0x0f)
+ 247   2           {
+ 248   3             switch(P3)
+ 249   3           {
+ 250   4           case 0x0e: key=key; break;
+ 251   4           case 0x0d: key=key+4;break;
+ 252   4           case 0x0b: key=key+8;break;
+ 253   4           case 0x07: key=key+12;break;
+ 254   4           }  
+ 255   3           }
+ 256   2            while(P3 != 0X0F);
+ 257   2        }
+ 258   1      
+ 259   1      }
+ 260          
+ 261          
+ 262          
+ 263          void main()
+ 264          {
+ 265   1       
+ 266   1      int sum=0;
+ 267   1      char op =' ';//ÊäÈëÔËËã·û
+ 268   1       //int time =0;//Í³¼Æ°´ÏÂµÄ´ÎÊı
+ 269   1       int time1 =1;
+ 270   1      int time2 =1 ;//·ÀÖ¹·´¸´½øÈëcase
+ 271   1      int time3 =1 ;//·ÀÖ¹·´¸´½øÈëcase
+ 272   1      int time4 =1 ;
+ 273   1      int first=1;//¼ì²âµÚÒ»¸öÊı×ÖÊÇ·ñÊäÈëÍê
+ 274   1      int second=1;//¼ì²âµÚ¶ş¸öÊı×ÖÊÇ·ñÊäÈëÍê
+ 275   1      int third=1;
+ 276   1      int forth=1;
+ 277   1      int mon;
+ 278   1      int third2=1;
+ 279   1      
+ 280   1          
+ 281   1      timer0Init();
+ 282   1        key=13;
+ 283   1          num1=number[key];
+ 284   1        //¼ì²â°´¼üÊÇ·ñ°´ÏÂ
+ 285   1        
+ 286   1        do
+ 287   1        {
+ 288   2      
+ 289   2        keyscanf();
+ 290   2        
+ 291   2        
+ 292   2      
+ 293   2           switch(time)
+ 294   2           {case 1:
+ 295   3                if(time1!=0)
+ 296   3            lock=number[key];//ÊäÈëµÚÒ»¸öÊı     
+ 297   3            break;      
+ 298   3            case 2:
+ 299   3            if(time2!=0&&number[key]<10&&number[key]>=0)//·ÀÖ¹ÔÚµÚ¶ş´Î°´ÏÂ°´¼üºó·´¸´½øÈëcase 2
+ 300   3            {
+ 301   4                lock=lock*10 +number[key];//½«µÚ¶ş¸öÊıµş¼ÓÔÚºó      
+C51 COMPILER V9.60.0.0   MAIN                                                              11/14/2022 12:46:19 PAGE 6   
+
+ 302   4            time2=0;//·ÀÖ¹ÔÚµÚ¶ş´Î°´ÏÂ°´¼üºó·´¸´½øÈëcase 2
+ 303   4            }
+ 304   3            break;
+ 305   3          case 3:
+ 306   3            if(time3!=0&&number[key]<10&&number[key]>=0) //·ÀÖ¹ÔÚµÚÈı´Î°´ÏÂ°´¼üºó·´¸´½øÈëcase 2
+ 307   3            {
+ 308   4                lock=lock*10 +number[key];//½«µÚÈı¸öÊıµş¼ÓÔÚºó      
+ 309   4            time3=0;//·ÀÖ¹ÔÚµÚÈı´Î°´ÏÂ°´¼üºó·´¸´½øÈëcase 2
+ 310   4             }
+ 311   3            break;
+ 312   3          case 4:
+ 313   3            if(time4!=0&&number[key]<10&&number[key]>=0) //·ÀÖ¹ÔÚµÚÈı´Î°´ÏÂ°´¼üºó·´¸´½øÈëcase 2
+ 314   3            {
+ 315   4                lock=lock*10 +number[key];//½«µÚËÄ¸öÊıµş¼ÓÔÚºó      
+ 316   4            time4=0;//·ÀÖ¹ÔÚµÚËÄ´Î°´ÏÂ°´¼üºó·´¸´½øÈëcase 2
+ 317   4              if(lock!=old)
+ 318   4              {
+ 319   5               
+ 320   5                  s=s-20;
+ 321   5                  lock=0;
+ 322   5              time=0;
+ 323   5                    time1 =1;
+ 324   5                      time2 =1 ;//·ÀÖ¹·´¸´½øÈëcase
+ 325   5                      time3 =1 ;
+ 326   5                    time4 =1  ;
+ 327   5                  }
+ 328   4              
+ 329   4             }
+ 330   3            break;
+ 331   3          }
+ 332   2           if(lock==old){
+ 333   3            
+ 334   3            first=0;
+ 335   3           
+ 336   3           }
+ 337   2           display1(lock);//ÏÔÊ¾Êı×Ö·ÀÖ¹Ï¢ÆÁ
+ 338   2        }while(first);
+ 339   1            display1(0);//ÔÚËãÔËËã·ûÖ®Ç°ÏÔÊ¾Êı×Ö
+ 340   1          first=1;
+ 341   1          num1=6000;
+ 342   1        time=0;
+ 343   1         time1 =1;
+ 344   1           time2 =1 ;//·ÀÖ¹·´¸´½øÈëcase
+ 345   1           time3 =1 ;
+ 346   1         time4 =1  ;
+ 347   1         num2=0;
+ 348   1         num1=0;
+ 349   1         P1=0x00;
+ 350   1         EA=0;
+ 351   1         num1=6000;
+ 352   1         sum=num1;
+ 353   1        do{ 
+ 354   2        
+ 355   2        
+ 356   2        do
+ 357   2        {
+ 358   3            if(time==0&&num2==0)
+ 359   3            {
+ 360   4            displayq(sum); 
+ 361   4            }
+ 362   3      
+ 363   3        keyscanf();
+C51 COMPILER V9.60.0.0   MAIN                                                              11/14/2022 12:46:19 PAGE 7   
+
+ 364   3        
+ 365   3        
+ 366   3          if(number[key]=='*'||number[key]=='+'||number[key]=='-'||number[key]=='/')//¼ì²âÊÇ·ñÊäÈëÁËÔËËã·û
+ 367   3          {
+ 368   4          second=0;
+ 369   4          }
+ 370   3            
+ 371   3           switch(time)
+ 372   3           {case 1:
+ 373   4                if(time1!=0)
+ 374   4            num2=0;
+ 375   4            num2=number[key];//ÊäÈëµÚÒ»¸öÊı
+ 376   4            
+ 377   4            third=0;      
+ 378   4            break;      
+ 379   4            case 2:
+ 380   4            if(time2!=0&&number[key]<10&&number[key]>=0)//·ÀÖ¹ÔÚµÚ¶ş´Î°´ÏÂ°´¼üºó·´¸´½øÈëcase 2
+ 381   4            {
+ 382   5                num2=num2*10 +number[key];//½«µÚ¶ş¸öÊıµş¼ÓÔÚºó      
+ 383   5            time2=0;//·ÀÖ¹ÔÚµÚ¶ş´Î°´ÏÂ°´¼üºó·´¸´½øÈëcase 2
+ 384   5            }
+ 385   4            break;
+ 386   4          case 3:
+ 387   4            if(time3!=0&&number[key]<10&&number[key]>=0) //·ÀÖ¹ÔÚµÚÈı´Î°´ÏÂ°´¼üºó·´¸´½øÈëcase 2
+ 388   4            {
+ 389   5                num2=num2*10 +number[key];//½«µÚÈı¸öÊıµş¼ÓÔÚºó      
+ 390   5            time3=0;//·ÀÖ¹ÔÚµÚÈı´Î°´ÏÂ°´¼üºó·´¸´½øÈëcase 2
+ 391   5             }
+ 392   4            break;
+ 393   4          case 4:
+ 394   4            if(time4!=0&&number[key]<10&&number[key]>=0) //·ÀÖ¹ÔÚµÚÈı´Î°´ÏÂ°´¼üºó·´¸´½øÈëcase 2
+ 395   4            {
+ 396   5                num2=num2*10 +number[key];//½«µÚËÄ¸öÊıµş¼ÓÔÚºó      
+ 397   5            time4=0;//·ÀÖ¹ÔÚµÚËÄ´Î°´ÏÂ°´¼üºó·´¸´½øÈëcase 2
+ 398   5              
+ 399   5             }
+ 400   4            break;
+ 401   4          }
+ 402   3      
+ 403   3            if(third==0) 
+ 404   3           displayq(num2);//ÏÔÊ¾Êı×Ö·ÀÖ¹Ï¢ÆÁ
+ 405   3      
+ 406   3        }while(second);
+ 407   2      
+ 408   2           
+ 409   2           y1=num1;
+ 410   2      
+ 411   2         if (number[key]=='+'){
+ 412   3            sum=num1+num2;
+ 413   3          y1=num1;
+ 414   3          num1=sum;
+ 415   3          displayq(sum); 
+ 416   3           if(sum>9999){
+ 417   4           bee();
+ 418   4           num1=y1; 
+ 419   4           }
+ 420   3           second=1;
+ 421   3           num2=0;
+ 422   3           
+ 423   3           time=0;
+ 424   3           time1=1;
+ 425   3           time2=1;
+C51 COMPILER V9.60.0.0   MAIN                                                              11/14/2022 12:46:19 PAGE 8   
+
+ 426   3           time3=1;
+ 427   3           time4=1;
+ 428   3           third=1;   
+ 429   3        }
+ 430   2          else if (number[key]=='-'){
+ 431   3          y1=num1;
+ 432   3            sum=num1-num2;
+ 433   3          
+ 434   3          num1=sum;
+ 435   3          third=0;
+ 436   3          //num2=sum;
+ 437   3          //displayq(sum);
+ 438   3          // displayq(sum);
+ 439   3         
+ 440   3           
+ 441   3          if(sum<0){
+ 442   4           bee();
+ 443   4           num1=y1;
+ 444   4           }
+ 445   3           second=1;
+ 446   3           num2=0;
+ 447   3           
+ 448   3           time=0;
+ 449   3           time1=1;
+ 450   3           time2=1;
+ 451   3           time3=1;
+ 452   3           time4=1;
+ 453   3           third=1; 
+ 454   3           
+ 455   3          }else if(number[key]=='=')
+ 456   2      
+ 457   2          {
+ 458   3           second=1;
+ 459   3           num2=0;
+ 460   3          third=0;
+ 461   3           num1=y1;
+ 462   3           
+ 463   3           time=0;
+ 464   3           time1=1;
+ 465   3           time2=1;
+ 466   3           time3=1;
+ 467   3           time4=1;
+ 468   3           third=1;
+ 469   3          }
+ 470   2      
+ 471   2      
+ 472   2       }while (forth);
+ 473   1      
+ 474   1      
+ 475   1      }
+*** WARNING C280 IN LINE 277 OF src\Main.c: 'mon': unreferenced local variable
+ 476          
+ 477          void timer0() interrupt 1
+ 478          {
+ 479   1        TH0 = 0xED;
+ 480   1        TL0 = 0xFF; //¶¨Ê±5ms
+ 481   1        ms++;
+ 482   1        if(ms==20)
+ 483   1          {
+ 484   2            ms=0;
+ 485   2          s--;
+ 486   2          }
+C51 COMPILER V9.60.0.0   MAIN                                                              11/14/2022 12:46:19 PAGE 9   
+
+ 487   1          if (s==0){
+ 488   2          num1=0;
+ 489   2          lock=0;
+ 490   2          LED1=0;
+ 491   2          over=0;
+ 492   2          for(over;over<6;over++){
+ 493   3          delay(300);
+ 494   3          LED1=~LED1;
+ 495   3          }
+ 496   2          timer0Init();
+ 497   2          }
+ 498   1        display2(s); //ÊıÂë¹ÜÏÔÊ¾º¯Êı 
+ 499   1      } 
+ 500          
+ 501          
+ 502          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =     30    ----
-   CONSTANT SIZE    =   ----    ----
+   CODE SIZE        =   2098    ----
+   CONSTANT SIZE    =     36    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =   ----    ----
+   DATA SIZE        =     21      31
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.
 
 
-C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)

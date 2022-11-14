@@ -1,390 +1,450 @@
-#include "REG52.H"
-
-//通用
+#include <reg52.h>
 #define uchar unsigned char
 #define uint unsigned int
-#define boolean int
-#define true 1
-#define false 0
 
-sbit led_1 = P1 ^ 0;
-sbit led_2 = P1 ^ 1;
-sbit led_3 = P1 ^ 2;
-sbit led_4 = P1 ^ 3;
-sbit beep = P1 ^ 6;
-sbit alarm = P1 ^ 7;
-sbit xw = P2 ^ 7;
-sbit xd = P2 ^ 6;
-sbit start_key = P3 ^ 0;
+sbit wela = P2 ^ 7; //位定义数码管位选锁存器接口
+sbit dula = P2 ^ 6; //位定义数码管段选锁存器接口
+sbit LED1 = P1 ^ 0;
+sbit BUJ = P1 ^ 2; //蜂鸣器
 
-boolean isCorrectPsw = false;
-int correctPsw[] = {1, 0, 2, 4};
-int tens_digit = 3, single_digit = 0, decile = 0;
+uint num = 0;  //判断输按键次数
+uint time = 0; //控制定时器启动
+uint a, b, c, d, e, f, g, h;
+uint mmsec = 0;
+msec = 10, sec = 29; // 30秒倒计时
 
-void delayMillis(int millis)
+void Delay(unsigned int xms)
 {
-    int i, j;
-    for (i = 0; i < millis; i++)
+    unsigned char i, j;
+    while (xms)
     {
-        for (j = 0; j < 120; j++)
+        i = 2;
+        j = 199;
+        do
         {
-        }
+            while (--j)
+                ;
+        } while (--i);
+        xms--;
     }
 }
-
-uchar code numbers[] = {
-    0x3F, // "0"
-    0x06, // "1"
-    0x5B, // "2"
-    0x4F, // "3"
-    0x66, // "4"
-    0x6D, // "5"
-    0x7D, // "6"
-    0x07, // "7"
-    0x7F, // "8"
-    0x6F, // "9"
-    0x00, // "all down"
-};
-
-uchar wei_index = 0;    //这三个变量没用
-uchar wei_monetary = 0; //这三个变量没用
-uchar num_index = 0;    //这三个变量没用
-
-typedef struct
+void timer0Init()
 {
-    uchar wei;
-    uchar duan;
-} wein;
+    EA = 1;
+    ET0 = 1;
 
-wein shumaguan[] = {
-    {0x7f, 0x00},
-    {0xbf, 0x00},
-    {0xdf, 0x00},
-    {0xef, 0x00},
-    {0xf7, 0x00},
-    {0xfb, 0x00},
-    {0xfd, 0x00},
-    {0xfe, 0x00},
-};
-
-void set_Time(int ten, int single, int decile)
-{
-    shumaguan[7].duan = numbers[ten];
-    shumaguan[6].duan = numbers[single] | 0x80;
-    shumaguan[5].duan = numbers[decile];
+    TR0 = 1;
+    TMOD |= 0x01;
+    TH0 = 0x4C;
+    TL0 = 0x00;
 }
 
-void display()
-{
-    int c = 0;
-    for (c = 0; c < 8; c++)
+//数码管段选表
+uchar code table[] =
     {
-        xw = 1;
-        P0 = shumaguan[c].wei;
-        xw = 0;
-        xd = 1;
-        P0 = shumaguan[c].duan;
-        xd = 0;
-        delayMillis(2);
-    }
+        0x3F, //"0"
+        0x06, //"1"
+        0x5B, //"2"
+        0x4F, //"3"
+        0x66, //"4"
+        0x6D, //"5"
+        0x7D, //"6"
+        0x07, //"7"
+        0x7F, //"8"
+        0x6F, //"9"
+        0x77, //"A"
+        0x7C, //"B"
+        0x39, //"C"
+        0x5E, //"D"
+        0x79, //"E"
+        0x71, //"F"
+        0x76, //"H"
+        0x38, //"L"
+        0x37, //"n"
+        0x3E, //"u"
+        0x73, //"P"
+        0x5C, //"o"
+        0x40, //"-"
+        0x00, //熄灭
+        0x00  //自定义
+};
+
+void display(uchar m1, uchar m2, uchar m3, uchar m4, uchar m5, uchar m6, uchar m7, uchar m8)
+{
+    dula = 0;
+    P0 = table[m1];
+    dula = 1;
+    dula = 0;
+
+    wela = 0;
+    P0 = 0xfe;
+    wela = 1;
+    wela = 0;
+    Delay(1);
+
+    P0 = table[m2];
+    dula = 1;
+    dula = 0;
+
+    P0 = 0xfd;
+    wela = 1;
+    wela = 0;
+    Delay(1);
+
+    P0 = table[m3];
+    dula = 1;
+    dula = 0;
+
+    P0 = 0xfb;
+    wela = 1;
+    wela = 0;
+    Delay(1);
+
+    P0 = table[m4];
+    dula = 1;
+    dula = 0;
+
+    P0 = 0xf7;
+    wela = 1;
+    wela = 0;
+    Delay(1);
+
+    P0 = table[m5];
+    dula = 1;
+    dula = 0;
+
+    P0 = 0xef;
+    wela = 1;
+    wela = 0;
+    Delay(1);
+
+    P0 = table[m6];
+    dula = 1;
+    dula = 0;
+
+    P0 = 0xdf;
+    wela = 1;
+    wela = 0;
+    Delay(1);
+
+    P0 = table[m7];
+    dula = 1;
+    dula = 0;
+
+    P0 = 0xbf;
+    wela = 1;
+    wela = 0;
+    Delay(1);
+
+    P0 = table[m8];
+    dula = 1;
+    dula = 0;
+
+    P0 = 0x7f;
+    wela = 1;
+    wela = 0;
+    Delay(1);
 }
 
-// 键盘
-unsigned char keyVal = 100;
-/*  Key Buttons
-    -------------------------
-    |  1  |  2  |  3  |crack|
-    -------------------------
-    |  4  |  5  |  6  | del |
-    -------------------------
-    |  7  |  8  |  9  |     |
-    -------------------------
-    |     |  0  |     | cls |
-    -------------------------
-    |  On |     |     |     |
-    -------------------------*/
-void keyScan()
+int KeyScan()
 {
-    P3 = 0xF0;
-    if (P3 != 0xF0)
+    uchar KeyValue;
+    P3 = 0xf0;
+    if (P3 != 0xf0)
     {
-        delayMillis(2);
-        if (P3 != 0xF0) // 检测列
+        Delay(5); //软件消抖
+        if (P3 != 0xf0)
         {
             switch (P3)
             {
             case 0xe0:
-                keyVal = 0;
+                KeyValue = 0;
                 break;
             case 0xd0:
-                keyVal = 1;
+                KeyValue = 1;
                 break;
             case 0xb0:
-                keyVal = 2;
+                KeyValue = 2;
                 break;
             case 0x70:
-                keyVal = 3;
+                KeyValue = 3;
                 break;
             }
-            P3 = 0x0f; //检测行
+            P3 = 0x0f;
             switch (P3)
             {
             case 0x0e:
-                keyVal = keyVal;
+                KeyValue = KeyValue;
                 break;
             case 0x0d:
-                keyVal = keyVal + 4;
+                KeyValue += 4;
                 break;
             case 0x0b:
-                keyVal = keyVal + 8;
+                KeyValue += 8;
                 break;
             case 0x07:
-                keyVal = keyVal + 12;
+                KeyValue += 12;
                 break;
             }
             while (P3 != 0x0f)
                 ;
         }
     }
-    P3 = 0xff; // 检测独立键盘
-    if (P3 != 0xff)
-    {
-        delayMillis(2);
-        if (P3 != 0xff)
-        {
-            switch (P3)
-            {
-            case 0xfe:
-                keyVal = 16;
-                break;
-            case 0xfd:
-                keyVal = 17;
-                break;
-            case 0xfb:
-                keyVal = 18;
-                break;
-            case 0xf7:
-                keyVal = 19;
-                break;
-            }
-            while (P3 != 0xff)
-                ;
-        }
-    }
-}
-
-int genInput()
-{
-    int ret = 0;
-    keyScan();
-
-    if (keyVal == 0)
-    {
-        ret = 1;
-    }
-    else if (keyVal == 1)
-    {
-        ret = 2;
-    }
-    else if (keyVal == 2)
-    {
-        ret = 3;
-    }
-    else if (keyVal == 4)
-    {
-        ret = 4;
-    }
-    else if (keyVal == 5)
-    {
-        ret = 5;
-    }
-    else if (keyVal == 6)
-    {
-        ret = 6;
-    }
-    else if (keyVal == 8)
-    {
-        ret = 7;
-    }
-    else if (keyVal == 9)
-    {
-        ret = 8;
-    }
-    else if (keyVal == 10)
-    {
-        ret = 9;
-    }
-    else if (keyVal == 13)
-    {
-        ret = 0;
-    }
-    else if (keyVal == 15)
-    {
-        ret = 11; // cls
-    }
-    else if (keyVal == 100)
-    {
-        ret = 10; // no input
-    }
-    return ret;
-}
-
-int psw[4];
-void checkPSW()
-{
-    int i;
-    for (i = 0; i < 4; i++)
-    {
-        if (psw[i] != correctPsw[i])
-        {
-            isCorrectPsw = false;
-            return;
-        }
-    }
-    isCorrectPsw = true;
-}
-
-void set_PSW()
-{
-    int ii, inin;
-    for (ii = 0; ii < 4; ii++)
-    {
-        P3 = 0xff;
-        inin = genInput();
-        if (inin >= 0 && inin <= 9)
-        {
-            psw[ii] = inin;
-            shumaguan[3 - ii].duan = numbers[inin];
-        }
-        else if (inin == 11)
-        {
-            shumaguan[0].duan = 0xff;
-            shumaguan[1].duan = 0xff;
-            shumaguan[2].duan = 0xff;
-            shumaguan[3].duan = 0xff;
-            ii = -1;
-        }
-    }
-}
-
-// timer
-
-void timer0Init()
-{
-    TMOD = 0x01;
-    TH0 = 0x00;
-    TL0 = 0x5c;
-    TF0 = 0;
-    TR0 = 1;
-    ET0 = 1;
-    EA = 1;
-}
-
-void time0() interrupt 1
-{
-    TH0 = 0x00;
-    TL0 = 0x5c;
-
-    if (decile == 0)
-    {
-        decile = 9;
-        if (single_digit == 0)
-        {
-            single_digit = 9;
-            if (tens_digit == 0)
-            {
-                tens_digit = 2;
-            }
-            else
-            {
-                tens_digit--;
-            }
-        }
-        else
-        {
-            single_digit--;
-        }
-    }
     else
+        KeyValue = 0xff;
     {
-        decile--;
+        //	P3 = 0xff;
+        //	if(P3 != 0xff)
+        //	{
+        //		Delay(5);
+        //		if( P3 != 0xff)
+        //		{
+        //			switch(P3)
+        //			{
+        //				case 0xfe:	KeyValue = 16;	return KeyValue;break;
+        //				case 0xfd:	KeyValue = 17;	return KeyValue;break;
+        //				case 0xfb:	KeyValue = 18;	return KeyValue;break;
+        //				case 0xf7:	KeyValue = 19;	return KeyValue;break;
+        //			}
+        //			while(P3 != 0xff);
+        //		}
+        //	}
     }
 
-    if (tens_digit == 0 && single_digit == 0 && decile == 0)
-    {
-        alarm = 0;
-        delayMillis(300);
-        alarm = 1;
-    }
-    else
-    {
-        alarm = 1;
-    }
-
-    set_Time(tens_digit, single_digit, decile);
-}
-
-void onStart()
-{
-    int fu = 0;
-    start_key = 1;
-    while (1)
-    {
-        for (fu = 0; fu < 8; fu++)
-        {
-            xw = 1;
-            P0 = shumaguan[fu].wei;
-            xw = 0;
-            xd = 1;
-            P0 = 0x40;
-            xd = 0;
-            delayMillis(2);
-        }
-        if (!start_key)
-        {
-            delayMillis(10);
-            if (!start_key)
-            {
-                break;
-            }
-        }
-    }
+    return KeyValue;
 }
 
 void main()
 {
-    int ii = 0, inin;
-    onStart();
-    timer0Init();
+    uint KeyNum;                         //键盘输入值
+    uint money;                          //待交换金额
+    uint have = 6000;                    //初始金额
+    uint a1 = 1, b1 = 2, c1 = 3, d1 = 4; //密码
+    uint type = 0;                       // 0，判断密码界面； 2，存取款界面
+
+    a = 22;
+    b = 22;
+    c = 22;
+    d = 22;
+    e = 22;
+    f = 22;
+    g = 22;
+    h = 22;       //数码管初始化”--------“
+    timer0Init(); //定时器初始化
     while (1)
     {
-        P3 = 0xff;
-        inin = genInput();
-        if (inin >= 0 && inin <= 9)
+        KeyNum = KeyScan(); //键盘取值
+        if (KeyNum != 0xff)
         {
-            psw[ii] = inin;
-            shumaguan[3 - ii].duan = numbers[inin];
-            ii++;
-            inin = 0;
+            if (KeyNum < 10) // 0~9为输入值
+            {
+                switch (num) //逐位输入
+                {
+                case 0:
+                    a = KeyNum;
+                    num++;
+                    if (type == 0)
+                        time++;
+                    break; // time控制30s倒计时启动
+                case 1:
+                    b = KeyNum;
+                    num++;
+                    break;
+                case 2:
+                    c = KeyNum;
+                    num++;
+                    break;
+                case 3:
+                    d = KeyNum;
+                    num++;
+                    break;
+                }
+            }
         }
-        else if (inin == 11)
+        //=====================================================
+        if (type == 0) //判断密码阶段
         {
-            shumaguan[0].duan = 0xff;
-            shumaguan[1].duan = 0xff;
-            shumaguan[2].duan = 0xff;
-            shumaguan[3].duan = 0xff;
-            ii = -1;
+            if (num == 4) //输入4位密码自动判断
+            {
+                if (a == a1 && b == b1 && c == c1 && d == d1) //密码正确
+                {
+                    P1 = 0x00; // LED全亮
+                    type = 1;  //进入中间阶段
+                    num = 0;   //输入位复位
+                    time = 0;  // 30s计时停止
+                }
+                if (a != a1 || b != b1 || c != c1 || d != d1) //密码错误
+                {
+                    sec = sec - 2; //计时-2
+                    a = 22;
+                    b = 22;
+                    c = 22;
+                    d = 22;  //密码区复位
+                    num = 0; //输入位复位
+                }
+            }
+
+            if (f == 0 && g == 0 && h == 1) // 30s计时结束
+            {
+                time = 0;                        //退出计时
+                h = 0;                           
+                display(a, b, c, d, e, f, g, h); 
+                LED1 = 0;
+                Delay(500);
+                LED1 = 1;
+                Delay(250);
+                LED1 = 0;
+                Delay(500);
+                LED1 = 1;
+                Delay(250);
+                LED1 = 0;
+                Delay(500);
+                LED1 = 1;
+                Delay(250); //蜂鸣器响三声
+                a = 22;
+                b = 22;
+                c = 22;
+                d = 22;
+                e = 22;
+                f = 22;
+                g = 22;
+                h = 22;
+                num = 0;
+                mmsec = 0;
+                msec = 10, sec = 29; //整体复位
+            }
         }
-        else
+        //=====================================================
+        if (type == 1) //中间阶段
         {
-            inin = 0;
+            a = 22;
+            b = 22;
+            c = 22;
+            d = 22; //密码区复位
+            e = have / 1000;
+            f = have % 1000 / 100;
+            g = have % 100 / 10;
+            h = have % 10; //数码管后4位显示余额
+
+            type = 2; //进入存取款阶段
         }
-        if (ii == 4)
+        //=====================================================
+        if (type == 2) //存取款阶段
         {
-            checkPSW();
-            ii = 0;
+            money = (a * 1000 + b * 100 + c * 10 + d); //计算输入金额
+
+            if (KeyNum == 12 && d != 22) //存
+            {
+                if (d != 22) //判断是否输入4位数
+                {
+                    have = have + money;
+                    if (have <= 9999) //判断数值是否超出9999
+                    {
+                        a = 22;
+                        b = 22;
+                        c = 22;
+                        d = 22;
+                        e = have / 1000;
+                        f = have % 1000 / 100;
+                        g = have % 100 / 10;
+                        h = have % 10;
+                    }
+                    else //如果超出
+                    {
+                        BUJ = 0;
+                        Delay(250);
+                        BUJ = 1; //蜂鸣器响1声
+                        a = 22;
+                        b = 22;
+                        c = 22;
+                        d = 22;
+                        have = have - money; //复位
+                    }
+                    num = 0; //复位
+                }
+            }
+
+            if (KeyNum == 13) //取 （功能与”存“相似）
+            {
+                if (d != 22)
+                {
+                    if (have > money)
+                    {
+                        have = have - money;
+                        a = 22;
+                        b = 22;
+                        c = 22;
+                        d = 22;
+                        e = have / 1000;
+                        f = have % 1000 / 100;
+                        g = have % 100 / 10;
+                        h = have % 10;
+                    }
+                    else
+                    {
+                        BUJ = 0;
+                        Delay(250);
+                        BUJ = 1;
+                        a = 22;
+                        b = 22;
+                        c = 22;
+                        d = 22;
+                    }
+                    num = 0;
+                }
+            }
+
+            if (KeyNum == 14) //重新输入处理金额
+            {
+                a = 22;
+                b = 22;
+                c = 22;
+                d = 22;
+                num = 0;
+            }
+
+            if (KeyNum == 15) //复位回最初状态
+            {
+                a = 22;
+                b = 22;
+                c = 22;
+                d = 22;
+                e = 22;
+                f = 22;
+                g = 22;
+                h = 22;
+                num = 0;
+                type = 0;  //进入输入密码阶段
+                P1 = 0xff; // LED全灭
+            }
+        }
+        //=====================================================
+        display(a, b, c, d, e, f, g, h); //数码管扫描
+    }
+}
+
+void timer0() interrupt 1 // 30秒倒计时
+{
+    TH0 = 0x4C;
+    TL0 = 0x00; //定时50ms
+
+    if (time >= 1)
+    {
+        f = sec / 10;
+        g = sec % 10;
+        h = msec;
+
+        mmsec++;
+        if (mmsec == 2)
+        {
+            msec--;
+            mmsec = 0;
         }
 
-        display();
+        if (msec == 0)
+        {
+            sec--;
+            msec = 10;
+        }
     }
 }

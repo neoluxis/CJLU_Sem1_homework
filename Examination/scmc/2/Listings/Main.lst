@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   MAIN                                                              10/29/2022 20:23:11 PAGE 1   
+C51 COMPILER V9.60.0.0   MAIN                                                              11/14/2022 13:37:51 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
@@ -8,427 +8,478 @@ COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE Main.c OPTIMIZE(8,SPEED) BROWSE 
 
 line level    source
 
-   1          #include "REG52.H"
-   2          
-   3          //通用
-   4          #define uchar unsigned char
-   5          #define uint unsigned int
-   6          #define boolean int
-   7          #define true 1
-   8          #define false 0
+   1          #include <reg52.h>
+   2          #define uchar unsigned char
+   3          #define uint unsigned int
+   4          
+   5          sbit wela = P2 ^ 7; //位定义数码管位选锁存器接口
+   6          sbit dula = P2 ^ 6; //位定义数码管段选锁存器接口
+   7          sbit LED1 = P1 ^ 0;
+   8          sbit BUJ = P1 ^ 2; //蜂鸣器
    9          
-  10          sbit led_1 = P1 ^ 0;
-  11          sbit led_2 = P1 ^ 1;
-  12          sbit led_3 = P1 ^ 2;
-  13          sbit led_4 = P1 ^ 3;
-  14          sbit beep = P1 ^ 6;
-  15          sbit alarm = P1 ^ 7;
-  16          sbit xw = P2 ^ 7;
-  17          sbit xd = P2 ^ 6;
-  18          sbit start_key = P3 ^ 0;
-  19          
-  20          boolean isCorrectPsw = false;
-  21          int correctPsw[] = {1, 0, 2, 4};
-  22          int tens_digit = 3, single_digit = 0, decile = 0;
-  23          
-  24          void delayMillis(int millis)
-  25          {
-  26   1          int i, j;
-  27   1          for (i = 0; i < millis; i++)
-  28   1          {
-  29   2              for (j = 0; j < 120; j++)
-  30   2              {
-  31   3              }
-  32   2          }
-  33   1      }
-  34          
-  35          uchar code numbers[] = {
-  36              0x3F, // "0"
-  37              0x06, // "1"
-  38              0x5B, // "2"
-  39              0x4F, // "3"
-  40              0x66, // "4"
-  41              0x6D, // "5"
-  42              0x7D, // "6"
-  43              0x07, // "7"
-  44              0x7F, // "8"
-  45              0x6F, // "9"
-  46              0x00, // "all down"
-  47          };
-  48          
-  49          uchar wei_index = 0;    //这三个变量没用
-  50          uchar wei_monetary = 0; //这三个变量没用
-  51          uchar num_index = 0;    //这三个变量没用
-  52          
-  53          typedef struct
-  54          {
-C51 COMPILER V9.60.0.0   MAIN                                                              10/29/2022 20:23:11 PAGE 2   
+  10          uint num = 0;  //判断输按键次数
+  11          uint time = 0; //控制定时器启动
+  12          uint a, b, c, d, e, f, g, h;
+  13          uint mmsec = 0;
+  14          msec = 10, sec = 29; // 30秒倒计时
+  15          
+  16          void Delay(unsigned int xms)
+  17          {
+  18   1          unsigned char i, j;
+  19   1          while (xms)
+  20   1          {
+  21   2              i = 2;
+  22   2              j = 199;
+  23   2              do
+  24   2              {
+  25   3                  while (--j)
+  26   3                      ;
+  27   3              } while (--i);
+  28   2              xms--;
+  29   2          }
+  30   1      }
+  31          void timer0Init()
+  32          {
+  33   1          EA = 1;
+  34   1          ET0 = 1;
+  35   1      
+  36   1          TR0 = 1;
+  37   1          TMOD |= 0x01;
+  38   1          TH0 = 0x4C;
+  39   1          TL0 = 0x00;
+  40   1      }
+  41          
+  42          //数码管段选表
+  43          uchar code table[] =
+  44              {
+  45                  0x3F, //"0"
+  46                  0x06, //"1"
+  47                  0x5B, //"2"
+  48                  0x4F, //"3"
+  49                  0x66, //"4"
+  50                  0x6D, //"5"
+  51                  0x7D, //"6"
+  52                  0x07, //"7"
+  53                  0x7F, //"8"
+  54                  0x6F, //"9"
+C51 COMPILER V9.60.0.0   MAIN                                                              11/14/2022 13:37:51 PAGE 2   
 
-  55              uchar wei;
-  56              uchar duan;
-  57          } wein;
-  58          
-  59          wein shumaguan[] = {
-  60              {0x7f, 0x00},
-  61              {0xbf, 0x00},
-  62              {0xdf, 0x00},
-  63              {0xef, 0x00},
-  64              {0xf7, 0x00},
-  65              {0xfb, 0x00},
-  66              {0xfd, 0x00},
-  67              {0xfe, 0x00},
-  68          };
-  69          
-  70          void set_Time(int ten, int single, int decile)
-  71          {
-  72   1          shumaguan[7].duan = numbers[ten];
-  73   1          shumaguan[6].duan = numbers[single] | 0x80;
-  74   1          shumaguan[5].duan = numbers[decile];
-  75   1      }
-  76          
-  77          void display()
-  78          {
-  79   1          int c = 0;
-  80   1          for (c = 0; c < 8; c++)
-  81   1          {
-  82   2              xw = 1;
-  83   2              P0 = shumaguan[c].wei;
-  84   2              xw = 0;
-  85   2              xd = 1;
-  86   2              P0 = shumaguan[c].duan;
-  87   2              xd = 0;
-  88   2              delayMillis(2);
-  89   2          }
-  90   1      }
-  91          
-  92          // 键盘
-  93          unsigned char keyVal = 100;
-  94          /*  Key Buttons
-  95              -------------------------
-  96              |  1  |  2  |  3  |crack|
-  97              -------------------------
-  98              |  4  |  5  |  6  | del |
-  99              -------------------------
- 100              |  7  |  8  |  9  |     |
- 101              -------------------------
- 102              |     |  0  |     | cls |
- 103              -------------------------
- 104              |  On |     |     |     |
- 105              -------------------------*/
- 106          void keyScan()
- 107          {
- 108   1          P3 = 0xF0;
- 109   1          if (P3 != 0xF0)
- 110   1          {
- 111   2              delayMillis(2);
- 112   2              if (P3 != 0xF0) // 检测列
- 113   2              {
- 114   3                  switch (P3)
- 115   3                  {
- 116   4                  case 0xe0:
-C51 COMPILER V9.60.0.0   MAIN                                                              10/29/2022 20:23:11 PAGE 3   
+  55                  0x77, //"A"
+  56                  0x7C, //"B"
+  57                  0x39, //"C"
+  58                  0x5E, //"D"
+  59                  0x79, //"E"
+  60                  0x71, //"F"
+  61                  0x76, //"H"
+  62                  0x38, //"L"
+  63                  0x37, //"n"
+  64                  0x3E, //"u"
+  65                  0x73, //"P"
+  66                  0x5C, //"o"
+  67                  0x40, //"-"
+  68                  0x00, //熄灭
+  69                  0x00  //自定义
+  70          };
+  71          
+  72          void display(uchar m1, uchar m2, uchar m3, uchar m4, uchar m5, uchar m6, uchar m7, uchar m8)
+  73          {
+  74   1          dula = 0;
+  75   1          P0 = table[m1];
+  76   1          dula = 1;
+  77   1          dula = 0;
+  78   1      
+  79   1          wela = 0;
+  80   1          P0 = 0xfe;
+  81   1          wela = 1;
+  82   1          wela = 0;
+  83   1          Delay(1);
+  84   1      
+  85   1          P0 = table[m2];
+  86   1          dula = 1;
+  87   1          dula = 0;
+  88   1      
+  89   1          P0 = 0xfd;
+  90   1          wela = 1;
+  91   1          wela = 0;
+  92   1          Delay(1);
+  93   1      
+  94   1          P0 = table[m3];
+  95   1          dula = 1;
+  96   1          dula = 0;
+  97   1      
+  98   1          P0 = 0xfb;
+  99   1          wela = 1;
+ 100   1          wela = 0;
+ 101   1          Delay(1);
+ 102   1      
+ 103   1          P0 = table[m4];
+ 104   1          dula = 1;
+ 105   1          dula = 0;
+ 106   1      
+ 107   1          P0 = 0xf7;
+ 108   1          wela = 1;
+ 109   1          wela = 0;
+ 110   1          Delay(1);
+ 111   1      
+ 112   1          P0 = table[m5];
+ 113   1          dula = 1;
+ 114   1          dula = 0;
+ 115   1      
+ 116   1          P0 = 0xef;
+C51 COMPILER V9.60.0.0   MAIN                                                              11/14/2022 13:37:51 PAGE 3   
 
- 117   4                      keyVal = 0;
- 118   4                      break;
- 119   4                  case 0xd0:
- 120   4                      keyVal = 1;
- 121   4                      break;
- 122   4                  case 0xb0:
- 123   4                      keyVal = 2;
- 124   4                      break;
- 125   4                  case 0x70:
- 126   4                      keyVal = 3;
- 127   4                      break;
- 128   4                  }
- 129   3                  P3 = 0x0f; //检测行
- 130   3                  switch (P3)
- 131   3                  {
- 132   4                  case 0x0e:
- 133   4                      keyVal = keyVal;
- 134   4                      break;
- 135   4                  case 0x0d:
- 136   4                      keyVal = keyVal + 4;
- 137   4                      break;
- 138   4                  case 0x0b:
- 139   4                      keyVal = keyVal + 8;
- 140   4                      break;
- 141   4                  case 0x07:
- 142   4                      keyVal = keyVal + 12;
- 143   4                      break;
- 144   4                  }
- 145   3                  while (P3 != 0x0f)
- 146   3                      ;
- 147   3              }
- 148   2          }
- 149   1          P3 = 0xff; // 检测独立键盘
- 150   1          if (P3 != 0xff)
- 151   1          {
- 152   2              delayMillis(2);
- 153   2              if (P3 != 0xff)
- 154   2              {
- 155   3                  switch (P3)
- 156   3                  {
- 157   4                  case 0xfe:
- 158   4                      keyVal = 16;
- 159   4                      break;
- 160   4                  case 0xfd:
- 161   4                      keyVal = 17;
+ 117   1          wela = 1;
+ 118   1          wela = 0;
+ 119   1          Delay(1);
+ 120   1      
+ 121   1          P0 = table[m6];
+ 122   1          dula = 1;
+ 123   1          dula = 0;
+ 124   1      
+ 125   1          P0 = 0xdf;
+ 126   1          wela = 1;
+ 127   1          wela = 0;
+ 128   1          Delay(1);
+ 129   1      
+ 130   1          P0 = table[m7];
+ 131   1          dula = 1;
+ 132   1          dula = 0;
+ 133   1      
+ 134   1          P0 = 0xbf;
+ 135   1          wela = 1;
+ 136   1          wela = 0;
+ 137   1          Delay(1);
+ 138   1      
+ 139   1          P0 = table[m8];
+ 140   1          dula = 1;
+ 141   1          dula = 0;
+ 142   1      
+ 143   1          P0 = 0x7f;
+ 144   1          wela = 1;
+ 145   1          wela = 0;
+ 146   1          Delay(1);
+ 147   1      }
+ 148          
+ 149          int KeyScan()
+ 150          {
+ 151   1          uchar KeyValue;
+ 152   1          P3 = 0xf0;
+ 153   1          if (P3 != 0xf0)
+ 154   1          {
+ 155   2              Delay(5); //软件消抖
+ 156   2              if (P3 != 0xf0)
+ 157   2              {
+ 158   3                  switch (P3)
+ 159   3                  {
+ 160   4                  case 0xe0:
+ 161   4                      KeyValue = 0;
  162   4                      break;
- 163   4                  case 0xfb:
- 164   4                      keyVal = 18;
+ 163   4                  case 0xd0:
+ 164   4                      KeyValue = 1;
  165   4                      break;
- 166   4                  case 0xf7:
- 167   4                      keyVal = 19;
+ 166   4                  case 0xb0:
+ 167   4                      KeyValue = 2;
  168   4                      break;
- 169   4                  }
- 170   3                  while (P3 != 0xff)
- 171   3                      ;
- 172   3              }
- 173   2          }
- 174   1      }
- 175          
- 176          int genInput()
- 177          {
- 178   1          int ret = 0;
-C51 COMPILER V9.60.0.0   MAIN                                                              10/29/2022 20:23:11 PAGE 4   
+ 169   4                  case 0x70:
+ 170   4                      KeyValue = 3;
+ 171   4                      break;
+ 172   4                  }
+ 173   3                  P3 = 0x0f;
+ 174   3                  switch (P3)
+ 175   3                  {
+ 176   4                  case 0x0e:
+ 177   4                      KeyValue = KeyValue;
+ 178   4                      break;
+C51 COMPILER V9.60.0.0   MAIN                                                              11/14/2022 13:37:51 PAGE 4   
 
- 179   1          keyScan();
- 180   1      
- 181   1          if (keyVal == 0)
- 182   1          {
- 183   2              ret = 1;
- 184   2          }
- 185   1          else if (keyVal == 1)
- 186   1          {
- 187   2              ret = 2;
- 188   2          }
- 189   1          else if (keyVal == 2)
- 190   1          {
- 191   2              ret = 3;
+ 179   4                  case 0x0d:
+ 180   4                      KeyValue += 4;
+ 181   4                      break;
+ 182   4                  case 0x0b:
+ 183   4                      KeyValue += 8;
+ 184   4                      break;
+ 185   4                  case 0x07:
+ 186   4                      KeyValue += 12;
+ 187   4                      break;
+ 188   4                  }
+ 189   3                  while (P3 != 0x0f)
+ 190   3                      ;
+ 191   3              }
  192   2          }
- 193   1          else if (keyVal == 4)
- 194   1          {
- 195   2              ret = 4;
- 196   2          }
- 197   1          else if (keyVal == 5)
- 198   1          {
- 199   2              ret = 5;
- 200   2          }
- 201   1          else if (keyVal == 6)
- 202   1          {
- 203   2              ret = 6;
- 204   2          }
- 205   1          else if (keyVal == 8)
- 206   1          {
- 207   2              ret = 7;
- 208   2          }
- 209   1          else if (keyVal == 9)
- 210   1          {
- 211   2              ret = 8;
+ 193   1          else
+ 194   1              KeyValue = 0xff;
+ 195   1          {
+ 196   2              //  P3 = 0xff;
+ 197   2              //  if(P3 != 0xff)
+ 198   2              //  {
+ 199   2              //    Delay(5);
+ 200   2              //    if( P3 != 0xff)
+ 201   2              //    {
+ 202   2              //      switch(P3)
+ 203   2              //      {
+ 204   2              //        case 0xfe:  KeyValue = 16;  return KeyValue;break;
+ 205   2              //        case 0xfd:  KeyValue = 17;  return KeyValue;break;
+ 206   2              //        case 0xfb:  KeyValue = 18;  return KeyValue;break;
+ 207   2              //        case 0xf7:  KeyValue = 19;  return KeyValue;break;
+ 208   2              //      }
+ 209   2              //      while(P3 != 0xff);
+ 210   2              //    }
+ 211   2              //  }
  212   2          }
- 213   1          else if (keyVal == 10)
- 214   1          {
- 215   2              ret = 9;
- 216   2          }
- 217   1          else if (keyVal == 13)
- 218   1          {
- 219   2              ret = 0;
- 220   2          }
- 221   1          else if (keyVal == 15)
- 222   1          {
- 223   2              ret = 11; // cls
- 224   2          }
- 225   1          else if (keyVal == 100)
- 226   1          {
- 227   2              ret = 10; // no input
- 228   2          }
- 229   1          return ret;
- 230   1      }
- 231          
- 232          int psw[4];
- 233          void checkPSW()
- 234          {
- 235   1          int i;
- 236   1          for (i = 0; i < 4; i++)
- 237   1          {
- 238   2              if (psw[i] != correctPsw[i])
- 239   2              {
- 240   3                  isCorrectPsw = false;
-C51 COMPILER V9.60.0.0   MAIN                                                              10/29/2022 20:23:11 PAGE 5   
+ 213   1      
+ 214   1          return KeyValue;
+ 215   1      }
+ 216          
+ 217          void main()
+ 218          {
+ 219   1          uint KeyNum;                         //键盘输入值
+ 220   1          uint money;                          //待交换金额
+ 221   1          uint have = 6000;                    //初始金额
+ 222   1          uint a1 = 1, b1 = 2, c1 = 3, d1 = 4; //密码
+ 223   1          uint type = 0;                       // 0，判断密码界面； 2，存取款界面
+ 224   1      
+ 225   1          a = 22;
+ 226   1          b = 22;
+ 227   1          c = 22;
+ 228   1          d = 22;
+ 229   1          e = 22;
+ 230   1          f = 22;
+ 231   1          g = 22;
+ 232   1          h = 22;       //数码管初始化”--------“
+ 233   1          timer0Init(); //定时器初始化
+ 234   1          while (1)
+ 235   1          {
+ 236   2              KeyNum = KeyScan(); //键盘取值
+ 237   2              if (KeyNum != 0xff)
+ 238   2              {
+ 239   3                  if (KeyNum < 10) // 0~9为输入值
+ 240   3                  {
+C51 COMPILER V9.60.0.0   MAIN                                                              11/14/2022 13:37:51 PAGE 5   
 
- 241   3                  return;
- 242   3              }
- 243   2          }
- 244   1          isCorrectPsw = true;
- 245   1      }
- 246          
- 247          void set_PSW()
- 248          {
- 249   1          int ii, inin;
- 250   1          for (ii = 0; ii < 4; ii++)
- 251   1          {
- 252   2              P3 = 0xff;
- 253   2              inin = genInput();
- 254   2              if (inin >= 0 && inin <= 9)
- 255   2              {
- 256   3                  psw[ii] = inin;
- 257   3                  shumaguan[3 - ii].duan = numbers[inin];
- 258   3              }
- 259   2              else if (inin == 11)
- 260   2              {
- 261   3                  shumaguan[0].duan = 0xff;
- 262   3                  shumaguan[1].duan = 0xff;
- 263   3                  shumaguan[2].duan = 0xff;
- 264   3                  shumaguan[3].duan = 0xff;
- 265   3                  ii = -1;
- 266   3              }
- 267   2          }
- 268   1      }
- 269          
- 270          // timer
- 271          
- 272          void timer0Init()
- 273          {
- 274   1          TMOD = 0x01;
- 275   1          TH0 = 0x00;
- 276   1          TL0 = 0x5c;
- 277   1          TF0 = 0;
- 278   1          TR0 = 1;
- 279   1          ET0 = 1;
- 280   1          EA = 1;
- 281   1      }
- 282          
- 283          void time0() interrupt 1
- 284          {
- 285   1          TH0 = 0x00;
- 286   1          TL0 = 0x5c;
- 287   1      
- 288   1          if (decile == 0)
- 289   1          {
- 290   2              decile = 9;
- 291   2              if (single_digit == 0)
- 292   2              {
- 293   3                  single_digit = 9;
- 294   3                  if (tens_digit == 0)
- 295   3                  {
- 296   4                      tens_digit = 2;
- 297   4                  }
- 298   3                  else
- 299   3                  {
- 300   4                      tens_digit--;
- 301   4                  }
- 302   3              }
-C51 COMPILER V9.60.0.0   MAIN                                                              10/29/2022 20:23:11 PAGE 6   
+ 241   4                      switch (num) //逐位输入
+ 242   4                      {
+ 243   5                      case 0:
+ 244   5                          a = KeyNum;
+ 245   5                          num++;
+ 246   5                          if (type == 0)
+ 247   5                              time++;
+ 248   5                          break; // time控制30s倒计时启动
+ 249   5                      case 1:
+ 250   5                          b = KeyNum;
+ 251   5                          num++;
+ 252   5                          break;
+ 253   5                      case 2:
+ 254   5                          c = KeyNum;
+ 255   5                          num++;
+ 256   5                          break;
+ 257   5                      case 3:
+ 258   5                          d = KeyNum;
+ 259   5                          num++;
+ 260   5                          break;
+ 261   5                      }
+ 262   4                  }
+ 263   3              }
+ 264   2              //=====================================================
+ 265   2              if (type == 0) //判断密码阶段
+ 266   2              {
+ 267   3                  if (num == 4) //输入4位密码自动判断
+ 268   3                  {
+ 269   4                      if (a == a1 && b == b1 && c == c1 && d == d1) //密码正确
+ 270   4                      {
+ 271   5                          P1 = 0x00; // LED全亮
+ 272   5                          type = 1;  //进入中间阶段
+ 273   5                          num = 0;   //输入位复位
+ 274   5                          time = 0;  // 30s计时停止
+ 275   5                      }
+ 276   4                      if (a != a1 || b != b1 || c != c1 || d != d1) //密码错误
+ 277   4                      {
+ 278   5                          sec = sec - 2; //计时-2
+ 279   5                          a = 22;
+ 280   5                          b = 22;
+ 281   5                          c = 22;
+ 282   5                          d = 22;  //密码区复位
+ 283   5                          num = 0; //输入位复位
+ 284   5                      }
+ 285   4                  }
+ 286   3      
+ 287   3                  if (f == 0 && g == 0 && h == 1) // 30s计时结束
+ 288   3                  {
+ 289   4                      time = 0;                        //退出计时
+ 290   4                      h = 0;                           //小bug修复
+ 291   4                      display(a, b, c, d, e, f, g, h); //小bug修复
+ 292   4                      LED1 = 0;
+ 293   4                      Delay(500);
+ 294   4                      LED1 = 1;
+ 295   4                      Delay(250);
+ 296   4                      LED1 = 0;
+ 297   4                      Delay(500);
+ 298   4                      LED1 = 1;
+ 299   4                      Delay(250);
+ 300   4                      LED1 = 0;
+ 301   4                      Delay(500);
+ 302   4                      LED1 = 1;
+C51 COMPILER V9.60.0.0   MAIN                                                              11/14/2022 13:37:51 PAGE 6   
 
- 303   2              else
- 304   2              {
- 305   3                  single_digit--;
- 306   3              }
- 307   2          }
- 308   1          else
- 309   1          {
- 310   2              decile--;
- 311   2          }
- 312   1      
- 313   1          if (tens_digit == 0 && single_digit == 0 && decile == 0)
- 314   1          {
- 315   2              alarm = 0;
- 316   2              delayMillis(300);
- 317   2              alarm = 1;
- 318   2          }
- 319   1          else
- 320   1          {
- 321   2              alarm = 1;
- 322   2          }
- 323   1      
- 324   1          set_Time(tens_digit, single_digit, decile);
- 325   1      }
- 326          
- 327          void onStart()
- 328          {
- 329   1          int fu = 0;
- 330   1          start_key = 1;
- 331   1          while (1)
- 332   1          {
- 333   2              for (fu = 0; fu < 8; fu++)
- 334   2              {
- 335   3                  xw = 1;
- 336   3                  P0 = shumaguan[fu].wei;
- 337   3                  xw = 0;
- 338   3                  xd = 1;
- 339   3                  P0 = 0x40;
- 340   3                  xd = 0;
- 341   3                  delayMillis(2);
- 342   3              }
- 343   2              if (!start_key)
- 344   2              {
- 345   3                  delayMillis(10);
- 346   3                  if (!start_key)
- 347   3                  {
- 348   4                      break;
- 349   4                  }
- 350   3              }
- 351   2          }
- 352   1      }
- 353          
- 354          void main()
- 355          {
- 356   1          int ii = 0, inin;
- 357   1          onStart();
- 358   1          timer0Init();
- 359   1          while (1)
- 360   1          {
- 361   2              P3 = 0xff;
- 362   2              inin = genInput();
- 363   2              if (inin >= 0 && inin <= 9)
- 364   2              {
-C51 COMPILER V9.60.0.0   MAIN                                                              10/29/2022 20:23:11 PAGE 7   
+ 303   4                      Delay(250); //蜂鸣器响三声
+ 304   4                      a = 22;
+ 305   4                      b = 22;
+ 306   4                      c = 22;
+ 307   4                      d = 22;
+ 308   4                      e = 22;
+ 309   4                      f = 22;
+ 310   4                      g = 22;
+ 311   4                      h = 22;
+ 312   4                      num = 0;
+ 313   4                      mmsec = 0;
+ 314   4                      msec = 10, sec = 29; //整体复位
+ 315   4                  }
+ 316   3              }
+ 317   2              //=====================================================
+ 318   2              if (type == 1) //中间阶段
+ 319   2              {
+ 320   3                  a = 22;
+ 321   3                  b = 22;
+ 322   3                  c = 22;
+ 323   3                  d = 22; //密码区复位
+ 324   3                  e = have / 1000;
+ 325   3                  f = have % 1000 / 100;
+ 326   3                  g = have % 100 / 10;
+ 327   3                  h = have % 10; //数码管后4位显示余额
+ 328   3      
+ 329   3                  type = 2; //进入存取款阶段
+ 330   3              }
+ 331   2              //=====================================================
+ 332   2              if (type == 2) //存取款阶段
+ 333   2              {
+ 334   3                  money = (a * 1000 + b * 100 + c * 10 + d); //计算输入金额
+ 335   3      
+ 336   3                  if (KeyNum == 12 && d != 22) //存
+ 337   3                  {
+ 338   4                      if (d != 22) //判断是否输入4位数
+ 339   4                      {
+ 340   5                          have = have + money;
+ 341   5                          if (have <= 9999) //判断数值是否超出9999
+ 342   5                          {
+ 343   6                              a = 22;
+ 344   6                              b = 22;
+ 345   6                              c = 22;
+ 346   6                              d = 22;
+ 347   6                              e = have / 1000;
+ 348   6                              f = have % 1000 / 100;
+ 349   6                              g = have % 100 / 10;
+ 350   6                              h = have % 10;
+ 351   6                          }
+ 352   5                          else //如果超出
+ 353   5                          {
+ 354   6                              BUJ = 0;
+ 355   6                              Delay(250);
+ 356   6                              BUJ = 1; //蜂鸣器响1声
+ 357   6                              a = 22;
+ 358   6                              b = 22;
+ 359   6                              c = 22;
+ 360   6                              d = 22;
+ 361   6                              have = have - money; //复位
+ 362   6                          }
+ 363   5                          num = 0; //复位
+ 364   5                      }
+C51 COMPILER V9.60.0.0   MAIN                                                              11/14/2022 13:37:51 PAGE 7   
 
- 365   3                  psw[ii] = inin;
- 366   3                  shumaguan[3 - ii].duan = numbers[inin];
- 367   3                  ii++;
- 368   3                  inin = 0;
- 369   3              }
- 370   2              else if (inin == 11)
- 371   2              {
- 372   3                  shumaguan[0].duan = 0xff;
- 373   3                  shumaguan[1].duan = 0xff;
- 374   3                  shumaguan[2].duan = 0xff;
- 375   3                  shumaguan[3].duan = 0xff;
- 376   3                  ii = -1;
- 377   3              }
- 378   2              else
- 379   2              {
- 380   3                  inin = 0;
- 381   3              }
- 382   2              if (ii == 4)
- 383   2              {
- 384   3                  checkPSW();
- 385   3                  ii = 0;
- 386   3                  if (isCorrectPsw)
- 387   3                  {
- 388   4                      ET0 = 0;
- 389   4                      ET1 = 1;
- 390   4                  }
- 391   3                  else
- 392   3                  {
- 393   4                      ET0 = 0;
- 394   4                      single_digit -= 2;
- 395   4                      ET0 = 1;
- 396   4                  }
- 397   3              }
- 398   2      
- 399   2              display();
- 400   2          }
- 401   1      }
+ 365   4                  }
+ 366   3      
+ 367   3                  if (KeyNum == 13) //取 （功能与”存“相似）
+ 368   3                  {
+ 369   4                      if (d != 22)
+ 370   4                      {
+ 371   5                          if (have > money)
+ 372   5                          {
+ 373   6                              have = have - money;
+ 374   6                              a = 22;
+ 375   6                              b = 22;
+ 376   6                              c = 22;
+ 377   6                              d = 22;
+ 378   6                              e = have / 1000;
+ 379   6                              f = have % 1000 / 100;
+ 380   6                              g = have % 100 / 10;
+ 381   6                              h = have % 10;
+ 382   6                          }
+ 383   5                          else
+ 384   5                          {
+ 385   6                              BUJ = 0;
+ 386   6                              Delay(250);
+ 387   6                              BUJ = 1;
+ 388   6                              a = 22;
+ 389   6                              b = 22;
+ 390   6                              c = 22;
+ 391   6                              d = 22;
+ 392   6                          }
+ 393   5                          num = 0;
+ 394   5                      }
+ 395   4                  }
+ 396   3      
+ 397   3                  if (KeyNum == 14) //重新输入处理金额
+ 398   3                  {
+ 399   4                      a = 22;
+ 400   4                      b = 22;
+ 401   4                      c = 22;
+ 402   4                      d = 22;
+ 403   4                      num = 0;
+ 404   4                  }
+ 405   3      
+ 406   3                  if (KeyNum == 15) //复位回最初状态
+ 407   3                  {
+ 408   4                      a = 22;
+ 409   4                      b = 22;
+ 410   4                      c = 22;
+ 411   4                      d = 22;
+ 412   4                      e = 22;
+ 413   4                      f = 22;
+ 414   4                      g = 22;
+ 415   4                      h = 22;
+ 416   4                      num = 0;
+ 417   4                      type = 0;  //进入输入密码阶段
+ 418   4                      P1 = 0xff; // LED全灭
+ 419   4                  }
+ 420   3              }
+ 421   2              //=====================================================
+ 422   2              display(a, b, c, d, e, f, g, h); //数码管扫描
+ 423   2          }
+ 424   1      }
+ 425          
+ 426          void timer0() interrupt 1 // 30秒倒计时
+C51 COMPILER V9.60.0.0   MAIN                                                              11/14/2022 13:37:51 PAGE 8   
+
+ 427          {
+ 428   1          TH0 = 0x4C;
+ 429   1          TL0 = 0x00; //定时50ms
+ 430   1      
+ 431   1          if (time >= 1)
+ 432   1          {
+ 433   2              f = sec / 10;
+ 434   2              g = sec % 10;
+ 435   2              h = msec;
+ 436   2      
+ 437   2              mmsec++;
+ 438   2              if (mmsec == 2)
+ 439   2              {
+ 440   3                  msec--;
+ 441   3                  mmsec = 0;
+ 442   3              }
+ 443   2      
+ 444   2              if (msec == 0)
+ 445   2              {
+ 446   3                  sec--;
+ 447   3                  msec = 10;
+ 448   3              }
+ 449   2          }
+ 450   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =   1032    ----
-   CONSTANT SIZE    =     11    ----
+   CODE SIZE        =   1662    ----
+   CONSTANT SIZE    =     25    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =     44       4
+   DATA SIZE        =     26      23
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.

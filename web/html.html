@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+
+<html lang="zh-cn">
+
+<head>
+
+	<meta charset="UTF-8">
+
+	<title>Document</title>
+
+	<style>
+
+	@keyframes ani{
+
+		from{
+
+			transform:rotateY(0deg) rotateX(0deg);
+
+		}
+
+		to{
+
+			transform:rotateY(360deg) rotateX(360deg);
+
+		}
+
+	}
+
+	body{
+
+		perspective:1000px;
+
+	}
+
+	#heart{
+
+		position:relative;
+
+		height:200px;
+
+		width:150px;
+
+		margin:200px auto;
+
+		animation:ani 5s linear infinite; 
+
+		transform-style:preserve-3d;
+
+ 
+
+	}
+
+	.line{
+
+		position:absolute;
+
+		height:200px;
+
+		width:150px;
+
+		border:2px solid red;
+
+		border-left:0;
+
+		border-bottom:0;
+
+		border-radius:50% 50% 0/50% 40% 0;
+
+	}
+
+	#word{
+
+		font-family:"隶书";
+
+		font-size:1.3em;
+
+		color:red;
+
+		position:absolute;
+
+		top: 80px;
+
+		left:22px;
+
+		font-weight:bold;
+
+	}
+
+ 
+
+	</style>
+
+</head>
+
+<body>
+
+	<div id="heart">
+
+		<div id="word">I Love You</div> 
+		 <!-- 写你写的 -->
+
+	</div>
+
+ 
+
+	<script>
+
+		var heart=document.getElementById("heart");
+
+		var html="";
+
+		for(var i=0;i<36;i++){
+
+			html+="<div class='line' style='transform:rotateY("+i*10+"deg) rotateZ(45deg) translateX(25px)'></div>";
+
+		}
+
+		heart.innerHTML += html;
+
+	</script>
+
+</body>
+
+</html>
