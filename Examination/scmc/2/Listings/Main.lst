@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   MAIN                                                              11/14/2022 13:37:51 PAGE 1   
+C51 COMPILER V9.60.0.0   MAIN                                                              11/14/2022 16:34:25 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
@@ -15,7 +15,7 @@ line level    source
    5          sbit wela = P2 ^ 7; //位定义数码管位选锁存器接口
    6          sbit dula = P2 ^ 6; //位定义数码管段选锁存器接口
    7          sbit LED1 = P1 ^ 0;
-   8          sbit BUJ = P1 ^ 2; //蜂鸣器
+   8          sbit BUJ = P2 ^ 3; //蜂鸣器
    9          
   10          uint num = 0;  //判断输按键次数
   11          uint time = 0; //控制定时器启动
@@ -62,7 +62,7 @@ line level    source
   52                  0x07, //"7"
   53                  0x7F, //"8"
   54                  0x6F, //"9"
-C51 COMPILER V9.60.0.0   MAIN                                                              11/14/2022 13:37:51 PAGE 2   
+C51 COMPILER V9.60.0.0   MAIN                                                              11/14/2022 16:34:25 PAGE 2   
 
   55                  0x77, //"A"
   56                  0x7C, //"B"
@@ -126,7 +126,7 @@ line level    source
  114   1          dula = 0;
  115   1      
  116   1          P0 = 0xef;
-C51 COMPILER V9.60.0.0   MAIN                                                              11/14/2022 13:37:51 PAGE 3   
+C51 COMPILER V9.60.0.0   MAIN                                                              11/14/2022 16:34:25 PAGE 3   
 
  117   1          wela = 1;
  118   1          wela = 0;
@@ -190,7 +190,7 @@ line level    source
  176   4                  case 0x0e:
  177   4                      KeyValue = KeyValue;
  178   4                      break;
-C51 COMPILER V9.60.0.0   MAIN                                                              11/14/2022 13:37:51 PAGE 4   
+C51 COMPILER V9.60.0.0   MAIN                                                              11/14/2022 16:34:25 PAGE 4   
 
  179   4                  case 0x0d:
  180   4                      KeyValue += 4;
@@ -233,7 +233,7 @@ line level    source
  217          void main()
  218          {
  219   1          uint KeyNum;                         //键盘输入值
- 220   1          uint money;                          //待交换金额
+ 220   1          uint money;                          //交换金额
  221   1          uint have = 6000;                    //初始金额
  222   1          uint a1 = 1, b1 = 2, c1 = 3, d1 = 4; //密码
  223   1          uint type = 0;                       // 0，判断密码界面； 2，存取款界面
@@ -254,7 +254,7 @@ line level    source
  238   2              {
  239   3                  if (KeyNum < 10) // 0~9为输入值
  240   3                  {
-C51 COMPILER V9.60.0.0   MAIN                                                              11/14/2022 13:37:51 PAGE 5   
+C51 COMPILER V9.60.0.0   MAIN                                                              11/14/2022 16:34:25 PAGE 5   
 
  241   4                      switch (num) //逐位输入
  242   4                      {
@@ -304,9 +304,9 @@ line level    source
  286   3      
  287   3                  if (f == 0 && g == 0 && h == 1) // 30s计时结束
  288   3                  {
- 289   4                      time = 0;                        //退出计时
- 290   4                      h = 0;                           //小bug修复
- 291   4                      display(a, b, c, d, e, f, g, h); //小bug修复
+ 289   4                      time = 0; //退出计时
+ 290   4                      h = 0;
+ 291   4                      display(a, b, c, d, e, f, g, h);
  292   4                      LED1 = 0;
  293   4                      Delay(500);
  294   4                      LED1 = 1;
@@ -318,7 +318,7 @@ line level    source
  300   4                      LED1 = 0;
  301   4                      Delay(500);
  302   4                      LED1 = 1;
-C51 COMPILER V9.60.0.0   MAIN                                                              11/14/2022 13:37:51 PAGE 6   
+C51 COMPILER V9.60.0.0   MAIN                                                              11/14/2022 16:34:25 PAGE 6   
 
  303   4                      Delay(250); //蜂鸣器响三声
  304   4                      a = 22;
@@ -382,7 +382,7 @@ line level    source
  362   6                          }
  363   5                          num = 0; //复位
  364   5                      }
-C51 COMPILER V9.60.0.0   MAIN                                                              11/14/2022 13:37:51 PAGE 7   
+C51 COMPILER V9.60.0.0   MAIN                                                              11/14/2022 16:34:25 PAGE 7   
 
  365   4                  }
  366   3      
@@ -441,12 +441,12 @@ line level    source
  419   4                  }
  420   3              }
  421   2              //=====================================================
- 422   2              display(a, b, c, d, e, f, g, h); //数码管扫描
+ 422   2              display(e, f, g, h, a, b, c, d); //数码管扫描
  423   2          }
  424   1      }
  425          
  426          void timer0() interrupt 1 // 30秒倒计时
-C51 COMPILER V9.60.0.0   MAIN                                                              11/14/2022 13:37:51 PAGE 8   
+C51 COMPILER V9.60.0.0   MAIN                                                              11/14/2022 16:34:25 PAGE 8   
 
  427          {
  428   1          TH0 = 0x4C;
@@ -457,25 +457,28 @@ line level    source
  433   2              f = sec / 10;
  434   2              g = sec % 10;
  435   2              h = msec;
- 436   2      
- 437   2              mmsec++;
- 438   2              if (mmsec == 2)
- 439   2              {
- 440   3                  msec--;
- 441   3                  mmsec = 0;
- 442   3              }
- 443   2      
- 444   2              if (msec == 0)
- 445   2              {
- 446   3                  sec--;
- 447   3                  msec = 10;
- 448   3              }
- 449   2          }
- 450   1      }
+ 436   2              // f = sec / 10;
+ 437   2              // g = sec % 10;
+ 438   2              // h = msec;
+ 439   2      
+ 440   2              mmsec++;
+ 441   2              if (mmsec == 2)
+ 442   2              {
+ 443   3                  msec--;
+ 444   3                  mmsec = 0;
+ 445   3              }
+ 446   2      
+ 447   2              if (msec == 0)
+ 448   2              {
+ 449   3                  sec--;
+ 450   3                  msec = 10;
+ 451   3              }
+ 452   2          }
+ 453   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =   1662    ----
+   CODE SIZE        =   1683    ----
    CONSTANT SIZE    =     25    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----

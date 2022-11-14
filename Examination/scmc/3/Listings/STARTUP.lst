@@ -1,14 +1,16 @@
-A51 MACRO ASSEMBLER  STARTUP                                                              10/23/2022 18:29:16 PAGE     1
+A51 MACRO ASSEMBLER  STARTUP                                                              11/14/2022 16:57:48 PAGE     1
 
 
 MACRO ASSEMBLER A51 V8.2.7.0
-OBJECT MODULE PLACED IN .\Objects\STARTUP.obj
+NO OBJECT MODULE REQUESTED
 ASSEMBLER INVOKED BY: D:\Keil_v5\C51\BIN\A51.EXE STARTUP.A51 SET(SMALL) DEBUG PRINT(.\Listings\STARTUP.lst) OBJECT(.\Obj
                       ects\STARTUP.obj) EP
 
 LOC  OBJ            LINE     SOURCE
 
-                       1     $nomod51 
+                       1     MOD51
+*** _________________________^
+*** ERROR #A9 IN 1 (STARTUP.A51, LINE -3): SYNTAX ERROR
                        2     ;------------------------------------------------------------------------------
                        3     ;  This file is part of the C51 Compiler package
                        4     ;  Copyright (c) 1988-2005 Keil Elektronik GmbH and Keil Software, Inc.
@@ -63,10 +65,10 @@ LOC  OBJ            LINE     SOURCE
                       53     ;  The following EQU statements define the stack pointer for reentrant
                       54     ;  functions and initialized it:
                       55     ;
+A51 MACRO ASSEMBLER  STARTUP                                                              11/14/2022 16:57:48 PAGE     2
+
                       56     ; <h> Stack Space for reentrant functions in the SMALL model.
                       57     ;  <q> IBPSTACK: Enable SMALL model reentrant stack
-A51 MACRO ASSEMBLER  STARTUP                                                              10/23/2022 18:29:16 PAGE     2
-
                       58     ;     <i> Stack space for reentrant functions in the SMALL model.
   0000                59     IBPSTACK        EQU     0       ; set to 1 if small reentrant is used.
                       60     ;  <o> IBPSTACKTOP: End address of SMALL model stack <0x0-0xFF>
@@ -117,10 +119,22 @@ LOC  OBJ            LINE     SOURCE
                      105     
                      106     ; Standard SFR Symbols 
   00E0               107     ACC     DATA    0E0H
+*** _________________________^
+*** ERROR #A10 IN 107 (STARTUP.A51, LINE 107): ATTEMPT TO DEFINE AN ALREADY DEFINED SYMBOL
   00F0               108     B       DATA    0F0H
+*** _________________________^
+*** ERROR #A10 IN 108 (STARTUP.A51, LINE 108): ATTEMPT TO DEFINE AN ALREADY DEFINED SYMBOL
   0081               109     SP      DATA    81H
+*** _________________________^
+*** ERROR #A10 IN 109 (STARTUP.A51, LINE 109): ATTEMPT TO DEFINE AN ALREADY DEFINED SYMBOL
   0082               110     DPL     DATA    82H
+*** _________________________^
+*** ERROR #A10 IN 110 (STARTUP.A51, LINE 110): ATTEMPT TO DEFINE AN ALREADY DEFINED SYMBOL
   0083               111     DPH     DATA    83H
+*** _________________________^
+*** ERROR #A10 IN 111 (STARTUP.A51, LINE 111): ATTEMPT TO DEFINE AN ALREADY DEFINED SYMBOL
+A51 MACRO ASSEMBLER  STARTUP                                                              11/14/2022 16:57:48 PAGE     3
+
                      112     
                      113                     NAME    ?C_STARTUP
                      114     
@@ -133,8 +147,6 @@ LOC  OBJ            LINE     SOURCE
                      121     
                      122                     EXTRN CODE (?C_START)
                      123                     PUBLIC  ?C_STARTUP
-A51 MACRO ASSEMBLER  STARTUP                                                              10/23/2022 18:29:16 PAGE     3
-
                      124     
 ----                 125                     CSEG    AT      0
 0000 020000   F      126     ?C_STARTUP:     LJMP    STARTUP1
@@ -189,6 +201,8 @@ LOC  OBJ            LINE     SOURCE
                              
                                              MOV     ?C_XBP,#HIGH XBPSTACKTOP
                                              MOV     ?C_XBP+1,#LOW XBPSTACKTOP
+A51 MACRO ASSEMBLER  STARTUP                                                              11/14/2022 16:57:48 PAGE     4
+
                              ENDIF
                      179     
                      180     IF PBPSTACK <> 0
@@ -201,8 +215,6 @@ LOC  OBJ            LINE     SOURCE
                      187     ; This code is required if you use L51_BANK.A51 with Banking Mode 4
                      188     ;<h> Code Banking
                      189     ; <q> Select Bank 0 for L51_BANK.A51 Mode 4
-A51 MACRO ASSEMBLER  STARTUP                                                              10/23/2022 18:29:16 PAGE     4
-
                      190     
                              
                              
@@ -212,7 +224,7 @@ LOC  OBJ            LINE     SOURCE
 0009 020000   F      196                     LJMP    ?C_START
                      197     
                      198                     END
-A51 MACRO ASSEMBLER  STARTUP                                                              10/23/2022 18:29:16 PAGE     5
+A51 MACRO ASSEMBLER  STARTUP                                                              11/14/2022 16:57:48 PAGE     5
 
 SYMBOL TABLE LISTING
 ------ ----- -------
@@ -232,6 +244,7 @@ IBPSTACK . . . . .  N NUMB   0000H   A
 IBPSTACKTOP. . . .  N NUMB   0100H   A   
 IDATALEN . . . . .  N NUMB   0080H   A   
 IDATALOOP. . . . .  C ADDR   0003H   R   SEG=?C_C51STARTUP
+MOD51. . . . . . .    ----   -----       
 PBPSTACK . . . . .  N NUMB   0000H   A   
 PBPSTACKTOP. . . .  N NUMB   0100H   A   
 PDATALEN . . . . .  N NUMB   0000H   A   
@@ -250,4 +263,4 @@ XDATASTART . . . .  N NUMB   0000H   A
 REGISTER BANK(S) USED: 0 
 
 
-ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
+ASSEMBLY COMPLETE.  0 WARNING(S), 6 ERROR(S)

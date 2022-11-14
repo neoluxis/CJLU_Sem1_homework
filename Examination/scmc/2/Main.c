@@ -5,7 +5,7 @@
 sbit wela = P2 ^ 7; //位定义数码管位选锁存器接口
 sbit dula = P2 ^ 6; //位定义数码管段选锁存器接口
 sbit LED1 = P1 ^ 0;
-sbit BUJ = P1 ^ 2; //蜂鸣器
+sbit BUJ = P2 ^ 3; //蜂鸣器
 
 uint num = 0;  //判断输按键次数
 uint time = 0; //控制定时器启动
@@ -217,7 +217,7 @@ int KeyScan()
 void main()
 {
     uint KeyNum;                         //键盘输入值
-    uint money;                          //待交换金额
+    uint money;                          //交换金额
     uint have = 6000;                    //初始金额
     uint a1 = 1, b1 = 2, c1 = 3, d1 = 4; //密码
     uint type = 0;                       // 0，判断密码界面； 2，存取款界面
@@ -286,9 +286,9 @@ void main()
 
             if (f == 0 && g == 0 && h == 1) // 30s计时结束
             {
-                time = 0;                        //退出计时
-                h = 0;                           
-                display(a, b, c, d, e, f, g, h); 
+                time = 0; //退出计时
+                h = 0;
+                display(a, b, c, d, e, f, g, h);
                 LED1 = 0;
                 Delay(500);
                 LED1 = 1;
@@ -419,7 +419,7 @@ void main()
             }
         }
         //=====================================================
-        display(a, b, c, d, e, f, g, h); //数码管扫描
+        display(e, f, g, h, a, b, c, d); //数码管扫描
     }
 }
 
@@ -433,6 +433,9 @@ void timer0() interrupt 1 // 30秒倒计时
         f = sec / 10;
         g = sec % 10;
         h = msec;
+        // f = sec / 10;
+        // g = sec % 10;
+        // h = msec;
 
         mmsec++;
         if (mmsec == 2)

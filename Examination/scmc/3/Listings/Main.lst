@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   MAIN                                                              10/23/2022 18:29:17 PAGE 1   
+C51 COMPILER V9.60.0.0   MAIN                                                              11/14/2022 17:09:37 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
@@ -8,173 +8,237 @@ COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE Main.c OPTIMIZE(8,SPEED) BROWSE 
 
 line level    source
 
-   1          #include "REG52.H"
-   2          
-   3          // general
-   4          #define uchar unsigned char
-   5          #define uint unsigned int
-   6          
-   7          #define direction int
-   8          #define left 0
-   9          #define right 1
-  10          
-  11          void delay(int millis)
-  12          {
-  13   1          int i, j;
-  14   1          for (i = 0; i < millis; i++)
-  15   1          {
-  16   2              for (j = 0; j < 11; j++)
-  17   2                  ;
-  18   2          }
-  19   1      }
-  20          
-  21          // LED
-  22          uchar LED = 0x7f;
-  23          uint T = 2; // sec
-  24          direction dir = right;
-  25          
-  26          // 键盘
-  27          sbit faster = P3 ^ 0;
-  28          sbit slower = P3 ^ 1;
-  29          sbit cd = P3 ^ 2;
-  30          
-  31          void checkKey()
-  32          {
-  33   1          if (!faster)
-  34   1          {
-  35   2              delay(2);
-  36   2      
-  37   2              if (!faster)
-  38   2              {
-  39   3                  if (T > 1)
-  40   3                  {
-  41   4                      T--;
-  42   4                  }
-  43   3                  while (!faster)
-  44   3                      ;
-  45   3              }
-  46   2          }
-  47   1          else if (!slower)
-  48   1          {
-  49   2              delay(2);
-  50   2      
-  51   2              if (!slower)
-  52   2              {
-  53   3                  if (T < 4)
-  54   3                  {
-C51 COMPILER V9.60.0.0   MAIN                                                              10/23/2022 18:29:17 PAGE 2   
+   1          
+   2          #include <reg52.h> 
+   3          #include <intrins.h>
+   4          typedef unsigned char uchar; 
+   5          
+   6          uchar totaltime, dutyfactor, direct;
+   7          
+   8          sbit du = P2 ^ 6;                                         
+   9          sbit we = P2 ^ 7;                                         
+  10          unsigned char code distab[8] = {0xfe, 0xfd, 0xfb, 0xf7, 0xef, 0xdF, 0xbF, 0x7F};          
+  11          char code tabel[] = {0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F, 0x6F, 0x00, 0xff, 0xb6}; 
+  12          sbit key_s2 = P3 ^ 0;
+  13          sbit key_s3 = P3 ^ 1;
+  14          sbit key_s4 = P3 ^ 2;
+  15          sbit key_s5 = P3 ^ 3;
+  16          sbit LED = P1;      
+  17          void InterruptInit(); 
+  18          void InterruptInit1();
+  19          void Time0();    
+  20          void breatheLED(); int m;
+  21          int f = 1;
+  22          int t[4] = {70, 100, 122, 141};
+  23          
+  24          int a = 0;
+  25          int time = 0, timea = 0, time2 = 0;
+  26          void delay(int z)
+  27          {
+  28   1        int x, y;
+  29   1        for (x = z; x > 0; x--)
+  30   1          for (y = 114; y > 0; y--)
+  31   1            ;
+  32   1      }
+  33          void display(int time) 
+  34          {
+  35   1        char g;
+  36   1      
+  37   1        g = time % 10;
+  38   1      
+  39   1        du = 0;
+  40   1        P0 = tabel[g];
+  41   1        du = 1;
+  42   1        du = 0;
+  43   1      
+  44   1        we = 0;
+  45   1        P0 = distab[0];
+  46   1        we = 1;
+  47   1        we = 0;
+  48   1      }
+  49          
+  50          void main()
+  51          {
+  52   1        InterruptInit();
+  53   1        InterruptInit1();
+  54   1        m = 0xfe;
+C51 COMPILER V9.60.0.0   MAIN                                                              11/14/2022 17:09:37 PAGE 2   
 
-  55   4                      T++;
-  56   4                  }
-  57   3                  while (!slower)
-  58   3                      ;
-  59   3              }
-  60   2          }
-  61   1          else if (!cd)
-  62   1          {
-  63   2              delay(2);
-  64   2              if (!cd)
-  65   2              {
-  66   3                  dir = (dir == left) ? right : left;
-  67   3                  while (!cd)
-  68   3                      ;
-  69   3              }
-  70   2          }
-  71   1      }
-  72          
-  73          // 数码管
-  74          sbit dula = P2 ^ 6;
-  75          sbit wela = P2 ^ 7;
-  76          
-  77          uchar code numbers[] = {
-  78              0x3F, // "0"
-  79              0x06, // "1"
-  80              0x5B, // "2"
-  81              0x4F, // "3"
-  82              0x66, // "4"
-  83          };
-  84          
-  85          void showSpeed()
-  86          {
-  87   1          wela = 1;
-  88   1          P0 = 0xfe;
-  89   1          wela = 0;
-  90   1          dula = 1;
-  91   1          P0 = numbers[T];
-  92   1          dula = 0;
-  93   1      }
-  94          
-  95          void Breeze()
-  96          {
-  97   1          int i;
-  98   1          checkKey();
-  99   1          showSpeed();
- 100   1          // go lighter in 1 sec
- 101   1          for (i = 1; i <= 100; i++)
- 102   1          {
- 103   2      
- 104   2              P1 = LED;
- 105   2              delay(T * i);
- 106   2              P1 = 0xff;
- 107   2              delay(100 - T * i);
- 108   2              checkKey();
- 109   2              showSpeed();
- 110   2          }
- 111   1          P1 = 0xff;
- 112   1          // go dark in 1 sec
- 113   1          for (i = 1; i <= 100; i++)
- 114   1          {
- 115   2      
- 116   2              P1 = LED;
-C51 COMPILER V9.60.0.0   MAIN                                                              10/23/2022 18:29:17 PAGE 3   
+  55   1        timea = 0;
+  56   1        time2 = 0;
+  57   1      
+  58   1        while (1)
+  59   1        {
+  60   2          breatheLED();
+  61   2          display(a + 1);
+  62   2          if (key_s2 == 0)
+  63   2          {
+  64   3            f = 1;
+  65   3          }
+  66   2          if (key_s3 == 0)
+  67   2          {
+  68   3            f = -1;
+  69   3          }
+  70   2      
+  71   2          if (key_s5 == 0)
+  72   2          {
+  73   3            delay(1);
+  74   3            if (key_s5 == 0)
+  75   3            {
+  76   4              a = a + 1;
+  77   4              while (!key_s5)
+  78   4                ;
+  79   4            }
+  80   3          }
+  81   2          if (key_s4 == 0)
+  82   2          {
+  83   3            delay(1);
+  84   3            if (key_s4 == 0)
+  85   3            {
+  86   4              a = a - 1;
+  87   4              while (!key_s4)
+  88   4                ;
+  89   4            }
+  90   3          }
+  91   2          if (a < 0)
+  92   2          {
+  93   3            a = 0;
+  94   3          }
+  95   2          else if (a > 3)
+  96   2          {
+  97   3            a = 3;
+  98   3          }
+  99   2      
+ 100   2        
+ 101   2        }
+ 102   1      }
+ 103          
+ 104          
+ 105          void InterruptInit()
+ 106          {
+ 107   1        TMOD &= 0x00;
+ 108   1        TMOD |= 0x11;
+ 109   1      
+ 110   1      
+ 111   1        TH0 = 0xff; 
+ 112   1        TL0 = 0xa3; 
+ 113   1      
+ 114   1        ET0 = 1; 
+ 115   1      
+ 116   1        EA = 1; 
+C51 COMPILER V9.60.0.0   MAIN                                                              11/14/2022 17:09:37 PAGE 3   
 
- 117   2              delay(100 - T * i);
- 118   2              P1 = 0xff;
- 119   2              delay(T * i);
- 120   2              checkKey();
- 121   2              showSpeed();
- 122   2          }
- 123   1          if (dir == right && LED != 0xfe)
- 124   1          {
- 125   2              LED = LED >> 1;
- 126   2              LED = LED | 0x80;
- 127   2          }
- 128   1          else if (LED == 0xfe)
- 129   1          {
- 130   2              dir = left;
- 131   2              LED = LED << 1;
- 132   2              LED = LED | 0x01;
- 133   2          }
- 134   1          else if (LED == 0x7f)
- 135   1          {
- 136   2              dir = right;
- 137   2              LED = LED >> 1;
- 138   2              LED = LED | 0x80;
- 139   2          }
- 140   1          else if (dir == left && LED != 0x7f)
- 141   1          {
- 142   2              LED = LED << 1;
- 143   2              LED = LED | 0x01;
- 144   2          }
- 145   1          checkKey();
- 146   1          showSpeed();
- 147   1      }
- 148          
- 149          void main()
- 150          {
- 151   1          while (1)
- 152   1          {
- 153   2              Breeze();
- 154   2          }
+ 117   1      
+ 118   1        TR0 = 1; 
+ 119   1      }
+ 120          
+ 121          void InterruptInit1()
+ 122          
+ 123          {
+ 124   1        TMOD &= 0x00; 
+ 125   1        TMOD |= 0x11; 
+ 126   1      
+ 127   1        //初值
+ 128   1      
+ 129   1        TH1 = 0x4b; 
+ 130   1        TL1 = 0xfd; 
+ 131   1      
+ 132   1        ET1 = 1; 
+ 133   1        EA = 1;  
+ 134   1        TR1 = 1; 
+ 135   1      }
+ 136          
+ 137          
+ 138          void Time0() interrupt 1
+ 139          {
+ 140   1        
+ 141   1        TH0 = 0xff; 
+ 142   1        TL0 = 0xa3;
+ 143   1      
+ 144   1        totaltime++;
+ 145   1        time++;
+ 146   1      }
+ 147          
+ 148          void Time1() interrupt 3
+ 149          {
+ 150   1        
+ 151   1        TH1 = 0x4b; 
+ 152   1        TL1 = 0xfd;
+ 153   1      
+ 154   1        timea++; 
  155   1      }
+ 156          
+ 157          void breatheLED()
+ 158          {
+ 159   1        if (totaltime >= t[a])
+ 160   1        {      
+ 161   2          totaltime = 0; 
+ 162   2      
+ 163   2          
+ 164   2          if (direct == 0)
+ 165   2          {         
+ 166   3            dutyfactor++; 
+ 167   3          }
+ 168   2          else if (direct == 1)
+ 169   2          {         
+ 170   3            dutyfactor--; 
+ 171   3          }
+ 172   2        }
+ 173   1      
+ 174   1        if (dutyfactor <= 0)
+ 175   1        {     
+ 176   2          direct = 0; 
+ 177   2        }
+ 178   1        else if (dutyfactor >= t[a])
+C51 COMPILER V9.60.0.0   MAIN                                                              11/14/2022 17:09:37 PAGE 4   
+
+ 179   1        {     
+ 180   2          direct = 1;
+ 181   2        }
+ 182   1      
+ 183   1        if (totaltime < dutyfactor)
+ 184   1        {     
+ 185   2          P1 = m; 
+ 186   2        }
+ 187   1        else
+ 188   1        {
+ 189   2          P1 = 0xff; 
+ 190   2        }
+ 191   1      
+ 192   1      
+ 193   1        if (timea == 22)
+ 194   1        {
+ 195   2          time2++;
+ 196   2          timea = 0;
+ 197   2        }
+ 198   1      
+ 199   1        if (time2 == a + 1)
+ 200   1        {
+ 201   2          m = _crol_(m, f);
+ 202   2          time2 = 0;
+ 203   2          totaltime = 0;
+ 204   2          direct = 0;
+ 205   2          dutyfactor = 0;
+ 206   2        }
+ 207   1      
+ 208   1        if (m == 0x7f)
+ 209   1        {
+ 210   2          f = -1;
+ 211   2        }
+ 212   1        else if (m == 0xfe)
+ 213   1        {
+ 214   2          f = 1;
+ 215   2        }
+ 216   1      
+ 217   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    392    ----
-   CONSTANT SIZE    =      5    ----
+   CODE SIZE        =    487    ----
+   CONSTANT SIZE    =     21    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =      5       2
+   DATA SIZE        =     23    ----
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.

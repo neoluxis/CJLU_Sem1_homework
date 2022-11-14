@@ -1,155 +1,208 @@
-#include "REG52.H"
 
-// general
-#define uchar unsigned char
-#define uint unsigned int
+#include <reg52.h>
+#include <intrins.h>
+typedef unsigned char uchar;
 
-#define direction int
-#define left 0
-#define right 1
+uchar totaltime, dutyfactor, direct;
 
-void delay(int millis)
+sbit du = P2 ^ 6;
+sbit we = P2 ^ 7;
+unsigned char code distab[8] = {0xfe, 0xfd, 0xfb, 0xf7, 0xef, 0xdF, 0xbF, 0x7F};
+char code tabel[] = {0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F, 0x6F, 0x00, 0xff, 0xb6};
+sbit key_s2 = P3 ^ 0;
+sbit key_s3 = P3 ^ 1;
+sbit key_s4 = P3 ^ 2;
+sbit key_s5 = P3 ^ 3;
+sbit LED = P1;
+void InterruptInit();
+void InterruptInit1();
+void Time0();
+void breatheLED();
+int m;
+int f = 1;
+int t[4] = {70, 100, 122, 141};
+
+int a = 0;
+int time = 0, timea = 0, time2 = 0;
+void delay(int z)
 {
-    int i, j;
-    for (i = 0; i < millis; i++)
-    {
-        for (j = 0; j < 11; j++)
+    int x, y;
+    for (x = z; x > 0; x--)
+        for (y = 114; y > 0; y--)
             ;
-    }
 }
-
-// LED
-uchar LED = 0x7f;
-uint T = 2; // sec
-direction dir = right;
-
-// 键盘
-sbit faster = P3 ^ 0;
-sbit slower = P3 ^ 1;
-sbit cd = P3 ^ 2;
-
-void checkKey()
+void display(int time)
 {
-    if (!faster)
-    {
-        delay(2);
+    char g;
 
-        if (!faster)
-        {
-            if (T > 1)
-            {
-                T--;
-            }
-            while (!faster)
-                ;
-        }
-    }
-    else if (!slower)
-    {
-        delay(2);
+    g = time % 10;
 
-        if (!slower)
-        {
-            if (T < 4)
-            {
-                T++;
-            }
-            while (!slower)
-                ;
-        }
-    }
-    else if (!cd)
-    {
-        delay(2);
-        if (!cd)
-        {
-            dir = (dir == left) ? right : left;
-            while (!cd)
-                ;
-        }
-    }
-}
+    du = 0;
+    P0 = tabel[g];
+    du = 1;
+    du = 0;
 
-// 数码管
-sbit dula = P2 ^ 6;
-sbit wela = P2 ^ 7;
-
-uchar code numbers[] = {
-    0x3F, // "0"
-    0x06, // "1"
-    0x5B, // "2"
-    0x4F, // "3"
-    0x66, // "4"
-};
-
-void showSpeed()
-{
-    wela = 1;
-    P0 = 0xfe;
-    wela = 0;
-    dula = 1;
-    P0 = numbers[T];
-    dula = 0;
-}
-
-void Breeze()
-{
-    int i;
-    checkKey();
-    showSpeed();
-    // go lighter in 1 sec
-    for (i = 1; i <= 100; i++)
-    {
-
-        P1 = LED;
-        delay(T * i);
-        P1 = 0xff;
-        delay(100 - T * i);
-        checkKey();
-        showSpeed();
-    }
-    P1 = 0xff;
-    // go dark in 1 sec
-    for (i = 1; i <= 100; i++)
-    {
-
-        P1 = LED;
-        delay(100 - T * i);
-        P1 = 0xff;
-        delay(T * i);
-        checkKey();
-        showSpeed();
-    }
-    if (dir == right && LED != 0xfe)
-    {
-        LED = LED >> 1;
-        LED = LED | 0x80;
-    }
-    else if (LED == 0xfe)
-    {
-        dir = left;
-        LED = LED << 1;
-        LED = LED | 0x01;
-    }
-    else if (LED == 0x7f)
-    {
-        dir = right;
-        LED = LED >> 1;
-        LED = LED | 0x80;
-    }
-    else if (dir == left && LED != 0x7f)
-    {
-        LED = LED << 1;
-        LED = LED | 0x01;
-    }
-    checkKey();
-    showSpeed();
+    we = 0;
+    P0 = distab[0];
+    we = 1;
+    we = 0;
 }
 
 void main()
 {
+    InterruptInit();
+    InterruptInit1();
+    m = 0xfe;
+    timea = 0;
+    time2 = 0;
+
     while (1)
     {
-        Breeze();
+        breatheLED();
+        display(a + 1);
+        if (key_s2 == 0)
+        {
+            f = 1;
+        }
+        if (key_s3 == 0)
+        {
+            f = -1;
+        }
+
+        if (key_s5 == 0)
+        {
+            delay(1);
+            if (key_s5 == 0)
+            {
+                a = a + 1;
+                while (!key_s5)
+                    ;
+            }
+        }
+        if (key_s4 == 0)
+        {
+            delay(1);
+            if (key_s4 == 0)
+            {
+                a = a - 1;
+                while (!key_s4)
+                    ;
+            }
+        }
+        if (a < 0)
+        {
+            a = 0;
+        }
+        else if (a > 3)
+        {
+            a = 3;
+        }
+    }
+}
+
+void InterruptInit()
+{
+    TMOD &= 0x00;
+    TMOD |= 0x11;
+
+    TH0 = 0xff;
+    TL0 = 0xa3;
+
+    ET0 = 1;
+
+    EA = 1;
+
+    TR0 = 1;
+}
+
+void InterruptInit1()
+
+{
+    TMOD &= 0x00;
+    TMOD |= 0x11;
+
+    TH1 = 0x4b;
+    TL1 = 0xfd;
+
+    ET1 = 1;
+    EA = 1;
+    TR1 = 1;
+}
+
+void Time0() interrupt 1
+{
+
+    TH0 = 0xff;
+    TL0 = 0xa3;
+
+    totaltime++;
+    time++;
+}
+
+void Time1() interrupt 3
+{
+
+    TH1 = 0x4b;
+    TL1 = 0xfd;
+
+    timea++;
+}
+
+void breatheLED()
+{
+    if (totaltime >= t[a])
+    {
+        totaltime = 0;
+
+        if (direct == 0)
+        {
+            dutyfactor++;
+        }
+        else if (direct == 1)
+        {
+            dutyfactor--;
+        }
+    }
+
+    if (dutyfactor <= 0)
+    {
+        direct = 0;
+    }
+    else if (dutyfactor >= t[a])
+    {
+        direct = 1;
+    }
+
+    if (totaltime < dutyfactor)
+    {
+        P1 = m;
+    }
+    else
+    {
+        P1 = 0xff;
+    }
+
+    if (timea == 22)
+    {
+        time2++;
+        timea = 0;
+    }
+
+    if (time2 == a + 1)
+    {
+        m = _crol_(m, f);
+        time2 = 0;
+        totaltime = 0;
+        direct = 0;
+        dutyfactor = 0;
+    }
+
+    if (m == 0x7f)
+    {
+        f = -1;
+    }
+    else if (m == 0xfe)
+    {
+        f = 1;
     }
 }

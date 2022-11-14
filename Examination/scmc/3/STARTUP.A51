@@ -1,4 +1,4 @@
-$NOMOD51
+MOD51
 ;------------------------------------------------------------------------------
 ;  This file is part of the C51 Compiler package
 ;  Copyright (c) 1988-2005 Keil Elektronik GmbH and Keil Software, Inc.
