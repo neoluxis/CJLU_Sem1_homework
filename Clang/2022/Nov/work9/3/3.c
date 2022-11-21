@@ -24,6 +24,7 @@ int main(int argc, char const *argv[])
             fputs(date, fvp);
         }
     }
+    printf("Done");
     return 0;
 }
 

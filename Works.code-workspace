@@ -77,5 +77,6 @@
 			"lib/**/*.jar",
 			"e:\\Administrator\\UserClasses\\UserClasses.jar"
 		],
+		"files.encoding": "gbk",
 	}
 }

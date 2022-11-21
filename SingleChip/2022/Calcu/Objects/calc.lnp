@@ -1,0 +1,9 @@
+".\Objects\main.obj",
+".\Objects\Timer.obj",
+".\Objects\Shumag.obj",
+".\Objects\Keys.obj",
+".\Objects\Matrix.obj",
+".\Objects\Tool.obj",
+".\Objects\Calculator.obj" 
+TO ".\Objects\calc" 
+PRINT(".\Listings\calc.m51") RAMSIZE(256) 

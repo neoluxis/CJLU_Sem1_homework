@@ -1,0 +1,187 @@
+C51 COMPILER V9.60.0.0   KEYS                                                              11/15/2022 21:04:19 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE KEYS
+OBJECT MODULE PLACED IN .\Objects\Keys.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE Keys\Keys.c OPTIMIZE(8,SPEED) BROWSE INCDIR(.\Keys;.\Matrix;.\Shumag;.\T
+                    -imer;.\Main;.\Tool;.\Calculator) DEBUG OBJECTEXTEND PRINT(.\Listings\Keys.lst) TABS(2) OBJECT(.\Objects\Keys.obj)
+
+line level    source
+
+   1          #include "Keys.h"
+   2          #include "REG52.H"
+   3          #include "Tool.h"
+   4          
+   5          int keyVal = 20;
+   6          char input = 20;
+   7          
+   8          void keyScan(void)
+   9          {
+  10   1          P3 = 0xF0;
+  11   1          if (P3 != 0xF0)
+  12   1          {
+  13   2              delayMillis(10); // 延时一定要够，10ms就可以。延时时间短，导致按键无法切�
+             -�
+  14   2              if (P3 != 0xF0)  // 检测列
+  15   2              {
+  16   3                  switch (P3)
+  17   3                  {
+  18   4                  case 0xe0:
+  19   4                      keyVal = 0;
+  20   4                      break;
+  21   4                  case 0xd0:
+  22   4                      keyVal = 1;
+  23   4                      break;
+  24   4                  case 0xb0:
+  25   4                      keyVal = 2;
+  26   4                      break;
+  27   4                  case 0x70:
+  28   4                      keyVal = 3;
+  29   4                      break;
+  30   4                  }
+  31   3                  P3 = 0x0f; //检测行
+  32   3                  switch (P3)
+  33   3                  {
+  34   4                  case 0x0e:
+  35   4                      keyVal = keyVal;
+  36   4                      break;
+  37   4                  case 0x0d:
+  38   4                      keyVal = keyVal + 4;
+  39   4                      break;
+  40   4                  case 0x0b:
+  41   4                      keyVal = keyVal + 8;
+  42   4                      break;
+  43   4                  case 0x07:
+  44   4                      keyVal = keyVal + 12;
+  45   4                      break;
+  46   4                  }
+  47   3                  while (P3 != 0x0f)
+  48   3                      ;
+  49   3              }
+  50   2          }
+  51   1          P3 = 0xff; // 检测独立键盘
+  52   1          if (P3 != 0xff)
+  53   1          {
+C51 COMPILER V9.60.0.0   KEYS                                                              11/15/2022 21:04:19 PAGE 2   
+
+  54   2              delayMillis(10);
+  55   2              if (P3 != 0xff)
+  56   2              {
+  57   3                  switch (P3)
+  58   3                  {
+  59   4                  case 0xfe:
+  60   4                      keyVal = 16;
+  61   4                      break;
+  62   4                  case 0xfd:
+  63   4                      keyVal = 17;
+  64   4                      break;
+  65   4                  case 0xfb:
+  66   4                      keyVal = 18;
+  67   4                      break;
+  68   4                  case 0xf7:
+  69   4                      keyVal = 19;
+  70   4                      break;
+  71   4                  }
+  72   3                  while (P3 != 0xff)
+  73   3                      ;
+  74   3              }
+  75   2          }
+  76   1      }
+  77          
+  78          /*
+  79              --------------------------
+  80              |  1  |  2  |  3  |  +  |
+  81              |  4  |  5  |  6  |  -  |
+  82              |  7  |  8  |  9  |  *  |
+  83              |  =  |  0  |  .  |  /  |
+  84              |  e  |  p  |  c  |  ^  |
+  85              --------------------------
+  86          */
+  87          int genret(int kv)
+  88          {
+  89   1          int ret;
+  90   1          switch (kv)
+  91   1          {
+  92   2      
+  93   2          case 0:
+  94   2              ret = '1';
+  95   2              break;
+  96   2          case 1:
+  97   2              ret = '2';
+  98   2              break;
+  99   2          case 2:
+ 100   2              ret = '3';
+ 101   2              break;
+ 102   2          case 3:
+ 103   2              ret = '+';
+ 104   2              break;
+ 105   2          case 4:
+ 106   2              ret = '4';
+ 107   2              break;
+ 108   2          case 5:
+ 109   2              ret = '5';
+ 110   2              break;
+ 111   2          case 6:
+ 112   2              ret = '6';
+ 113   2              break;
+ 114   2          case 7:
+ 115   2              ret = '-';
+C51 COMPILER V9.60.0.0   KEYS                                                              11/15/2022 21:04:19 PAGE 3   
+
+ 116   2              break;
+ 117   2          case 8:
+ 118   2              ret = '7';
+ 119   2              break;
+ 120   2          case 9:
+ 121   2              ret = '8';
+ 122   2              break;
+ 123   2          case 10:
+ 124   2              ret = '9';
+ 125   2              break;
+ 126   2          case 11:
+ 127   2              ret = '*';
+ 128   2              break;
+ 129   2          case 12:
+ 130   2              ret = '=';
+ 131   2              break;
+ 132   2          case 13:
+ 133   2              ret = '0';
+ 134   2              break;
+ 135   2          case 14:
+ 136   2              ret = '.';
+ 137   2              break;
+ 138   2          case 15:
+ 139   2              ret = '/';
+ 140   2              break;
+ 141   2          case 16:
+ 142   2              ret = 'e';
+ 143   2              break;
+ 144   2          case 17:
+ 145   2              ret = 'p';
+ 146   2              break;
+ 147   2          case 18:
+ 148   2              ret = 'c';
+ 149   2              break;
+ 150   2          case 19:
+ 151   2              ret = '^';
+ 152   2              break;
+ 153   2          default:
+ 154   2              ret = 20;
+ 155   2              break;
+ 156   2          }
+ 157   1          return ret;
+ 158   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    453    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      3       2
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

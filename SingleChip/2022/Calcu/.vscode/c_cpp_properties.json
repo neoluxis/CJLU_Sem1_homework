@@ -1,0 +1,42 @@
+{
+    "configurations": [
+        {
+            "name": "Target 1",
+            "includePath": [
+                "e:\\Works\\SingleChip\\2022\\Calcu\\Keys",
+                "e:\\Works\\SingleChip\\2022\\Calcu\\Matrix",
+                "e:\\Works\\SingleChip\\2022\\Calcu\\Shumag",
+                "e:\\Works\\SingleChip\\2022\\Calcu\\Timer",
+                "e:\\Works\\SingleChip\\2022\\Calcu\\Main",
+                "e:\\Works\\SingleChip\\2022\\Calcu\\Tool",
+                "e:\\Works\\SingleChip\\2022\\Calcu\\Calculator"
+            ],
+            "defines": [
+                "__C51__",
+                "__VSCODE_C51__",
+                "reentrant=",
+                "compact=",
+                "small=",
+                "large=",
+                "data=",
+                "idata=",
+                "pdata=",
+                "bdata=",
+                "xdata=",
+                "code=",
+                "bit=char",
+                "sbit=char",
+                "sfr=char",
+                "sfr16=int",
+                "sfr32=int",
+                "interrupt=",
+                "using=",
+                "_at_=",
+                "_priority_=",
+                "_task_="
+            ],
+            "intelliSenseMode": "${default}"
+        }
+    ],
+    "version": 4
+}

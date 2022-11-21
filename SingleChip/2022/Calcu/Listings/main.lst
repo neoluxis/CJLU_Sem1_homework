@@ -1,0 +1,44 @@
+C51 COMPILER V9.60.0.0   MAIN                                                              11/15/2022 21:04:19 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE Main\main.c OPTIMIZE(8,SPEED) BROWSE INCDIR(.\Keys;.\Matrix;.\Shumag;.\T
+                    -imer;.\Main;.\Tool;.\Calculator) DEBUG OBJECTEXTEND PRINT(.\Listings\main.lst) TABS(2) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include "reg52.h"
+   2          #include "Timer.h"
+   3          #include "Shumag.h"
+   4          #include "Keys.h"
+   5          #include "Matrix.h"
+   6          #include "Tool.h"
+   7          #include "Calculator.h"
+   8          
+   9          void main()
+  10          {
+  11   1      
+  12   1        return;
+  13   1      }
+  14          void Time0() interrupt 1
+  15          {
+  16   1        TH1 = 0x3C;
+  17   1        TL1 = 0xB0;
+  18   1        display(baite);
+  19   1      }
+  20          void Timer1() interrupt 3 {}
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     71    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

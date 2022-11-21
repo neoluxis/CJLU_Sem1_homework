@@ -1,0 +1,84 @@
+C51 COMPILER V9.60.0.0   CALCULATOR                                                        11/15/2022 21:04:20 PAGE 1   
+
+
+C51 COMPILER V9.60.0.0, COMPILATION OF MODULE CALCULATOR
+OBJECT MODULE PLACED IN .\Objects\Calculator.obj
+COMPILER INVOKED BY: D:\Keil_v5\C51\BIN\C51.EXE Calculator\Calculator.c OPTIMIZE(8,SPEED) BROWSE INCDIR(.\Keys;.\Matrix;
+                    -.\Shumag;.\Timer;.\Main;.\Tool;.\Calculator) DEBUG OBJECTEXTEND PRINT(.\Listings\Calculator.lst) TABS(2) OBJECT(.\Object
+                    -s\Calculator.obj)
+
+line level    source
+
+   1          #include "Calculator.h"
+   2          #include "Tool.h"
+   3          
+   4          int ans, input_a, input_b;
+   5          char symbol;
+   6          
+   7          void add(int a, int b)
+   8          {
+   9   1          ans = a + b;
+  10   1      }
+  11          
+  12          void sub(int a, int b)
+  13          {
+  14   1          ans = a - b;
+  15   1      }
+  16          
+  17          void mul(int a, int b)
+  18          {
+  19   1          ans = a * b;
+  20   1      }
+  21          
+  22          void div(int a, int b)
+  23          {
+  24   1          ans = a / b;
+  25   1      }
+  26          
+  27          void exp(int a, int b)
+  28          {
+  29   1          int i;
+  30   1          ans = 1;
+  31   1          for (i = 0; i < b; i++)
+  32   1          {
+  33   2              ans *= a;
+  34   2          }
+  35   1      }
+  36          
+  37          void calc()
+  38          {
+  39   1          switch (symbol)
+  40   1          {
+  41   2          case '+':
+  42   2              add(input_a, input_b);
+  43   2              break;
+  44   2          case '-':
+  45   2              sub(input_a, input_b);
+  46   2              break;
+  47   2          case '*':
+  48   2              mul(input_a, input_b);
+  49   2              break;
+  50   2          case '/':
+  51   2              div(input_a, input_b);
+  52   2              break;
+  53   2          case '^':
+C51 COMPILER V9.60.0.0   CALCULATOR                                                        11/15/2022 21:04:20 PAGE 2   
+
+  54   2              exp(input_a, input_b);
+  55   2              break;
+  56   2          }
+  57   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    164    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      7       2
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

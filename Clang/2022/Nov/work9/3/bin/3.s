@@ -107,6 +107,8 @@ _Z6printfPKcz:
 	.ascii "./illegaldates.txt\0"
 .LC4:
 	.ascii "File not found\0"
+.LC5:
+	.ascii "Done\0"
 	.text
 	.globl	main
 	.def	main;	.scl	2;	.type	32;	.endef
@@ -181,10 +183,14 @@ main:
 	setne	%al
 	testb	%al, %al
 	jne	.L9
-	.loc 2 27 12
+	.loc 2 27 11
+	leaq	.LC5(%rip), %rax
+	movq	%rax, %rcx
+	call	_Z6printfPKcz
+	.loc 2 28 12
 	movl	$0, %eax
 .L10:
-	.loc 2 28 1 discriminator 1
+	.loc 2 29 1 discriminator 1
 	addq	$160, %rsp
 	popq	%rbp
 .LCFI11:
@@ -192,7 +198,7 @@ main:
 .LFE94:
 	.seh_endproc
 	.section .rdata,"dr"
-.LC5:
+.LC6:
 	.ascii "%d-%d-%d\0"
 	.text
 	.globl	_Z11isValidDatePc
@@ -200,7 +206,7 @@ main:
 	.seh_proc	_Z11isValidDatePc
 _Z11isValidDatePc:
 .LFB95:
-	.loc 2 31 1
+	.loc 2 32 1
 	pushq	%rbp
 	.seh_pushreg	%rbp
 .LCFI12:
@@ -211,7 +217,7 @@ _Z11isValidDatePc:
 	.seh_stackalloc	64
 	.seh_endprologue
 	movq	%rcx, 16(%rbp)
-	.loc 2 33 11
+	.loc 2 34 11
 	leaq	-8(%rbp), %r8
 	leaq	-12(%rbp), %rcx
 	movq	16(%rbp), %rax
@@ -219,21 +225,21 @@ _Z11isValidDatePc:
 	movq	%rdx, 32(%rsp)
 	movq	%r8, %r9
 	movq	%rcx, %r8
-	leaq	.LC5(%rip), %rdx
+	leaq	.LC6(%rip), %rdx
 	movq	%rax, %rcx
 	call	_Z6sscanfPKcS0_z
-	.loc 2 34 15
+	.loc 2 35 15
 	movl	-8(%rbp), %eax
-	.loc 2 34 5
+	.loc 2 35 5
 	cmpl	$2, %eax
 	jne	.L12
-	.loc 2 36 22
+	.loc 2 37 22
 	movl	-12(%rbp), %eax
 	andl	$3, %eax
-	.loc 2 36 9
+	.loc 2 37 9
 	testl	%eax, %eax
 	jne	.L13
-	.loc 2 36 35 discriminator 1
+	.loc 2 37 35 discriminator 1
 	movl	-12(%rbp), %edx
 	movslq	%edx, %rax
 	imulq	$1374389535, %rax, %rax
@@ -245,11 +251,11 @@ _Z11isValidDatePc:
 	imull	$100, %eax, %ecx
 	movl	%edx, %eax
 	subl	%ecx, %eax
-	.loc 2 36 27 discriminator 1
+	.loc 2 37 27 discriminator 1
 	testl	%eax, %eax
 	jne	.L14
 .L13:
-	.loc 2 36 54 discriminator 3
+	.loc 2 37 54 discriminator 3
 	movl	-12(%rbp), %edx
 	movslq	%edx, %rax
 	imulq	$1374389535, %rax, %rax
@@ -261,111 +267,111 @@ _Z11isValidDatePc:
 	imull	$400, %eax, %ecx
 	movl	%edx, %eax
 	subl	%ecx, %eax
-	.loc 2 36 46 discriminator 3
+	.loc 2 37 46 discriminator 3
 	testl	%eax, %eax
 	jne	.L15
 .L14:
-	.loc 2 38 21
+	.loc 2 39 21
 	movl	-4(%rbp), %eax
-	.loc 2 38 13
+	.loc 2 39 13
 	cmpl	$29, %eax
 	jle	.L19
-	.loc 2 40 24
+	.loc 2 41 24
 	movl	$0, %eax
 	jmp	.L26
 .L15:
-	.loc 2 45 21
+	.loc 2 46 21
 	movl	-4(%rbp), %eax
-	.loc 2 45 13
+	.loc 2 46 13
 	cmpl	$28, %eax
 	jle	.L19
-	.loc 2 47 24
+	.loc 2 48 24
 	movl	$0, %eax
 	jmp	.L26
 .L12:
-	.loc 2 53 19
+	.loc 2 54 19
 	movl	-8(%rbp), %eax
-	.loc 2 53 9
+	.loc 2 54 9
 	cmpl	$1, %eax
 	je	.L20
-	.loc 2 53 33 discriminator 1
+	.loc 2 54 33 discriminator 1
 	movl	-8(%rbp), %eax
-	.loc 2 53 24 discriminator 1
+	.loc 2 54 24 discriminator 1
 	cmpl	$3, %eax
 	je	.L20
-	.loc 2 53 47 discriminator 2
+	.loc 2 54 47 discriminator 2
 	movl	-8(%rbp), %eax
-	.loc 2 53 38 discriminator 2
+	.loc 2 54 38 discriminator 2
 	cmpl	$5, %eax
 	je	.L20
-	.loc 2 53 61 discriminator 3
+	.loc 2 54 61 discriminator 3
 	movl	-8(%rbp), %eax
-	.loc 2 53 52 discriminator 3
+	.loc 2 54 52 discriminator 3
 	cmpl	$7, %eax
 	je	.L20
-	.loc 2 53 75 discriminator 4
+	.loc 2 54 75 discriminator 4
 	movl	-8(%rbp), %eax
-	.loc 2 53 66 discriminator 4
+	.loc 2 54 66 discriminator 4
 	cmpl	$8, %eax
 	je	.L20
-	.loc 2 53 89 discriminator 5
+	.loc 2 54 89 discriminator 5
 	movl	-8(%rbp), %eax
-	.loc 2 53 80 discriminator 5
+	.loc 2 54 80 discriminator 5
 	cmpl	$10, %eax
 	je	.L20
-	.loc 2 53 104 discriminator 6
+	.loc 2 54 104 discriminator 6
 	movl	-8(%rbp), %eax
-	.loc 2 53 95 discriminator 6
+	.loc 2 54 95 discriminator 6
 	cmpl	$12, %eax
 	jne	.L21
 .L20:
-	.loc 2 55 21
+	.loc 2 56 21
 	movl	-4(%rbp), %eax
-	.loc 2 55 13
+	.loc 2 56 13
 	cmpl	$31, %eax
 	jle	.L19
-	.loc 2 57 24
+	.loc 2 58 24
 	movl	$0, %eax
 	jmp	.L26
 .L21:
-	.loc 2 60 24
+	.loc 2 61 24
 	movl	-8(%rbp), %eax
-	.loc 2 60 14
+	.loc 2 61 14
 	cmpl	$4, %eax
 	je	.L23
-	.loc 2 60 38 discriminator 1
+	.loc 2 61 38 discriminator 1
 	movl	-8(%rbp), %eax
-	.loc 2 60 29 discriminator 1
+	.loc 2 61 29 discriminator 1
 	cmpl	$6, %eax
 	je	.L23
-	.loc 2 60 52 discriminator 2
+	.loc 2 61 52 discriminator 2
 	movl	-8(%rbp), %eax
-	.loc 2 60 43 discriminator 2
+	.loc 2 61 43 discriminator 2
 	cmpl	$9, %eax
 	je	.L23
-	.loc 2 60 66 discriminator 3
+	.loc 2 61 66 discriminator 3
 	movl	-8(%rbp), %eax
-	.loc 2 60 57 discriminator 3
+	.loc 2 61 57 discriminator 3
 	cmpl	$11, %eax
 	jne	.L24
 .L23:
-	.loc 2 62 21
+	.loc 2 63 21
 	movl	-4(%rbp), %eax
-	.loc 2 62 13
+	.loc 2 63 13
 	cmpl	$30, %eax
 	jle	.L19
-	.loc 2 64 24
+	.loc 2 65 24
 	movl	$0, %eax
 	jmp	.L26
 .L24:
-	.loc 2 69 20
+	.loc 2 70 20
 	movl	$0, %eax
 	jmp	.L26
 .L19:
-	.loc 2 72 12
+	.loc 2 73 12
 	movl	$1, %eax
 .L26:
-	.loc 2 73 1 discriminator 2
+	.loc 2 74 1 discriminator 2
 	addq	$64, %rsp
 	popq	%rbp
 .LCFI14:
@@ -1604,7 +1610,7 @@ _Z11isValidDatePc:
 	.uleb128 0x1f
 	.ascii "isValidDate\0"
 	.byte	0x2
-	.byte	0x1e
+	.byte	0x1f
 	.byte	0x5
 	.ascii "_Z11isValidDatePc\0"
 	.long	0xf3
@@ -1615,7 +1621,7 @@ _Z11isValidDatePc:
 	.long	0xadb
 	.uleb128 0xd
 	.ascii "date\0"
-	.byte	0x1e
+	.byte	0x1f
 	.byte	0x17
 	.long	0x106
 	.uleb128 0x2
@@ -1623,7 +1629,7 @@ _Z11isValidDatePc:
 	.sleb128 0
 	.uleb128 0x9
 	.ascii "day\0"
-	.byte	0x20
+	.byte	0x21
 	.byte	0x9
 	.long	0xf3
 	.uleb128 0x2
@@ -1631,7 +1637,7 @@ _Z11isValidDatePc:
 	.sleb128 -20
 	.uleb128 0x9
 	.ascii "month\0"
-	.byte	0x20
+	.byte	0x21
 	.byte	0xe
 	.long	0xf3
 	.uleb128 0x2
@@ -1639,7 +1645,7 @@ _Z11isValidDatePc:
 	.sleb128 -24
 	.uleb128 0x9
 	.ascii "year\0"
-	.byte	0x20
+	.byte	0x21
 	.byte	0x15
 	.long	0xf3
 	.uleb128 0x2
