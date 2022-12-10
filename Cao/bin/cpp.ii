@@ -32256,300 +32256,361 @@ extern "C" {
 # 191 "D:/Env/msys64/mingw64/include/string.h" 2 3
 # 4 "E:\\Works\\Cao\\cpp.cpp" 2
 
+# 1 "D:/Env/msys64/mingw64/include/c++/12.1.0/stdlib.h" 1 3
+# 36 "D:/Env/msys64/mingw64/include/c++/12.1.0/stdlib.h" 3
+# 1 "D:/Env/msys64/mingw64/include/c++/12.1.0/cstdlib" 1 3
+# 39 "D:/Env/msys64/mingw64/include/c++/12.1.0/cstdlib" 3
+       
+# 40 "D:/Env/msys64/mingw64/include/c++/12.1.0/cstdlib" 3
+# 37 "D:/Env/msys64/mingw64/include/c++/12.1.0/stdlib.h" 2 3
+
+using std::abort;
+using std::atexit;
+using std::exit;
+# 51 "D:/Env/msys64/mingw64/include/c++/12.1.0/stdlib.h" 3
+using std::div_t;
+using std::ldiv_t;
+
+using std::abs;
+using std::atof;
+using std::atoi;
+using std::atol;
+using std::bsearch;
+using std::calloc;
+using std::div;
+using std::free;
+using std::getenv;
+using std::labs;
+using std::ldiv;
+using std::malloc;
+
+using std::mblen;
+using std::mbstowcs;
+using std::mbtowc;
+
+using std::qsort;
+using std::rand;
+using std::realloc;
+using std::srand;
+using std::strtod;
+using std::strtol;
+using std::strtoul;
+using std::system;
+
+using std::wcstombs;
+using std::wctomb;
+# 6 "E:\\Works\\Cao\\cpp.cpp" 2
 
 
-# 6 "E:\\Works\\Cao\\cpp.cpp"
+# 7 "E:\\Works\\Cao\\cpp.cpp"
 using namespace std;
-
-
-
-
-
-
-
+# 16 "E:\\Works\\Cao\\cpp.cpp"
 double *table = 
-# 14 "E:\\Works\\Cao\\cpp.cpp" 3 4
+# 16 "E:\\Works\\Cao\\cpp.cpp" 3 4
                __null
-# 14 "E:\\Works\\Cao\\cpp.cpp"
+# 16 "E:\\Works\\Cao\\cpp.cpp"
                    ;
+
 size_t length = 0;
-void input()
+void initData(void)
 {
-   char boolean = 'Y';
-   string input_data;
-   if (table != 
-# 20 "E:\\Works\\Cao\\cpp.cpp" 3 4
-               __null
-# 20 "E:\\Works\\Cao\\cpp.cpp"
-                   )
-   {
-      cout << "重新录入数据会清除你原来的数据，是否继续（Y/N）：";
-      cin >> boolean;
-      if (toupper(boolean) == 'Y')
-      {
-         delete[] table;
-         length = 0;
-         table = 
-# 28 "E:\\Works\\Cao\\cpp.cpp" 3 4
+    char yon = 'Y';
+    string input_data;
+    if (table != 
+# 23 "E:\\Works\\Cao\\cpp.cpp" 3 4
                 __null
-# 28 "E:\\Works\\Cao\\cpp.cpp"
-                    ;
-         system("cls");
-      }
-      else
-         return;
-   }
-   cout << "请输入要录入的学生成绩数量：";
-   cin >> length;
-   if (table = new double[length])
-   {
-      cout << "请开始录入数据，每次录入数据请用换行分隔：\n";
-      for (int index = 0; index != length; ++index)
-      {
-         cout << index << "：";
-         cin >> table[index];
-      }
-      cout << "录入数据完毕，请按换行退出";
-      cin.get();
-      while (cin.get() != '\n')
-         ;
-   }
-   else
-   {
-      cout << "创建数据失败，请检查系统内存！\n";
-      cin.get();
-   }
+# 23 "E:\\Works\\Cao\\cpp.cpp"
+                    )
+    {
+        printf("重新录入数据会清除你原来的数据，是否继续（Y/n）：\n");
+        yon = getchar();
+        if (toupper(yon) == 'Y' || yon == '\n')
+        {
+            delete[] table;
+            length = 0;
+            table = 
+# 31 "E:\\Works\\Cao\\cpp.cpp" 3 4
+                   __null
+# 31 "E:\\Works\\Cao\\cpp.cpp"
+                       ;
+            system("cls");
+        }
+        else
+            return;
+    }
+    cout << "请输入要录入的学生成绩数量：";
+    cin >> length;
+    if (table = new double[length])
+    {
+        cout << "请开始录入数据，每次录入数据请用换行分隔：\n";
+        for (int index = 0; index != length; ++index)
+        {
+            cout << index << "：";
+            cin >> table[index];
+        }
+        cout << "录入数据完毕，请按换行退出";
+        getchar();
+        while (cin.get() != '\n')
+            ;
+    }
+    else
+    {
+        printf("创建数据失败，请检查系统内存！\n");
+        getchar();
+    }
 }
-void show()
+void showData(void)
 {
-   if (table == 
-# 57 "E:\\Works\\Cao\\cpp.cpp" 3 4
-               __null
-# 57 "E:\\Works\\Cao\\cpp.cpp"
-                   )
-   {
-      cout << "你没有录入数据！";
-      cin.get();
-   }
-   else
-   {
-      for (int index = 0; index != length; ++index)
-      {
-         cout << index << "：" << table[index] << endl;
-      }
-      cout << "请按换行返回";
-      while (cin.get() != '\n');
-   }
+    if (table == 
+# 60 "E:\\Works\\Cao\\cpp.cpp" 3 4
+                __null
+# 60 "E:\\Works\\Cao\\cpp.cpp"
+                    )
+    {
+        printf("你没有录入数据！\n");
+        getchar();
+    }
+    else
+    {
+        for (int index = 0; index != length; ++index)
+        {
+            cout << index << "：" << table[index] << endl;
+        }
+        printf("请按换行返回\n");
+        while (cin.get() != '\n');
+    }
 }
-void append()
+void addData()
 {
-   if (table == 
-# 74 "E:\\Works\\Cao\\cpp.cpp" 3 4
-               __null
-# 74 "E:\\Works\\Cao\\cpp.cpp"
-                   )
-   {
-      cout << "你还没有录入数据！";
-      cin.get();
-   }
-   else
-   {
-      double new_data;
-      size_t for_loop = 0;
-      cout << "请输入新学生的成绩：";
-      cin >> new_data;
-      double *temp = new double[length + 1];
-      ++length;
-      if (temp)
-      {
-         for (int index = 0; index != length; ++index)
-         {
-            if (index == 5)
+    if (table == 
+# 77 "E:\\Works\\Cao\\cpp.cpp" 3 4
+                __null
+# 77 "E:\\Works\\Cao\\cpp.cpp"
+                    )
+    {
+        printf("你还没有录入数据！\n");
+        getchar();
+    }
+    else
+    {
+        double new_data;
+        size_t for_loop = 0;
+        printf("请输入新学生的成绩：\n");
+        cin >> new_data;
+        double *temp = new double[length + 1];
+        ++length;
+        if (temp)
+        {
+            for (int index = 0; index != length; ++index)
             {
-               temp[index] = new_data;
-               for_loop = 1;
+                if (index == 5)
+                {
+                    temp[index] = new_data;
+                    for_loop = 1;
+                }
+                else
+                {
+                    temp[index] = table[index - for_loop];
+                }
             }
-            else
+            free(table);
+            table = temp;
+            printf("添加新记录完成！\n");
+            getchar();
+        }
+        else
+        {
+            cout << "创建新空间失败，请检查你的系统内存！";
+            getchar();
+        }
+    }
+}
+void deleteData()
+{
+    if (table == 
+# 118 "E:\\Works\\Cao\\cpp.cpp" 3 4
+                __null
+# 118 "E:\\Works\\Cao\\cpp.cpp"
+                    )
+    {
+        cout << "你没有录入数据！";
+        getchar();
+    }
+    else
+    {
+        size_t for_loop = 0;
+        for (int index = 0; index != length; ++index)
+        {
+            if (index >= 5 && index != length - 1)
             {
-               temp[index] = table[index - for_loop];
+                table[index] = table[index + 1];
+                if (for_loop == 0)
+                    for_loop = 1;
             }
-         }
-         delete[] table;
-         table = temp;
-         cout << "添加新记录完成！";
-         cin.get();
-      }
-      else
-      {
-         cout << "创建新空间失败，请检查你的系统内存！";
-         cin.get();
-      }
-   }
+        }
+        length -= for_loop;
+        cout << "删除完成！";
+        getchar();
+    }
 }
-void _delete()
+void modifyData()
 {
-   if (table == 
-# 115 "E:\\Works\\Cao\\cpp.cpp" 3 4
-               __null
-# 115 "E:\\Works\\Cao\\cpp.cpp"
-                   )
-   {
-      cout << "你没有录入数据！";
-      cin.get();
-   }
-   else
-   {
-      size_t for_loop = 0;
-      for (int index = 0; index != length; ++index)
-      {
-         if (index >= 5 && index != length - 1)
-         {
-            table[index] = table[index + 1];
-            if (for_loop == 0)
-               for_loop = 1;
-         }
-      }
-      length -= for_loop;
-      cout << "删除完成！";
-      cin.get();
-   }
+    if (table == 
+# 142 "E:\\Works\\Cao\\cpp.cpp" 3 4
+                __null
+# 142 "E:\\Works\\Cao\\cpp.cpp"
+                    )
+    {
+        cout << "你没有录入数据！";
+        getchar();
+    }
+    else
+    {
+    inputIndex:
+        size_t count;
+        double new_data;
+        cout << "请输入要修改的学生索引：";
+        cin >> count;
+
+        if (count >= length)
+        {
+            cout << "没有这个学生！\n";
+            getchar();
+            goto inputIndex;
+        }
+        else
+        {
+            cout << "请输入要修改的值:";
+            cin >> new_data;
+            table[count] = new_data;
+            cout << "修改完成！";
+            getchar();
+        }
+    }
 }
-void modify()
+void showStatistics()
 {
-   if (table == 
-# 139 "E:\\Works\\Cao\\cpp.cpp" 3 4
-               __null
-# 139 "E:\\Works\\Cao\\cpp.cpp"
-                   )
-   {
-      cout << "你没有录入数据！";
-      cin.get();
-   }
-   else
-   {
-      size_t count;
-      double new_data;
-      cout << "请输入要修改的学生索引和要修改的值：";
-      cin >> count >> new_data;
-      if (count >= length)
-      {
-         cout << "没有这个学生！";
-         cin.get();
-      }
-      else
-      {
-         table[count] = new_data;
-         cout << "修改完成！";
-         cin.get();
-      }
-   }
+    double _sum = 0, _max;
+    if (table == 
+# 174 "E:\\Works\\Cao\\cpp.cpp" 3 4
+                __null
+# 174 "E:\\Works\\Cao\\cpp.cpp"
+                    )
+    {
+        cout << "你没有录入数据！";
+        getchar();
+    }
+    else
+    {
+        _max = table[0];
+        for (int index = 0; index != length; ++index)
+        {
+            _sum += table[index];
+            if (table[index] > _max)
+                _max = table[index];
+        }
+        cout << "所有学生的总分为：" << (_sum) << endl;
+        cout << "所有学生的平均分为：" << (_sum / length) << endl;
+        cout << "所有学生的最高分为：" << (_max) << endl;
+        cout << "请按回车退出......\n";
+        while (cin.get() != '\n');
+    }
 }
-void output()
+
+void login()
 {
-   double _sum = 0, _max;
-   if (table == 
-# 166 "E:\\Works\\Cao\\cpp.cpp" 3 4
-               __null
-# 166 "E:\\Works\\Cao\\cpp.cpp"
-                   )
-   {
-      cout << "你没有录入数据！";
-      cin.get();
-   }
-   else
-   {
-      _max = table[0];
-      for (int index = 0; index != length; ++index)
-      {
-         _sum += table[index];
-         if (table[index] > _max)
-            _max = table[index];
-      }
-      cout << "所有学生的总分为：" << _sum << "；所有学生的平均分为：" << (_sum / length) << "；所有学生的最高分为：" << _max << endl;
-      cout << "请按回车退出......";
-      while (cin.get() != '\n');
-   }
+    string user_name, user_password;
+    unsigned int number = 0;
+    cout << "请输入用户名：";
+    cin >> user_name;
+    cout << "请输入密码：";
+    cin >> user_password;
+    cout << "请输入第几次登陆：";
+    cin >> number;
+    if (user_name != "jiangquanxing" || user_password != "8888jqx")
+    {
+        system("cls");
+        cout << "用户名或密码输入错误\n";
+    }
+    else if (number > 5)
+    {
+        cout << "你已经到今天的登录上限，请明天再登录！";
+    }
 }
+
+void showMainPage()
+{
+    system("cls");
+    cout << "\n\n\n\n\n"
+            "\t\t\t|=======================================================|\n"
+            "\t\t\t|\t\t\t\t\t\t\t|\n"
+            "\t\t\t|\t\t  欢迎来到学生成绩管理系统       \t|\n"
+            "\t\t\t|\t\t\t\t\t\t\t|\n"
+            "\t\t\t|=======================================================|\n"
+            "\t\t\t|\t\t     请选择要操作的命令         \t|\n"
+            "\t\t\t|-------------------------------------------------------|\n"
+            "\t\t\t|\t\t\t\t\t\t\t|\n"
+            "\t\t\t|\t\t    1.录入学生信息\t\t\t|\n"
+            "\t\t\t|\t\t    2.显示学生信息\t\t\t|\n"
+            "\t\t\t|\t\t    3.增加学生信息\t\t\t|\n"
+            "\t\t\t|\t\t    4.删除学生信息\t\t\t|\n"
+            "\t\t\t|\t\t    5.修改学生信息\t\t\t|\n"
+            "\t\t\t|\t\t    6.输出总分、平均分、最高分\t\t|\n"
+            "\t\t\t|\t\t    7.退出系统\t\t\t\t|\n"
+            "\t\t\t|\t\t\t\t\t\t\t|\n"
+            "\t\t\t|=======================================================|\n"
+         << endl;
+}
+
 int main()
 {
-   string user_name, user_password;
-   int message = 0;
-   unsigned int number = 0;
-   bool loop = true;
-   cout << "请输入用户名和密码，用空格分隔：";
-   cin >> user_name >> user_password;
-   cout << "请输入第几次登陆：";
-   cin >> number;
-   if (user_name != "jiangquanxing" || user_password != "8888jqx")
-   {
-      system("cls");
-      cout << "用户名或密码输入错误\n";
-   }
-   else if (number > 5)
-   {
-      cout << "你已经到今天的登录上限，请明天再登录！";
-   }
-   else
-   {
-      while (loop)
-      {
-         system("cls");
-         cout << "\n\n\n\n\n"
-                 "               ====================================================\n"
-                 "               |                                                      |\n"
-                 "               |              欢迎来到学生成绩管理系统                |\n"
-                 "               |                                                      |\n"
-                 "               |===================================================   |\n"
-                 "               |              请选择要操作的命令                      |\n"
-                 "               |---------------------------------------------------   |\n"
-                 "               |                                                      |\n"
-                 "               |              1.录入学生信息                          |\n"
-                 "               |              2.显示学生信息                          |\n"
-                 "               |              3.增加学生信息                          |\n"
-                 "               |              4.删除学生信息                          |\n"
-                 "               |              5.修改学生信息                          |\n"
-                 "               |              6.输出总分、平均分、最高分              |\n"
-                 "               |              7.退出系统                              |\n"
-                 "               |                                                      |\n"
-                 "               ====================================================\n"
-                 "               ";
-         cin >> message;
-         cin.get();
-         system("cls");
-         switch (message)
-         {
-         case 1:
-            input();
+    system("chcp 65001");
+    system("cls");
+
+
+
+    bool loop = true;
+    int option = 0;
+    while (loop)
+    {
+        showMainPage();
+
+        cin >> option;
+        getchar();
+        system("cls");
+        switch (option)
+        {
+        case 1:
+            initData();
             break;
-         case 2:
-            show();
+        case 2:
+            showData();
             break;
-         case 3:
-            append();
+        case 3:
+            addData();
             break;
-         case 4:
-            _delete();
+        case 4:
+            deleteData();
             break;
-         case 5:
-            modify();
+        case 5:
+            modifyData();
             break;
-         case 6:
-            output();
+        case 6:
+            showStatistics();
             break;
-         case 7:
-            loop = false;
+        case 7:
+            loop = !loop;
             break;
-         default:
-            cout << "请输入正确的编号！\n";
-            cin.get();
-         }
-      }
-   }
-   if (table != 
-# 260 "E:\\Works\\Cao\\cpp.cpp" 3 4
-               __null
-# 260 "E:\\Works\\Cao\\cpp.cpp"
-                   )
-      delete[] table;
-   return 0;
+        default:
+            printf("请输入正确的编号！\n");
+            getchar();
+        }
+    }
+    if (table != 
+# 285 "E:\\Works\\Cao\\cpp.cpp" 3 4
+                __null
+# 285 "E:\\Works\\Cao\\cpp.cpp"
+                    )
+        free(table);
+    return 0;
 }
