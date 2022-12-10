@@ -63,7 +63,8 @@
 			"STDIO.H": "cpp",
 			"util.h": "c",
 			"STDLIB.H": "cpp",
-			"math.h": "c"
+			"math.h": "c",
+			"windows.h": "c"
 		},
 		"cSpell.words": [
 			"Calcu",
@@ -77,6 +78,6 @@
 			"lib/**/*.jar",
 			"e:\\Administrator\\UserClasses\\UserClasses.jar"
 		],
-		"files.encoding": "gbk",
+		"files.encoding": "utf8",
 	}
 }
