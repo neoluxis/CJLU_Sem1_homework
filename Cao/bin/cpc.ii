@@ -2330,47 +2330,54 @@ using std::wcstombs;
 using std::wctomb;
 # 4 "E:\\Works\\Cao\\cpc.cpp" 2
 
-# 4 "E:\\Works\\Cao\\cpc.cpp"
-int c;
-struct course
+
+# 5 "E:\\Works\\Cao\\cpc.cpp"
+int c = 0;
+typedef struct course
 {
     int num;
-    char *name;
-    char *nature;
-    char *score;
-    char *time;
-    char *text;
-    char *kaike;
-    char *teacher;
-};
-struct course cou[100];
-void input(struct course cou[], int n);
-void examine(struct course cou[], int n);
-void show(struct course cou[], int n);
-void dit(struct course cou[], int n);
-void sort(struct course cou[], int n);
-void save(struct course cou[], int n);
+    char name[100];
+    char nature[100];
+    char score[100];
+    char time[100];
+    char text[100];
+    char kaike[100];
+    char teacher[100];
+} Course;
+
+void init(Course *cour);
+void input(Course *cou, int *n);
+void consult(Course *cou, int n);
+void show(Course *cou, int n);
+Course *dit(Course *cou, int n);
+void sort(Course *cou, int n);
+void save(Course *cou, int n);
+
 int main()
 {
     int i;
-    struct course cou[100];
-    for (;;)
+    Course *cou = (Course *)malloc(100 * sizeof(Course));
+    init(cou);
+    for (; i;)
     {
-        printf("课程管理系统\n1.课程编号\n2.课程名称\n3.课程性质\n4.学分\n5.总学时\n6.实验上机学时\n7.开课学期\n8.授课教师\n");
+        system("cls");
+
+        printf("课程管理系统\n1.input\n2.consult\n3.show\n4.dit\n5.sort\n6.save\n");
         scanf("%d", &i);
+        getchar();
         switch (i)
         {
         case 1:
-            input(cou, c);
+            input(cou, &c);
             break;
         case 2:
-            examine(cou, c);
+            consult(cou, c);
             break;
         case 3:
             show(cou, c);
             break;
         case 4:
-            dit(cou, c);
+            cou = dit(cou, c);
             break;
         case 5:
             sort(cou, c);
@@ -2378,64 +2385,85 @@ int main()
         case 6:
             save(cou, c);
             break;
-        }
-        if (i = 0)
+        default:
+            i = 0;
             break;
+        }
     }
+    return 0;
 }
-void input(struct course cou[], int n)
+
+void init(Course *cou)
+{
+   system("chcp 65001");
+    FILE *f = fopen("course.txt", "r");
+    if (f == 
+# 70 "E:\\Works\\Cao\\cpc.cpp" 3
+            0LL
+# 70 "E:\\Works\\Cao\\cpc.cpp"
+                )
+    {
+        printf("cannot open this file\n");
+    }
+    else
+    {
+        int i = 0;
+        while (!feof(f))
+        {
+            fscanf(f, "%d | %s | %s | %s | %s | %s |  %s | %s\n",
+                   &cou[i].num, &cou[i].name, &cou[i].nature, &cou[i].score,
+                   &cou[i].time, &cou[i].text, &cou[i].kaike, &cou[i].teacher);
+            if (!(cou[i].num >= 0))
+            {
+                continue;
+            }
+            i++;
+        }
+        c = i;
+    }
+    fclose(f);
+    printf("Finished.\n");
+}
+
+void input(Course *cou, int *n)
 {
     system("cls");
 
-    int i;
-    for (i = 0; i < n; i++)
-    {
-        printf("请输入编号:");
-        scanf("%d", &cou[i].num);
-        printf("请输入课程名称:");
-        getchar();
-        gets(cou[i].name);
-        printf("请输入课程性质:");
-        gets(cou[i].nature);
-        printf("请输入学分:");
-        gets(cou[i].score);
-        printf("请输入学时:");
-        gets(cou[i].time);
-        printf("请输入实验学时:");
-        gets(cou[i].text);
-        printf("请输入开课学期:");
-        gets(cou[i].kaike);
-        printf("请输入授课老师:");
-        gets(cou[i].teacher);
-    }
-    system("pause");
-    save(cou, c);
+    int i = *n;
+
+    printf("请输入编号:");
+    scanf("%d", &cou[i].num);
+
+    printf("请输入课程名称:");
+    getchar();
+    gets(cou[i].name);
+    printf("请输入课程性质:");
+    gets(cou[i].nature);
+    printf("请输入学分:");
+    gets(cou[i].score);
+    printf("请输入学时:");
+    gets(cou[i].time);
+    printf("请输入实验学时:");
+    gets(cou[i].text);
+    printf("请输入开课学期:");
+    gets(cou[i].kaike);
+    printf("请输入授课老师:");
+    gets(cou[i].teacher);
+
+    c++;
+
+    save(cou, i);
+    show(cou, c);
 }
-void examine(struct course cou[], int n)
+
+void consult(Course *cou, int n)
 {
     system("cls");
     int i, f, j;
     int a = 0;
-    FILE *fp;
-    fp = fopen("C:\\c\\a.txt", "r");
-    if (fp == 
-# 91 "E:\\Works\\Cao\\cpc.cpp" 3
-             0LL
-# 91 "E:\\Works\\Cao\\cpc.cpp"
-                 )
-    {
-        printf("cannot open this file\n");
-        exit(0);
-    }
-    else
-    {
-        for (j = 0; j < n; j++)
-        {
-            fscanf(fp, "%d%s%s%d%d%d%d%s\n", &cou[j].num, &cou[j].name, &cou[j].nature, &cou[j].score, &cou[j].time, &cou[j].text, &cou[j].kaike, &cou[j].teacher);
-        }
-    }
+    init(cou);
     printf("请输入要查询的课程编号:");
-    scanf("&d", &f);
+    scanf("%d", &f);
     for (i = 0; i < n; i++)
     {
         if (cou[i].num == f)
@@ -2446,136 +2474,108 @@ void examine(struct course cou[], int n)
     }
     if (a)
     {
-        printf("\n查询到书籍为:\n");
-        printf("编号  课程名称  课程性质  学分  学时  实验学时  开课学期  授课老师\n");
-        printf("%4d%10s%10s%10d%10d%10d%10d%10s\n", cou[i].num, cou[i].name, cou[i].nature, cou[i].score, cou[i].time, cou[i].text, cou[i].kaike, cou[i].teacher);
+        printf("\n查询到为:\n");
+        printf("编号\t课程名称\t课程性质\t学分\t学时\t实验学时\t开课学期\t授课老师\n");
+        printf("%d\t%s\t\t%s\t\t%s\t%s\t%s\t\t%s\t\t%s\n", cou[i].num, cou[i].name, cou[i].nature, cou[i].score, cou[i].time, cou[i].text, cou[i].kaike, cou[i].teacher);
     }
     else
         printf("\n查询不到该课程!\n");
-    fclose(fp);
-    system("pause");
+    getchar();
+    getchar();
     save(cou, c);
 }
-void show(struct course cou[], int n)
+
+void show(Course *cou, int n)
 {
+    init(cou);
     system("cls");
     int i, j;
-    FILE *fp;
-    fp = fopen("C:\\c\\a.txt", "r");
-    if (fp == 
-# 131 "E:\\Works\\Cao\\cpc.cpp" 3
-             0LL
-# 131 "E:\\Works\\Cao\\cpc.cpp"
-                 )
-    {
-        printf("cannot open this file\n");
-        exit(0);
-    }
-    else
-    {
-        for (j = 0; j < n; j++)
-        {
-            fscanf(fp, "%d%s%s%d%d%d%d%s\n", &cou[j].num, &cou[j].name, &cou[j].nature, &cou[j].score, &cou[j].time, &cou[j].text, &cou[j].kaike, &cou[j].teacher);
-        }
-    }
-    printf("编号  课程名称  课程性质  学分  学时  实验学时  开课学期  授课老师\n");
+    printf("编号\t课程名称\t课程性质\t学分\t学时\t实验学时\t开课学期\t授课老师\n");
+
     for (i = 0; i < n; i++)
     {
-        printf("%4d%10s%10s%10d%10d%10d%10d%10s\n", cou[i].num, cou[i].name, cou[i].nature, cou[i].score, cou[i].time, cou[i].text, cou[i].kaike, cou[i].teacher);
+        printf("%d\t%s\t\t%s\t\t%s\t%s\t%s\t\t%s\t\t%s\n", cou[i].num, cou[i].name, cou[i].nature, cou[i].score, cou[i].time, cou[i].text, cou[i].kaike, cou[i].teacher);
     }
-    fclose(fp);
-    system("pause");
-    save(cou, c);
+    getchar();
 }
-void dit(struct course cou[], int n)
+
+Course *dit(Course *cou, int n)
 {
+    init(cou);
     system("cls");
     int i, j, t;
-    FILE *fp;
-    fp = fopen("C:\\c\\a.txt", "r");
-    if (fp == 
-# 158 "E:\\Works\\Cao\\cpc.cpp" 3
-             0LL
-# 158 "E:\\Works\\Cao\\cpc.cpp"
-                 )
-    {
-        printf("cannot open this file\n");
-        exit(0);
-    }
-    else
-    {
-        for (j = 0; j < n; j++)
-        {
-            fscanf(fp, "%d%s%s%d%d%d%d%s\n", &cou[j].num, &cou[j].name, &cou[j].nature, &cou[j].score, &cou[j].time, &cou[j].text, cou[j].kaike, cou[j].teacher);
-        }
-    }
-    printf("\n请输入要删除的课程编号:");
-    scanf("%d", t);
+    int flag = 0;
+    show(cou, n);
+    printf("\n\n请输入要删除的课程编号: ");
+    scanf("%d", &t);
     for (i = 0; i < n; i++)
     {
         if (t == cou[i].num)
         {
             printf("删除的课程为:\n");
-            printf("编号  课程名称  课程性质  学分  学时  实验学时  开课学期  授课老师\n");
-            printf("%4d%10s%10s%10d%10d%10d%10d%10s\n", cou[i].num, cou[i].name, cou[i].nature, cou[i].score, cou[i].time, cou[i].text, cou[i].kaike, cou[i].teacher);
-            for (j = 1; j < n - 1; j++)
-            {
-                cou[j] = cou[j + 1];
-            }
-            c = c - 1;
+            printf("编号\t课程名称\t课程性质\t学分\t学时\t实验学时\t开课学期\t授课老师\n");
+            printf("%d\t%s\t\t%s\t\t%s\t%s\t%s\t\t%s\t\t%s\n",
+                   cou[i].num, cou[i].name, cou[i].nature, cou[i].score,
+                   cou[i].time, cou[i].text, cou[i].kaike, cou[i].teacher);
+            printf("Press any key to remove data: ");
+            getchar();
+
+
+
+            memmove(&cou[i], &cou[i + 1], (c - 1 - i) * sizeof(Course));
+            c -= 1;
+            flag = 1;
+            break;
         }
     }
-    printf("删除成功");
-    system("pause");
-    fclose(fp);
-    save(cou, c);
-}
-void sort(struct course cou[], int n)
-{
-    system("cls");
-    struct course cou_0;
-    int i, j;
-    FILE *fp;
-    fp = fopen("C:\\c\\a.txt"."r");
-    if (fp == 
-# 198 "E:\\Works\\Cao\\cpc.cpp" 3
-             0LL
-# 198 "E:\\Works\\Cao\\cpc.cpp"
-                 )
+    if (flag)
     {
-        printf("cannot open this file\n");
-        exit(0);
+        save(cou, c);
+        show(cou, n);
+
+        printf("删除成功");
     }
     else
     {
-        for (j = 0; j < 0; j++)
-        {
-            fscanf(fp, "%d%s%s%d%d%d%d%s\n", &cou[j].num, &cou[j].name, &cou[j].nature, &cou[j].score, &cou[j].time, &cou[j].text, &cou[j].kaike, &cou[j].teacher);
-        }
+        printf("No element.");
     }
-    for (i = 0; i < n - 1; i++)
+    getchar();
+    return cou;
+}
+
+void sort(Course *cou, int n)
+{
+    init(cou);
+    system("cls");
+    show(cou, n);
+    Course cou_0;
+    int i, j;
+    for (i = 0; i < n; i++)
+    {
         for (j = 0; j < n - 1; j++)
         {
             if (cou[j].num > cou[j + 1].num)
             {
-
                 cou_0 = cou[j];
                 cou[j] = cou[j + 1];
                 cou[j + 1] = cou_0;
             }
         }
-    fclose(fp);
+    }
+    printf("\n排序后:\n");
     save(cou, c);
+    show(cou, n);
 }
-void save(struct course cou[], int n)
+
+void save(Course *cou, int n)
 {
     system("cls");
     FILE *fp;
-    fp = fopen("C:\\c\\a.txt", "w");
+    fp = fopen("course.txt", "w");
     if (fp == 
-# 229 "E:\\Works\\Cao\\cpc.cpp" 3
+# 241 "E:\\Works\\Cao\\cpc.cpp" 3
              0LL
-# 229 "E:\\Works\\Cao\\cpc.cpp"
+# 241 "E:\\Works\\Cao\\cpc.cpp"
                  )
     {
         printf("文件打开失败\n");
@@ -2584,11 +2584,18 @@ void save(struct course cou[], int n)
     else
     {
         int i;
-        for (i = 0; i < 0; i++)
+        for (i = 0; i < c; i++)
         {
-            fprintf(fp, "%d%s%s%d%d%d%d%s\n", cou[i].num, cou.[i].name, cou[i].nature, cou[i].score, cou[i].time, cou[i].text, cou[i].kaike, cou[i].teacher);
+            if (cou[i].num != 0 && cou[i].num != -1)
+            {
+                fprintf(fp, "%d | %s | %s | %s | %s | %s | %s | %s\n",
+                        cou[i].num, cou[i].name, cou[i].nature, cou[i].score,
+                        cou[i].time, cou[i].text, cou[i].kaike, cou[i].teacher);
+            }
         }
     }
+
     fclose(fp);
     printf("保存成功\n");
+    system("pause");
 }

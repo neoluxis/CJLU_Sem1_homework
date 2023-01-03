@@ -362,9 +362,9 @@
           <GroupName>Source Group 1</GroupName>
           <Files>
             <File>
-              <FileName>Main.c</FileName>
+              <FileName>Answer.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\Main.c</FilePath>
+              <FilePath>.\Answer.c</FilePath>
             </File>
           </Files>
         </Group>

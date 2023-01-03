@@ -1,0 +1,14 @@
+{
+    "workbench.colorCustomizations": {
+        "editor.lineHighlightBackground": "#1073cf2d",
+        "editor.lineHighlightBorder": "#9fced11f",
+        "activityBar.background": "#47241E",
+        "titleBar.activeBackground": "#63322A",
+        "titleBar.activeForeground": "#FCF9F9"
+    },
+    "C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools",
+    "files.associations": {
+        
+    },
+    "C_Cpp.errorSquiggles": "disabled"
+}

@@ -14,5 +14,6 @@ using namespace std;
 int main(int argc, char const *argv[])
 {
     cout <<"사랑하다!" << endl;
+    getchar();
     return 0;
 }

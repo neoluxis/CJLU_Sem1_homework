@@ -5,23 +5,23 @@
 int c = 0;
 typedef struct course
 {
-    int num;           // ç¼–å·
-    char name[100];    // åç§°
-    char nature[100];  // è¯¾ç¨‹æ€§è´¨
-    char score[100];   // å­¦åˆ†
-    char time[100];    // å­¦æ—¶
-    char text[100];    // å®éªŒå­¦æ—¶
-    char kaike[100];   // å¼€è¯¾å­¦æœŸ
-    char teacher[100]; // æˆè¯¾è€å¸ˆ
+    int num;           // ±àºÅ
+    char name[100];    // Ãû³Æ
+    char nature[100];  // ¿Î³ÌĞÔÖÊ
+    char score[100];   // Ñ§·Ö
+    char time[100];    // Ñ§Ê±
+    char text[100];    // ÊµÑéÑ§Ê±
+    char kaike[100];   // ¿ª¿ÎÑ§ÆÚ
+    char teacher[100]; // ÊÚ¿ÎÀÏÊ¦
 } Course;
 
 void init(Course *cour);
-void input(Course *cou, int *n);  // å½•å…¥
-void consult(Course *cou, int n); // æŸ¥è¯¢
-void show(Course *cou, int n);    // æ˜¾ç¤º
-Course *dit(Course *cou, int n);  // åˆ é™¤
-void sort(Course *cou, int n);    // æ’åº
-void save(Course *cou, int n);    // ä¿å­˜
+void input(Course *cou, int *n);  // Â¼Èë
+void consult(Course *cou, int n); // ²éÑ¯
+void show(Course *cou, int n);    // ÏÔÊ¾
+Course *dit(Course *cou, int n);  // É¾³ı
+void sort(Course *cou, int n);    // ÅÅĞò
+void save(Course *cou, int n);    // ±£´æ
 
 int main()
 {
@@ -31,8 +31,8 @@ int main()
     for (; i;)
     {
         system("cls");
-        // printf("è¯¾ç¨‹ç®¡ç†ç³»ç»Ÿ\n1.è¯¾ç¨‹ç¼–å·\n2.è¯¾ç¨‹åç§°\n3.è¯¾ç¨‹æ€§è´¨\n4.å­¦åˆ†\n5.æ€»å­¦æ—¶\n6.å®éªŒä¸Šæœºå­¦æ—¶\n7.å¼€è¯¾å­¦æœŸ\n8.æˆè¯¾æ•™å¸ˆ\n");
-        printf("è¯¾ç¨‹ç®¡ç†ç³»ç»Ÿ\n1.input\n2.consult\n3.show\n4.dit\n5.sort\n6.save\n");
+        // printf("¿Î³Ì¹ÜÀíÏµÍ³\n1.¿Î³Ì±àºÅ\n2.¿Î³ÌÃû³Æ\n3.¿Î³ÌĞÔÖÊ\n4.Ñ§·Ö\n5.×ÜÑ§Ê±\n6.ÊµÑéÉÏ»úÑ§Ê±\n7.¿ª¿ÎÑ§ÆÚ\n8.ÊÚ¿Î½ÌÊ¦\n");
+        printf("¿Î³Ì¹ÜÀíÏµÍ³\n1.input\n2.consult\n3.show\n4.dit\n5.sort\n6.save\n");
         scanf("%d", &i);
         getchar();
         switch (i)
@@ -97,23 +97,23 @@ void input(Course *cou, int *n)
 
     int i = *n;
 
-    printf("è¯·è¾“å…¥ç¼–å·:");
+    printf("ÇëÊäÈë±àºÅ:");
     scanf("%d", &cou[i].num);
 
-    printf("è¯·è¾“å…¥è¯¾ç¨‹åç§°:");
+    printf("ÇëÊäÈë¿Î³ÌÃû³Æ:");
     getchar();
     gets(cou[i].name);
-    printf("è¯·è¾“å…¥è¯¾ç¨‹æ€§è´¨:");
+    printf("ÇëÊäÈë¿Î³ÌĞÔÖÊ:");
     gets(cou[i].nature);
-    printf("è¯·è¾“å…¥å­¦åˆ†:");
+    printf("ÇëÊäÈëÑ§·Ö:");
     gets(cou[i].score);
-    printf("è¯·è¾“å…¥å­¦æ—¶:");
+    printf("ÇëÊäÈëÑ§Ê±:");
     gets(cou[i].time);
-    printf("è¯·è¾“å…¥å®éªŒå­¦æ—¶:");
+    printf("ÇëÊäÈëÊµÑéÑ§Ê±:");
     gets(cou[i].text);
-    printf("è¯·è¾“å…¥å¼€è¯¾å­¦æœŸ:");
+    printf("ÇëÊäÈë¿ª¿ÎÑ§ÆÚ:");
     gets(cou[i].kaike);
-    printf("è¯·è¾“å…¥æˆè¯¾è€å¸ˆ:");
+    printf("ÇëÊäÈëÊÚ¿ÎÀÏÊ¦:");
     gets(cou[i].teacher);
 
     c++;
@@ -128,7 +128,7 @@ void consult(Course *cou, int n)
     int i, f, j;
     int a = 0;
     init(cou);
-    printf("è¯·è¾“å…¥è¦æŸ¥è¯¢çš„è¯¾ç¨‹ç¼–å·:");
+    printf("ÇëÊäÈëÒª²éÑ¯µÄ¿Î³Ì±àºÅ:");
     scanf("%d", &f);
     for (i = 0; i < n; i++)
     {
@@ -140,12 +140,12 @@ void consult(Course *cou, int n)
     }
     if (a)
     {
-        printf("\næŸ¥è¯¢åˆ°ä¸º:\n");
-        printf("ç¼–å·\tè¯¾ç¨‹åç§°\tè¯¾ç¨‹æ€§è´¨\tå­¦åˆ†\tå­¦æ—¶\tå®éªŒå­¦æ—¶\tå¼€è¯¾å­¦æœŸ\tæˆè¯¾è€å¸ˆ\n");
+        printf("\n²éÑ¯µ½Îª:\n");
+        printf("±àºÅ\t¿Î³ÌÃû³Æ\t¿Î³ÌĞÔÖÊ\tÑ§·Ö\tÑ§Ê±\tÊµÑéÑ§Ê±\t¿ª¿ÎÑ§ÆÚ\tÊÚ¿ÎÀÏÊ¦\n");
         printf("%d\t%s\t\t%s\t\t%s\t%s\t%s\t\t%s\t\t%s\n", cou[i].num, cou[i].name, cou[i].nature, cou[i].score, cou[i].time, cou[i].text, cou[i].kaike, cou[i].teacher);
     }
     else
-        printf("\næŸ¥è¯¢ä¸åˆ°è¯¥è¯¾ç¨‹!\n");
+        printf("\n²éÑ¯²»µ½¸Ã¿Î³Ì!\n");
     getchar();
     getchar();
     save(cou, c);
@@ -156,7 +156,7 @@ void show(Course *cou, int n)
     init(cou);
     system("cls");
     int i, j;
-    printf("ç¼–å·\tè¯¾ç¨‹åç§°\tè¯¾ç¨‹æ€§è´¨\tå­¦åˆ†\tå­¦æ—¶\tå®éªŒå­¦æ—¶\tå¼€è¯¾å­¦æœŸ\tæˆè¯¾è€å¸ˆ\n");
+    printf("±àºÅ\t¿Î³ÌÃû³Æ\t¿Î³ÌĞÔÖÊ\tÑ§·Ö\tÑ§Ê±\tÊµÑéÑ§Ê±\t¿ª¿ÎÑ§ÆÚ\tÊÚ¿ÎÀÏÊ¦\n");
 
     for (i = 0; i < n; i++)
     {
@@ -172,14 +172,14 @@ Course *dit(Course *cou, int n)
     int i, j, t;
     int flag = 0;
     show(cou, n);
-    printf("\n\nè¯·è¾“å…¥è¦åˆ é™¤çš„è¯¾ç¨‹ç¼–å·: ");
+    printf("\n\nÇëÊäÈëÒªÉ¾³ıµÄ¿Î³Ì±àºÅ: ");
     scanf("%d", &t);
     for (i = 0; i < n; i++)
     {
         if (t == cou[i].num)
         {
-            printf("åˆ é™¤çš„è¯¾ç¨‹ä¸º:\n");
-            printf("ç¼–å·\tè¯¾ç¨‹åç§°\tè¯¾ç¨‹æ€§è´¨\tå­¦åˆ†\tå­¦æ—¶\tå®éªŒå­¦æ—¶\tå¼€è¯¾å­¦æœŸ\tæˆè¯¾è€å¸ˆ\n");
+            printf("É¾³ıµÄ¿Î³ÌÎª:\n");
+            printf("±àºÅ\t¿Î³ÌÃû³Æ\t¿Î³ÌĞÔÖÊ\tÑ§·Ö\tÑ§Ê±\tÊµÑéÑ§Ê±\t¿ª¿ÎÑ§ÆÚ\tÊÚ¿ÎÀÏÊ¦\n");
             printf("%d\t%s\t\t%s\t\t%s\t%s\t%s\t\t%s\t\t%s\n",
                    cou[i].num, cou[i].name, cou[i].nature, cou[i].score,
                    cou[i].time, cou[i].text, cou[i].kaike, cou[i].teacher);
@@ -199,7 +199,7 @@ Course *dit(Course *cou, int n)
         save(cou, c);
         show(cou, n);
 
-        printf("åˆ é™¤æˆåŠŸ");
+        printf("É¾³ı³É¹¦");
     }
     else
     {
@@ -228,7 +228,7 @@ void sort(Course *cou, int n)
             }
         }
     }
-    printf("\næ’åºå:\n");
+    printf("\nÅÅĞòºó:\n");
     save(cou, c);
     show(cou, n);
 }
@@ -240,7 +240,7 @@ void save(Course *cou, int n)
     fp = fopen("course.txt", "w");
     if (fp == NULL)
     {
-        printf("æ–‡ä»¶æ‰“å¼€å¤±è´¥\n");
+        printf("ÎÄ¼ş´ò¿ªÊ§°Ü\n");
         exit(0);
     }
     else
@@ -258,6 +258,6 @@ void save(Course *cou, int n)
     }
 
     fclose(fp);
-    printf("ä¿å­˜æˆåŠŸ\n");
+    printf("±£´æ³É¹¦\n");
     system("pause");
 }

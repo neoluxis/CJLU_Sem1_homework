@@ -1,0 +1,5 @@
+1 | One | o | o | o | o | o | o
+3 | Three | th | th | th | th | th | th
+6 | six | s | s | s | s | s | s
+9 | nine | n | n | n | n | n | n
+11 | e | e | e | e | e | e | e
