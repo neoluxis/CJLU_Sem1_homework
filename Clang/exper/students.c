@@ -51,7 +51,8 @@ int main(int argc, char const *argv[])
     while (!feof(fp))
     {
         students[i] = (Student *)malloc(sizeof(Student));
-        fscanf(fp, "%d %d-%d-%d", &students[i]->number, &students[i]->birthday.year, &students[i]->birthday.month, &students[i]->birthday.day);
+        fscanf(fp, "%d %d-%d-%d", &students[i]->number, &students[i]->birthday.year,
+               &students[i]->birthday.month, &students[i]->birthday.day);
         if (!isValidDate(&students[i]->birthday))
         {
             printf("%d %d-%d-%d\n",
@@ -66,6 +67,7 @@ int main(int argc, char const *argv[])
 
 bool isValidDate(Birthday *bsd)
 {
+    int y=bsd->year, m=bsd->month,d=bsd->day;
     if (bsd->year < 0 || bsd->month < 1 || bsd->month > 12 || bsd->day < 1 || bsd->day > 31)
     {
         return False;
