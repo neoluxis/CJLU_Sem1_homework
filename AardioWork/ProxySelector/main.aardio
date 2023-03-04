@@ -1,0 +1,70 @@
+import win.ui;
+/*DSG{{*/
+mainForm = win.form(text="ProxySelector";right=959;bottom=591)
+mainForm.add(
+all={cls="button";text="all";left=56;top=176;right=240;bottom=232;z=4};
+area={cls="combobox";left=128;top=72;right=264;bottom=96;edge=1;items={"JP";"SG";"HK"};mode="dropdown";z=6};
+consult={cls="button";text="consult";left=256;top=176;right=480;bottom=232;z=5};
+high={cls="edit";text="High(100)";left=296;top=136;right=408;bottom=160;edge=1;multiline=1;z=2};
+low={cls="edit";text="Low(0)";left=144;top=136;right=256;bottom=160;edge=1;multiline=1;z=1};
+protocol={cls="combobox";left=368;top=72;right=504;bottom=96;edge=1;items={"vmess";"ss";"ssr"};mode="dropdown";z=7};
+res={cls="edit";text="res";left=32;top=288;right=928;bottom=568;edge=1;hscroll=1;multiline=1;readonly=1;vscroll=1;z=3}
+)
+/*}}*/
+
+if(_ARGV.opt){
+	mainForm.edit.print(_ARGV.opt,_ARGV[#_ARGV]);
+}
+
+import curl;
+import console;
+
+mainForm.show();
+
+// 全局变量，设置curl请求参数
+..url = "https://pool.neolux.ml/clash/proxies?";
+..areaConf = "c=HK"; // 国家
+..protocolConf = "type="; //协议
+..speedConf = "speed="; // 速度， low,high
+..filterConf = "filter="; // 过滤器，1：中转节点 2：pool节点 3：1+2 无：不过滤
+
+function addAnd(add){
+	if(add){
+		link = link + "&";
+	}
+	return true;
+}
+
+function getProxies(){
+	var http = curl.easy();//创建客户端
+
+	//GET
+	..link = url;
+	isAddAnd = false;
+	if(areaConf != "c="){
+		isAddAnd = addAnd(isAddAnd);
+		link = link + areaConf;
+	}
+	if(protocolConf!="type="){
+		isAddAnd = addAnd(isAddAnd);
+		link = link + protocolConf;
+	}    
+	var resp = http.get(link);
+	
+	// 输出结果
+	mainForm.res.text = resp;
+}
+
+mainForm.consult.oncommand = function(id,event){
+	getProxies();
+}
+
+mainForm.all.oncommand = function(id,event){
+	http = curl.easy();
+	// Get
+	var resp = http.get("https://pool.neolux.ml/clash/proxies");
+	// 输出结果
+	mainForm.res.text = resp;
+}
+
+return win.loopMessage();
