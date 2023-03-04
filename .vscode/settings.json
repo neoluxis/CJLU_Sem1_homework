@@ -1,0 +1,23 @@
+{
+    "workbench.colorCustomizations": {
+        "editor.lineHighlightBackground": "#1073cf2d",
+        "editor.lineHighlightBorder": "#9fced11f",
+        "activityBar.background": "#1C3401",
+        "titleBar.activeBackground": "#274801",
+        "titleBar.activeForeground": "#F2FEE4"
+    },
+    "files.associations": {
+        "reg52.h": "c",
+        "REG52.H": "cpp"
+    },
+    "C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools",
+    "python.formatting.provider": "black",
+    "cSpell.words": [
+        "ireum",
+        "iruem",
+        "scanf",
+        "seong"
+    ],
+    "C_Cpp.errorSquiggles": "Disabled",
+    "python.analysis.typeCheckingMode": "basic",
+}
